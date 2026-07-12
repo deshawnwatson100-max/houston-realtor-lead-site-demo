@@ -31,13 +31,11 @@
     .searchbar{margin-top:42px;display:grid;grid-template-columns:1.3fr .7fr .7fr auto;gap:0;border:1px solid var(--line);background:#fff;max-width:840px}.searchbar div{padding:18px 20px;border-right:1px solid var(--line);color:var(--muted);font-size:14px}.searchbar button{border:0;background:var(--charcoal);color:#fff;padding:0 28px;text-transform:uppercase;font-weight:800;letter-spacing:.08em}
     section{padding:88px 7vw}.split{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}.section-kicker{color:var(--red);text-transform:uppercase;font-size:12px;letter-spacing:.22em;font-weight:800;margin-bottom:12px}.section-title{font-family:'Playfair Display',serif;font-size:clamp(34px,4vw,58px);line-height:1.02;margin:0 0 22px}.lead{font-size:17px;color:var(--muted);margin:0 0 28px}.image-panel{min-height:520px;background:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1100&q=82') center/cover;border:1px solid var(--line)}
     .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}.feature{background:#fff;border:1px solid var(--line);padding:24px}.feature b{display:block;font-family:'Playfair Display',serif;font-size:24px;margin-bottom:8px}.feature p{margin:0;color:var(--muted);font-size:14px}
-    .ai-section{background:#fffdf8;padding:88px 7vw;border-bottom:1px solid var(--line)}.ai-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:52px;align-items:start}.ai-card{background:#fff;border:1px solid var(--line);box-shadow:0 24px 60px rgba(31,30,27,.08)}.chat-head{padding:22px 24px;background:var(--charcoal);color:#fff;display:flex;justify-content:space-between;gap:14px}.chat-head b{font-family:'Playfair Display',serif;font-size:24px}.chat-head span{font-size:12px;color:#d5d0c9}.chat-body{padding:22px;min-height:360px;max-height:430px;overflow:auto}.msg{max-width:86%;padding:13px 15px;margin:0 0 12px;border-radius:18px;font-size:14px}.msg.ai{background:#f1ece4;color:var(--ink);border-bottom-left-radius:4px}.msg.user{background:var(--red);color:#fff;margin-left:auto;border-bottom-right-radius:4px}.chat-input{display:grid;grid-template-columns:1fr auto;gap:10px;padding:18px;border-top:1px solid var(--line)}.chat-input input{border:1px solid var(--line);padding:14px;font:inherit}.chat-input button{border:0;background:var(--red);color:#fff;padding:0 18px;font-weight:900;text-transform:uppercase;letter-spacing:.07em}.quick-prompts{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.prompt-chip{border:1px solid var(--line);background:#fff;padding:10px 13px;border-radius:999px;font-weight:700;color:#4b463f;cursor:pointer}.summary-box{margin-top:20px;padding:20px;border:1px solid var(--line);background:var(--cream)}.summary-box h3{font-family:'Playfair Display',serif;font-size:25px;margin:0 0 12px}.summary-row{display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding:10px 0;font-size:14px}.summary-row span:first-child{color:var(--muted)}
-
     .listings{background:#f1ece4}.listing-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:30px}.listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.listing{background:#fff;border:1px solid var(--line)}.listing .photo{height:235px;background:center/cover}.listing .info{padding:22px}.price{font-size:24px;font-weight:800}.city{color:var(--muted);margin-bottom:18px}.meta{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:14px}.agent{margin-top:18px;color:var(--red);font-weight:700;font-size:13px}
     .areas{background:var(--paper);text-align:center}.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:900px;margin:34px auto 0}.chip{border:1px solid var(--line);padding:12px 18px;border-radius:999px;background:#fff;font-weight:700;color:#4b463f}
     .cta{background:var(--charcoal);color:#fff;display:grid;grid-template-columns:1fr 420px;gap:46px;align-items:center}.cta .section-kicker{color:#f1c4bd}.cta p{color:#d5d0c9}.form{background:#fff;color:var(--ink);padding:28px;border:1px solid rgba(255,255,255,.2)}.form input,.form select,.form textarea{width:100%;border:1px solid var(--line);padding:14px;margin-bottom:12px;font:inherit;background:#fff}.form button{width:100%;border:0;background:var(--red);color:#fff;padding:15px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
     footer{padding:38px 7vw;background:#eee8df;color:#706a61;font-size:13px}.preview{border-top:1px solid #d8cfc4;margin-top:22px;padding-top:20px;font-size:12px;color:#827b72}
-    @media(max-width:900px){.navlinks{display:none}.hero,.split,.cta,.ai-wrap{grid-template-columns:1fr}.hero-media{min-height:420px}.searchbar,.listing-grid,.features{grid-template-columns:1fr}.searchbar div{border-right:0;border-bottom:1px solid var(--line)}.listing-head{display:block}}
+    @media(max-width:900px){.navlinks{display:none}.hero,.split,.cta{grid-template-columns:1fr}.hero-media{min-height:420px}.searchbar,.listing-grid,.features{grid-template-columns:1fr}.searchbar div{border-right:0;border-bottom:1px solid var(--line)}.listing-head{display:block}}
   </style>
 </head>
 <body>
@@ -58,40 +56,6 @@
       <div class="hero-card"><strong>Homes, land, and local market guidance.</strong><span>From acreage properties to family neighborhoods, compare options with a team that knows the Texas market.</span></div>
     </div>
   </header>
-
-
-  <section class="ai-section" id="ai-assistant">
-    <div class="ai-wrap">
-      <div>
-        <div class="section-kicker">AI Lead Assistant</div>
-        <h2 class="section-title">Skip the long form. Tell us what you want in plain English.</h2>
-        <p class="lead">Describe your move, home search, selling timeline, or listing question. The assistant turns that into a clear request so a Southern Star Realty agent can follow up with the right next step.</p>
-        <div class="quick-prompts">
-          <button class="prompt-chip" type="button">I want a 3 bed in Katy under $450k</button>
-          <button class="prompt-chip" type="button">I need to sell my home in Spring</button>
-          <button class="prompt-chip" type="button">I’m relocating to Houston this summer</button>
-          <button class="prompt-chip" type="button">I want to tour a property this week</button>
-        </div>
-        <div class="summary-box" id="leadSummary">
-          <h3>Agent-ready lead summary</h3>
-          <div class="summary-row"><span>Lead Type</span><strong id="sumType">Buyer</strong></div>
-          <div class="summary-row"><span>Area</span><strong id="sumArea">Katy / Houston area</strong></div>
-          <div class="summary-row"><span>Budget / Need</span><strong id="sumBudget">Under $450k</strong></div>
-          <div class="summary-row"><span>Next Best Action</span><strong id="sumAction">Send matching homes + ask lender status</strong></div>
-        </div>
-      </div>
-      <div class="ai-card">
-        <div class="chat-head"><div><b>Southern Star AI Intake</b><br><span>Buyer, seller, relocation, and tour requests</span></div><span>Demo</span></div>
-        <div class="chat-body" id="chatBody">
-          <div class="msg ai">Hi — tell me what you’re trying to do. You can say something like “I want a 3 bedroom in Conroe” or “I need to sell my home this spring.”</div>
-        </div>
-        <div class="chat-input">
-          <input id="aiInput" placeholder="Type what you want..." />
-          <button type="button" id="aiSend">Send</button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="split">
     <div class="image-panel"></div>
@@ -146,29 +110,5 @@
     <strong>Southern Star Realty</strong> · Leading You Home · Spring, Conroe, and Texas communities
     <div class="preview"><strong>Preview Concept</strong><br>Created by Agent Lead Sites. This preview demonstrates one possible direction. Photos, brokerage information, disclosures, and branding would be finalized before launch.</div>
   </footer>
-
-  <script>
-    const chatBody=document.getElementById('chatBody');
-    const input=document.getElementById('aiInput');
-    const send=document.getElementById('aiSend');
-    const chips=document.querySelectorAll('.prompt-chip');
-    const sumType=document.getElementById('sumType'), sumArea=document.getElementById('sumArea'), sumBudget=document.getElementById('sumBudget'), sumAction=document.getElementById('sumAction');
-    function addMsg(text, who='ai'){const div=document.createElement('div');div.className='msg '+who;div.textContent=text;chatBody.appendChild(div);chatBody.scrollTop=chatBody.scrollHeight;}
-    function parseLead(text){const t=text.toLowerCase();let type='Buyer', action='Send matching homes + ask lender status';
-      if(/sell|selling|home value|worth|valuation/.test(t)){type='Seller';action='Prepare home value review + ask timeline';}
-      else if(/relocat|moving|move from|moving from/.test(t)){type='Relocation';action='Send area guide + schedule relocation consult';}
-      else if(/tour|showing|see the property|visit/.test(t)){type='Tour Request';action='Confirm property + preferred tour times';}
-      const areas=['katy','spring','conroe','houston','cypress','montgomery','galveston','richmond','cleveland','magnolia','texas city','pinehurst'];
-      const area=areas.find(a=>t.includes(a));
-      const money=text.match(/\$?\d+[,.]?\d*\s?k?/i);
-      sumType.textContent=type;sumArea.textContent=area?area.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '):'Needs area follow-up';sumBudget.textContent=money?money[0]:'Not provided yet';sumAction.textContent=action;
-      if(type==='Seller') return 'Got it. What city is the home in, and are you thinking of selling soon or just checking value?';
-      if(type==='Relocation') return 'That helps. What area are you considering, what budget range feels comfortable, and when are you hoping to move?';
-      if(type==='Tour Request') return 'Perfect. Send the property address or link, plus the days/times that work best for a tour.';
-      return 'Great. What are your must-haves, and are you already pre-approved or still early in the process?';}
-    function handle(){const text=input.value.trim();if(!text)return;addMsg(text,'user');input.value='';setTimeout(()=>addMsg(parseLead(text),'ai'),350)}
-    send.addEventListener('click',handle);input.addEventListener('keydown',e=>{if(e.key==='Enter')handle()});chips.forEach(c=>c.addEventListener('click',()=>{input.value=c.textContent;handle()}));
-  </script>
-
 </body>
 </html>
