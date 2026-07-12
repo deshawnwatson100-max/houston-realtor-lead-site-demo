@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Southern Star Realty — Texas Real Estate Guidance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:#1f1e1b;
+      --muted:#706a61;
+      --cream:#f8f3ea;
+      --paper:#fffdf8;
+      --line:#e5dbcf;
+      --red:#9f1e1e;
+      --red-dark:#721313;
+      --charcoal:#2f302c;
+      --sage:#7a826d;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+    a{color:inherit;text-decoration:none}
+    .nav{height:92px;display:flex;align-items:center;justify-content:space-between;padding:0 6vw;border-bottom:1px solid var(--line);background:rgba(255,253,248,.94);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+    .brand{display:flex;flex-direction:column;gap:2px}.script{font-family:'Playfair Display',serif;font-size:31px;letter-spacing:.01em}.tag{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--muted)}
+    .navlinks{display:flex;gap:28px;text-transform:uppercase;font-size:12px;font-weight:700;letter-spacing:.08em;color:#514b45}.navcta{background:var(--red);color:#fff;padding:12px 17px;border-radius:999px}
+    .hero{min-height:720px;display:grid;grid-template-columns:1.08fr .92fr;background:var(--cream);border-bottom:1px solid var(--line)}
+    .hero-copy{padding:92px 7vw 80px;display:flex;flex-direction:column;justify-content:center}.eyebrow{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.22em;color:var(--red);margin-bottom:20px}.hero h1{font-family:'Playfair Display',serif;font-size:clamp(46px,6vw,86px);line-height:.96;margin:0 0 24px;letter-spacing:-.04em;max-width:780px}.hero p{font-size:18px;color:var(--muted);max-width:620px;margin:0 0 34px}.actions{display:flex;gap:14px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 22px;border-radius:2px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:12px}.btn.primary{background:var(--red);color:#fff}.btn.secondary{border:1px solid var(--ink);background:transparent}
+    .hero-media{min-height:620px;position:relative;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.25)),url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=82') center/cover}.hero-card{position:absolute;left:34px;right:34px;bottom:34px;background:rgba(255,253,248,.93);padding:26px;border:1px solid rgba(255,255,255,.65)}.hero-card strong{font-family:'Playfair Display',serif;font-size:28px;display:block;margin-bottom:8px}.hero-card span{color:var(--muted)}
+    .searchbar{margin-top:42px;display:grid;grid-template-columns:1.3fr .7fr .7fr auto;gap:0;border:1px solid var(--line);background:#fff;max-width:840px}.searchbar div{padding:18px 20px;border-right:1px solid var(--line);color:var(--muted);font-size:14px}.searchbar button{border:0;background:var(--charcoal);color:#fff;padding:0 28px;text-transform:uppercase;font-weight:800;letter-spacing:.08em}
+    section{padding:88px 7vw}.split{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}.section-kicker{color:var(--red);text-transform:uppercase;font-size:12px;letter-spacing:.22em;font-weight:800;margin-bottom:12px}.section-title{font-family:'Playfair Display',serif;font-size:clamp(34px,4vw,58px);line-height:1.02;margin:0 0 22px}.lead{font-size:17px;color:var(--muted);margin:0 0 28px}.image-panel{min-height:520px;background:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1100&q=82') center/cover;border:1px solid var(--line)}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}.feature{background:#fff;border:1px solid var(--line);padding:24px}.feature b{display:block;font-family:'Playfair Display',serif;font-size:24px;margin-bottom:8px}.feature p{margin:0;color:var(--muted);font-size:14px}
+    .listings{background:#f1ece4}.listing-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:30px}.listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.listing{background:#fff;border:1px solid var(--line)}.listing .photo{height:235px;background:center/cover}.listing .info{padding:22px}.price{font-size:24px;font-weight:800}.city{color:var(--muted);margin-bottom:18px}.meta{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:14px}.agent{margin-top:18px;color:var(--red);font-weight:700;font-size:13px}
+    .areas{background:var(--paper);text-align:center}.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:900px;margin:34px auto 0}.chip{border:1px solid var(--line);padding:12px 18px;border-radius:999px;background:#fff;font-weight:700;color:#4b463f}
+    .cta{background:var(--charcoal);color:#fff;display:grid;grid-template-columns:1fr 420px;gap:46px;align-items:center}.cta .section-kicker{color:#f1c4bd}.cta p{color:#d5d0c9}.form{background:#fff;color:var(--ink);padding:28px;border:1px solid rgba(255,255,255,.2)}.form input,.form select,.form textarea{width:100%;border:1px solid var(--line);padding:14px;margin-bottom:12px;font:inherit;background:#fff}.form button{width:100%;border:0;background:var(--red);color:#fff;padding:15px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+    footer{padding:38px 7vw;background:#eee8df;color:#706a61;font-size:13px}.preview{border-top:1px solid #d8cfc4;margin-top:22px;padding-top:20px;font-size:12px;color:#827b72}
+    @media(max-width:900px){.navlinks{display:none}.hero,.split,.cta{grid-template-columns:1fr}.hero-media{min-height:420px}.searchbar,.listing-grid,.features{grid-template-columns:1fr}.searchbar div{border-right:0;border-bottom:1px solid var(--line)}.listing-head{display:block}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand"><span class="script">Southern Star Realty</span><span class="tag">Leading You Home</span></div>
+    <div class="navlinks"><a href="#search">Search</a><a href="#value">Home Value</a><a href="#areas">Communities</a><a href="#contact" class="navcta">Contact</a></div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Texas Real Estate</div>
+      <h1>Find the right Texas home with local guidance from start to close.</h1>
+      <p>Explore homes across Houston, Conroe, Cypress, Katy, Spring, Montgomery, Galveston, and surrounding Texas communities with practical, personal support from a local brokerage.</p>
+      <div class="actions"><a class="btn primary" href="#contact">Start Your Search</a><a class="btn secondary" href="#value">Check Home Value</a></div>
+      <div class="searchbar" id="search"><div>City, neighborhood, MLS #</div><div>Price range</div><div>Beds / baths</div><button>Search</button></div>
+    </div>
+    <div class="hero-media">
+      <div class="hero-card"><strong>Homes, land, and local market guidance.</strong><span>From acreage properties to family neighborhoods, compare options with a team that knows the Texas market.</span></div>
+    </div>
+  </header>
+
+  <section class="split">
+    <div class="image-panel"></div>
+    <div>
+      <div class="section-kicker">Boutique Brokerage</div>
+      <h2 class="section-title">A calmer way to search, tour, and choose your next move.</h2>
+      <p class="lead">Southern Star Realty helps buyers and sellers move through the process with clear next steps, current listings, local insight, and straightforward communication.</p>
+      <div class="features">
+        <div class="feature"><b>Search smarter</b><p>Compare active listings, saved homes, and neighborhood options in one place.</p></div>
+        <div class="feature"><b>Sell with clarity</b><p>Request a home value review and understand what your property may command.</p></div>
+        <div class="feature"><b>Tour confidently</b><p>Get guidance on timing, pricing, offers, and the details that matter before closing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="listings">
+    <div class="listing-head">
+      <div><div class="section-kicker">Featured Properties</div><h2 class="section-title">Texas listings worth a closer look.</h2></div>
+      <a class="btn secondary" href="#contact">Ask About A Property</a>
+    </div>
+    <div class="listing-grid">
+      <article class="listing"><div class="photo" style="background-image:url('https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=900&q=82')"></div><div class="info"><div class="price">$379,900</div><div class="city">Pinehurst</div><div class="meta"><span>2,108 SqFt</span><span>3 Beds + 3 Baths</span></div><div class="agent">Presented by Southern Star Realty</div></div></article>
+      <article class="listing"><div class="photo" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=82')"></div><div class="info"><div class="price">$2,500,000</div><div class="city">Plantersville</div><div class="meta"><span>3,037 SqFt</span><span>3 Beds + 4 Baths</span></div><div class="agent">Presented by Southern Star Realty</div></div></article>
+      <article class="listing"><div class="photo" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=82')"></div><div class="info"><div class="price">$2,350,000</div><div class="city">Hempstead</div><div class="meta"><span>1,695 SqFt</span><span>3 Beds + 2 Baths</span></div><div class="agent">Presented by Southern Star Realty</div></div></article>
+    </div>
+  </section>
+
+  <section class="areas" id="areas">
+    <div class="section-kicker">Featured Communities</div>
+    <h2 class="section-title">Explore communities across Texas.</h2>
+    <p class="lead" style="margin:auto;max-width:720px">Whether you’re looking near Houston or comparing acreage, lake-area, and suburban options, start with the communities Southern Star Realty serves every day.</p>
+    <div class="chips"><span class="chip">Houston</span><span class="chip">Conroe</span><span class="chip">Cypress</span><span class="chip">Katy</span><span class="chip">Spring</span><span class="chip">Montgomery</span><span class="chip">Galveston</span><span class="chip">Richmond</span><span class="chip">Cleveland</span><span class="chip">Magnolia</span></div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div>
+      <div class="section-kicker">Ready When You Are</div>
+      <h2 class="section-title">Tell us what you’re looking for. We’ll help you map the next step.</h2>
+      <p class="lead">Ask about a listing, request a valuation, or get help narrowing down the right Texas market for your next move.</p>
+      <p><strong>Spring Office:</strong> 21755 I-45 Building 1 Suite 103, Spring, TX 77388<br><strong>Conroe Office:</strong> 96 Beach Walk Blvd Suite 206B, Conroe, TX 77304<br><strong>Office:</strong> (346) 717-5101</p>
+    </div>
+    <form class="form">
+      <input aria-label="Name" placeholder="Name" />
+      <input aria-label="Email" placeholder="Email" />
+      <select aria-label="Interest"><option>I’m buying</option><option>I’m selling</option><option>I want a home value review</option><option>I’m asking about a listing</option></select>
+      <textarea aria-label="Message" rows="4" placeholder="Tell us what city, neighborhood, or property you’re interested in."></textarea>
+      <button type="button">Request Guidance</button>
+    </form>
+  </section>
+
+  <footer>
+    <strong>Southern Star Realty</strong> · Leading You Home · Spring, Conroe, and Texas communities
+    <div class="preview"><strong>Preview Concept</strong><br>Created by Agent Lead Sites. This preview demonstrates one possible direction. Photos, brokerage information, disclosures, and branding would be finalized before launch.</div>
+  </footer>
+</body>
+</html>
