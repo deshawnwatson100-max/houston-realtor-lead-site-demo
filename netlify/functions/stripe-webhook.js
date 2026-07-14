@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const { cors, response, DEFAULTS, upsertContact, addContactNote, addContactTask, createOpportunity, buildOnboardingNote } = require('./_als-shared.js');
 
 const LINKS = {
-  deposit: process.env.STRIPE_DEPOSIT_PAYMENT_LINK_ID || 'plink_1Tt5mOCOYmprLe15XAvNfefk',
+  deposit: process.env.STRIPE_DEPOSIT_PAYMENT_LINK_ID || 'plink_1Tt75eCOYmprLe15L8oYXPAS',
   final: process.env.STRIPE_FINAL_PAYMENT_LINK_ID || 'plink_1Tt5mPCOYmprLe15ur1FuNF2',
   monthly: process.env.STRIPE_MONTHLY_PAYMENT_LINK_ID || 'plink_1Tt5iBCOYmprLe15JjRl0vKf'
 };
@@ -51,7 +51,7 @@ exports.handler = async (event) => {
 
     const contact = await upsertContact(payload);
     const contactId = contact.id || contact.contactId;
-    const label = kind === 'deposit' ? '$250 deposit paid' : kind === 'final' ? '$500 final payment paid' : kind === 'monthly' ? '$200/month subscription active' : 'Stripe payment completed';
+    const label = kind === 'deposit' ? '$250 deposit paid and $200/month service started with first charge scheduled in 30 days' : kind === 'final' ? '$500 final payment paid' : kind === 'monthly' ? '$200/month subscription active' : 'Stripe payment completed';
     const stage = kind === 'final' ? DEFAULTS.finalStageId : kind === 'deposit' || kind === 'monthly' ? DEFAULTS.depositStageId : DEFAULTS.onboardingStageId;
     const note = buildOnboardingNote(payload, `${label}; Stripe session ${session.id}`);
 
