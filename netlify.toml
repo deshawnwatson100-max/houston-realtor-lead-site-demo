@@ -1,0 +1,13 @@
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/onboarding-submit"
+  to = "/.netlify/functions/onboarding-submit"
+  status = 200
+
+[[redirects]]
+  from = "/api/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
