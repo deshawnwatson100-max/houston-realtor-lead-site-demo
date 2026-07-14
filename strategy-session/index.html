@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Strategy Session — Agent Lead Sites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#101318;--muted:#66717d;--line:#e8edf2;--blue:#2457ff;--navy:#10182b;--soft:#f6f8fb;--green:#11845b}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:linear-gradient(180deg,#f8fbff,#fff);color:var(--ink);min-height:100vh;display:grid;place-items:center;padding:26px}.card{width:min(760px,94vw);background:#fff;border:1px solid var(--line);border-radius:30px;box-shadow:0 30px 90px rgba(16,24,43,.12);padding:clamp(24px,5vw,46px)}.eyebrow{display:inline-flex;background:#eef3ff;color:var(--blue);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}h1{font-size:clamp(34px,6vw,58px);line-height:.98;letter-spacing:-.055em;margin:16px 0 10px}p{color:var(--muted);font-size:17px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}input,textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px 15px;font:inherit;background:#fbfcfe}textarea{min-height:90px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:15px;padding:15px 18px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;text-decoration:none}.primary{background:var(--blue);color:#fff}.secondary{background:var(--navy);color:#fff}.status{display:none;margin-top:18px;padding:16px;border-radius:16px;background:#f6f8fb;border:1px solid var(--line);white-space:pre-wrap}.status.ok{background:#ecfdf5;color:#065f46}.status.err{background:#fff1f2;color:#9f1239}@media(max-width:700px){.grid{grid-template-columns:1fr}.actions .btn{width:100%;text-align:center}}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <span class="eyebrow">Cold Call → Strategy Session</span>
+    <h1>Book the strategy session.</h1>
+    <p>Use this right after a prospect says yes. It updates Airtable/HighLevel and, once Google Calendar auth is connected, creates the Meet invite automatically.</p>
+    <form id="sessionForm">
+      <div class="grid">
+        <div class="field full"><label>Airtable Record ID</label><input name="recordId" id="recordId" required readonly></div>
+        <div class="field"><label>Business Name</label><input name="businessName" id="businessName"></div>
+        <div class="field"><label>Phone</label><input name="phone" id="phone"></div>
+        <div class="field"><label>Customer Email *</label><input type="email" name="customerEmail" id="customerEmail" required></div>
+        <div class="field"><label>Strategy Session Time *</label><input type="datetime-local" name="start" id="start" required></div>
+        <div class="field"><label>Duration</label><input name="durationMinutes" id="durationMinutes" type="number" value="30" min="15" step="15"></div>
+        <div class="field"><label>Service Area</label><input name="serviceArea" id="serviceArea"></div>
+        <div class="field full"><label>Notes</label><textarea name="notes" id="notes" placeholder="Anything they said on the call..."></textarea></div>
+      </div>
+      <div class="actions"><button class="btn primary" type="submit">Book Strategy Session</button><a class="btn secondary" href="/demos/agent-lead-sites-onboarding/">Onboarding</a></div>
+    </form>
+    <div id="status" class="status"></div>
+  </main>
+  <script>
+    const qs=new URLSearchParams(location.search);
+    const set=(id,val)=>{const el=document.getElementById(id); if(el&&val) el.value=val};
+    set('recordId', qs.get('recordId')||''); set('businessName', qs.get('business')||''); set('phone', qs.get('phone')||''); set('serviceArea', qs.get('city')||'');
+    document.getElementById('sessionForm').onsubmit=async(e)=>{
+      e.preventDefault(); const status=document.getElementById('status'); const btn=e.submitter; btn.disabled=true; btn.textContent='Booking...';
+      const payload=Object.fromEntries(new FormData(e.currentTarget).entries());
+      try{
+        const res=await fetch('/api/book-strategy-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data=await res.json(); if(!res.ok) throw new Error(data.error||'Booking failed');
+        status.className='status ok'; status.style.display='block'; status.textContent=`Booked workflow created.\n\nStatus: ${data.status}\nCalendar: ${data.calendarEventLink||'Google auth needed'}\nMeet: ${data.googleMeetLink||'Google auth needed'}\nHighLevel Contact: ${data.contactId||'created/updated'}`;
+      }catch(err){status.className='status err'; status.style.display='block'; status.textContent=err.message}
+      finally{btn.disabled=false; btn.textContent='Book Strategy Session'}
+    };
+  </script>
+</body>
+</html>

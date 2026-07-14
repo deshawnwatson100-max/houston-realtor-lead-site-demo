@@ -8,6 +8,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/book-strategy-session"
+  to = "/.netlify/functions/book-strategy-session"
+  status = 200
+
+[[redirects]]
   from = "/api/stripe-webhook"
   to = "/.netlify/functions/stripe-webhook"
   status = 200
