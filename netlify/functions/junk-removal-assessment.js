@@ -49,7 +49,37 @@ async function createJunkOpportunity(contactId, payload) {
   catch (err) { return { skipped: true, reason: err.message }; }
 }
 
-function buildAssessmentNote(payload) {
+async function uploadHighLevelMedia(file) {
+  if (!file || !file.base64) return null;
+  const token = process.env.HIGHLEVEL_API_KEY;
+  if (!token) throw new Error('Missing HIGHLEVEL_API_KEY');
+  const cleanBase64 = String(file.base64).split(',').pop();
+  const buffer = Buffer.from(cleanBase64, 'base64');
+  const form = new FormData();
+  form.append('file', new Blob([buffer], { type: file.type || 'application/octet-stream' }), file.name || 'assessment-file');
+  form.append('locationId', DEFAULTS.locationId);
+  form.append('altId', DEFAULTS.locationId);
+  form.append('altType', 'location');
+  const res = await fetch('https://services.leadconnectorhq.com/medias/upload-file', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, Version: '2021-07-28', Accept: 'application/json' },
+    body: form
+  });
+  const text = await res.text();
+  let data; try { data = text ? JSON.parse(text) : {}; } catch { data = { raw: text }; }
+  if (!res.ok) throw new Error(`HighLevel media upload failed: ${data.message || data.error || text}`);
+  return { name: file.name, type: file.type, size: file.size, fileId: data.fileId, url: data.url };
+}
+
+async function uploadAssessmentFiles(payload) {
+  const files = [...(payload.photos || []), ...(payload.videos || [])].slice(0, 4);
+  const uploaded = [];
+  for (const file of files) uploaded.push(await uploadHighLevelMedia(file));
+  return uploaded.filter(Boolean);
+}
+
+function buildAssessmentNote(payload, uploadedFiles = []) {
+  const fileLines = uploadedFiles.length ? uploadedFiles.map((f, i) => `File ${i + 1}: ${f.name || 'uploaded file'} — ${f.url}`).join('\n') : '—';
   const order = [
     ['Client site/company', payload.company],
     ['Service area', payload.city],
@@ -85,7 +115,8 @@ function buildAssessmentNote(payload) {
     ['Customer email', payload.customerEmail],
     ['Best contact method', payload.contactMethod],
     ['Photo count', payload.photoCount],
-    ['Video attached', payload.videoAttached]
+    ['Video attached', payload.videoAttached],
+    ['Uploaded file links', fileLines]
   ];
   return ['New junk-removal website assessment submitted.', '', ...order.map(([k, v]) => `${k}: ${compact(v) || '—'}`)].join('\n');
 }
@@ -100,7 +131,8 @@ exports.handler = async (event) => {
     }
     const contact = await upsertJunkLead(payload);
     const contactId = contact.id || contact.contactId;
-    const note = buildAssessmentNote(payload);
+    const uploadedFiles = await uploadAssessmentFiles(payload);
+    const note = buildAssessmentNote(payload, uploadedFiles);
     const [noteResult, taskResult, oppResult] = await Promise.all([
       addContactNote(contactId, note),
       addContactTask(contactId, `Review junk removal quote request — ${payload.customerName}`, `Call/text ${payload.customerName} at ${payload.customerPhone}. Service: ${payload.service || 'junk removal'}. Address: ${payload.address || 'not provided'}.`),
@@ -112,6 +144,7 @@ exports.handler = async (event) => {
       opportunityId: oppResult?.opportunity?.id || oppResult?.id || '',
       taskId: taskResult?.task?.id || taskResult?.id || '',
       noteCreated: !noteResult?.skipped,
+      uploadedFiles,
       ownerAppReady: true
     });
   } catch (err) {
