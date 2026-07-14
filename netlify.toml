@@ -13,6 +13,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/junk-removal-assessment"
+  to = "/.netlify/functions/junk-removal-assessment"
+  status = 200
+
+[[redirects]]
   from = "/api/stripe-webhook"
   to = "/.netlify/functions/stripe-webhook"
   status = 200
