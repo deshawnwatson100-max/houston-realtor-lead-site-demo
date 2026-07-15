@@ -64,7 +64,7 @@
   <style>
     :root{--navy:#071827;--navy2:#101418;--yellow:#2389d7;--yellow2:#55b5ff;--ink:#102033;--muted:#6b7280;--cream:#f3f4f6;--card:#fff;--line:#d9e2ec;--sage:#dbeafe;--green:#b8c874}
     .brand{gap:12px;color:#111827}.brand-logo-wrap{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;overflow:hidden;background:#111827;border:2px solid #2389d7;box-shadow:0 8px 20px rgba(35,137,215,.22)}.brand-logo{width:100%;height:100%;object-fit:cover;display:block}.brand small{color:#2389d7}.hero{background:linear-gradient(135deg,#101418 0%,#071827 62%,#0b3f72 100%)}.quote-btn,.btn.yellow{background:#2389d7;color:#fff;box-shadow:0 14px 30px rgba(35,137,215,.28)}.kicker,.stars{color:#55b5ff}.btn.dark{background:#071827}.quote-copy{background:linear-gradient(145deg,#101418,#0b2c4c)}.mobile-sticky-footer a:last-child{background:#2389d7;color:#fff}.brand-mark{background:#101418}.avatar{background:linear-gradient(135deg,#2389d7,#101418)}
-    .city-hero-card{display:grid;place-items:center;min-height:385px;background:radial-gradient(circle at 50% 42%,rgba(35,137,215,.24),rgba(255,255,255,.98) 58%);position:relative}.city-hero-logo{width:min(68%,290px);aspect-ratio:1/1;object-fit:cover;border-radius:50%;box-shadow:0 22px 60px rgba(7,24,39,.24);border:6px solid rgba(255,255,255,.9)}.city-hero-card .caption{position:absolute;left:34px;right:34px;bottom:26px;text-align:center}@media(max-width:640px){.brand-logo-wrap{width:42px;height:42px;border-radius:12px}.brand{max-width:75%}.brand span span[data-company]{font-size:14px}}
+    .city-hero-card{display:grid;place-items:center;min-height:385px;background:radial-gradient(circle at 50% 42%,rgba(35,137,215,.24),rgba(255,255,255,.98) 58%);position:relative}.city-hero-logo{width:min(68%,290px);aspect-ratio:1/1;object-fit:contain;border-radius:50%;box-shadow:0 22px 60px rgba(7,24,39,.24);border:6px solid rgba(255,255,255,.9)}.city-hero-card .caption{position:absolute;left:34px;right:34px;bottom:26px;text-align:center}@media(max-width:640px){.brand-logo-wrap{width:42px;height:42px;border-radius:12px}.brand{max-width:75%}.brand span span[data-company]{font-size:14px}}
   </style>
 
   <style>
@@ -90,10 +90,23 @@
       .mobile-sticky-footer{display:flex!important;grid-template-columns:none!important;align-items:stretch!important;justify-content:stretch!important;left:0!important;right:0!important;width:100%!important;max-width:none!important}.mobile-sticky-footer a{flex:0 0 33.333333%!important;width:33.333333%!important;max-width:33.333333%!important;min-width:0!important;box-sizing:border-box!important;text-align:center!important}.mobile-sticky-footer a .ico{display:block!important}.mobile-sticky-footer a span:last-child{display:block!important;font-size:13px!important;line-height:1.1!important}.mobile-sticky-footer a:last-child{background:#2389d7!important;color:#fff!important}
     }
   </style>
+
+  <style>
+    /* City To City Liquid Glass header polish */
+    .nav{position:sticky;top:12px;margin:0 auto -80px;width:min(92vw,1180px);z-index:60;border:1px solid rgba(255,255,255,.34);background:rgba(255,255,255,.58)!important;backdrop-filter:blur(22px) saturate(165%);-webkit-backdrop-filter:blur(22px) saturate(165%);border-radius:24px;box-shadow:0 24px 70px rgba(7,24,39,.18),inset 0 1px 0 rgba(255,255,255,.78);padding:16px 24px 16px 130px;min-height:84px}.nav::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.54),rgba(255,255,255,.18) 42%,rgba(35,137,215,.10));pointer-events:none}.nav>*{position:relative;z-index:2}.brand-logo-wrap{position:absolute;left:18px;top:-34px;width:118px!important;height:118px!important;border-radius:0!important;background:transparent!important;border:0!important;box-shadow:0 18px 35px rgba(7,24,39,.24)!important;overflow:visible!important}.brand-logo{width:118px!important;height:118px!important;object-fit:contain!important;border-radius:50%!important;filter:drop-shadow(0 10px 14px rgba(0,0,0,.18))}.brand{min-width:310px}.brand span span[data-company]{font-size:19px;letter-spacing:-.04em}.brand small{font-size:11px}.hero{padding-top:150px}.navlinks a{color:#111827}.phone{color:#071827}.quote-btn{border-radius:16px;background:rgba(35,137,215,.92)!important;color:#fff!important;box-shadow:0 14px 34px rgba(35,137,215,.28)!important}
+    @media(max-width:760px){.nav{top:10px;width:calc(100vw - 24px);margin:0 12px -70px;padding:14px 58px 14px 112px;min-height:84px;border-radius:22px}.brand{max-width:100%;min-width:0}.brand span span[data-company]{font-size:15px;line-height:1.06}.brand small{font-size:10px}.brand-logo-wrap{left:12px;top:-26px;width:104px!important;height:104px!important}.brand-logo{width:104px!important;height:104px!important}.hero{padding-top:128px!important}.nav::after{content:'☰';position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:28px;font-weight:900;color:#071827;z-index:3}.navlinks,.nav-actions{display:none!important}}
+  </style>
+
+  <style>
+    /* Mobile reference-style hanging logo alignment */
+    @media(max-width:760px){
+      .nav{height:78px!important;min-height:78px!important;padding:12px 58px 12px 154px!important;overflow:visible!important}.brand{position:static!important;display:block!important;min-width:0!important}.brand>span:not(.brand-logo-wrap){display:none!important}.brand-logo-wrap{position:absolute!important;left:14px!important;top:36px!important;width:132px!important;height:132px!important;z-index:6!important}.brand-logo{width:132px!important;height:132px!important;object-fit:contain!important}.nav::after{right:24px!important}.hero{padding-top:150px!important}.kicker{margin-top:10px!important}
+    }
+  </style>
 </head>
 <body>
   <nav class="nav">
-    <a class="brand" href="#top"><span class="brand-logo-wrap"><img class="brand-logo" src="assets/city-to-city-logo.jpg" alt="City To City Junk Removal logo"></span><span><span data-company>City To City Junk Removal</span><small data-city>Fort Worth & DFW</small></span></a>
+    <a class="brand" href="#top"><span class="brand-logo-wrap"><img class="brand-logo" src="assets/city-to-city-logo-clean.png" alt="City To City Junk Removal logo"></span><span><span data-company>City To City Junk Removal</span><small data-city>Fort Worth & DFW</small></span></a>
     <div class="navlinks"><a href="#services">Services</a><a href="#locations">Locations</a><a href="#process">Process</a><a href="#reviews">Reviews</a><a href="#quote">Quote</a></div>
     <div class="nav-actions"><a class="phone" data-phone-link href="tel:0000000000" data-phone>(000) 000-0000</a><a class="quote-btn" href="#quote">Get a Quote</a></div>
   </nav>
@@ -108,7 +121,7 @@
         <div class="rating-line"><span class="stars">★★★★★</span><strong>5.0 on Google</strong><span>· Fort Worth & DFW junk removal customers</span></div>
         <div class="owner-line"><div class="avatar"></div><div><strong>Owner-operated local service</strong><br><span>Fort Worth & DFW crew. Clear pricing. Heavy lifting handled.</span></div></div>
       </div>
-      <div class="hero-card city-hero-card"><img class="city-hero-logo" src="assets/city-to-city-logo.jpg" alt="City To City Junk Removal logo"><div class="caption">Same-day pickup • Cleanouts • Demo debris</div></div>
+      <div class="hero-card city-hero-card"><img class="city-hero-logo" src="assets/city-to-city-logo-clean.png" alt="City To City Junk Removal logo"><div class="caption">Same-day pickup • Cleanouts • Demo debris</div></div>
     </section>
 
     <section class="feature-bar" aria-label="Service highlights"><div><span>✓</span>Same-Day Service</div><div><span>✓</span>Upfront Pricing</div><div><span>✓</span>We Load Everything</div><div><span>✓</span>Local & Owner-Operated</div></section>
