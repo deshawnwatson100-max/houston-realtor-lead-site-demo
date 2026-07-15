@@ -27,6 +27,39 @@
       document.head.appendChild(s);
     })();
   </script>
+
+  <script>
+    (function(){
+      function placeChatAboveFooter(){
+        if (new URLSearchParams(window.location.search).get('embeddedPhone') === '1') return;
+        var mobile = window.matchMedia('(max-width: 640px)').matches;
+        var bottom = mobile ? '88px' : '20px';
+        var widget = document.querySelector('chat-widget');
+        var root = widget && widget.shadowRoot;
+        if (!root) return;
+        var launcher = root.querySelector('#lc_text-widget--btn');
+        var wrapper = root.querySelector('#lc_text-widget');
+        if (launcher) {
+          launcher.style.setProperty('bottom', bottom, 'important');
+          launcher.style.setProperty('right', '20px', 'important');
+          launcher.style.setProperty('z-index', '99999999', 'important');
+        }
+        if (wrapper) {
+          wrapper.style.setProperty('bottom', bottom, 'important');
+          wrapper.style.setProperty('right', '20px', 'important');
+          wrapper.style.setProperty('z-index', '99999999', 'important');
+        }
+      }
+      window.addEventListener('load', function(){
+        placeChatAboveFooter();
+        setTimeout(placeChatAboveFooter, 500);
+        setTimeout(placeChatAboveFooter, 1500);
+        setTimeout(placeChatAboveFooter, 3000);
+      });
+      window.addEventListener('resize', placeChatAboveFooter);
+      new MutationObserver(placeChatAboveFooter).observe(document.documentElement, {childList:true, subtree:true});
+    })();
+  </script>
 </head>
 <body>
   <nav class="nav">
