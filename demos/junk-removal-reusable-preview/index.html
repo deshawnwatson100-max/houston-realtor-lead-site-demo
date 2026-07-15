@@ -176,11 +176,12 @@
 
   <style>
     /* Generic base: rotating hero images only */
-    .generic-hero-rotator{position:relative;width:min(76%,315px);aspect-ratio:1/1;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,.92);box-shadow:0 22px 60px rgba(7,24,39,.24);background:#102033}
-    .generic-hero-rotator img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:genericHeroFade 20s infinite;transform:scale(1.04)}
+    .generic-hero-rotator{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;overflow:hidden;border:0;box-shadow:none;background:#102033}
+    .generic-hero-rotator::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,24,39,.04) 38%,rgba(7,24,39,.24) 100%);pointer-events:none}
+    .generic-hero-rotator img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:genericHeroFade 20s infinite;transform:scale(1.02)}
+    .city-hero-card .caption{z-index:2}
     .generic-hero-rotator img:nth-child(1){animation-delay:0s}.generic-hero-rotator img:nth-child(2){animation-delay:4s}.generic-hero-rotator img:nth-child(3){animation-delay:8s}.generic-hero-rotator img:nth-child(4){animation-delay:12s}.generic-hero-rotator img:nth-child(5){animation-delay:16s}
     @keyframes genericHeroFade{0%,16%{opacity:1}22%,100%{opacity:0}}
-    @media(max-width:640px){.generic-hero-rotator{width:min(74%,260px)}}
   </style>
 </head>
 <body>
