@@ -36,7 +36,7 @@
         <div class="screen">
           <div class="phone-status"><span>1:56</span><span>▰▰ 5G ◖</span></div>
           <div class="site-preview">
-            <iframe class="site-frame" id="previewFrame" title="Live preview site inside phone" src="/demos/junk-removal-reusable-preview/"></iframe>
+            <iframe class="site-frame" id="previewFrame" title="Live preview site inside phone" src="../junk-removal-reusable-preview/"></iframe>
             <div class="frame-shade"></div>
             <button class="floating-chat" id="phoneToggle" aria-label="Toggle chat or voice">☏</button>
           </div>
@@ -74,7 +74,7 @@
     const previewFrame=document.getElementById('previewFrame');
     if(previewFrame){
       const city=clean(params.get('city'))||'Service Area';
-      previewFrame.src='/demos/junk-removal-reusable-preview/?name='+encodeURIComponent(company)+'&phone='+encodeURIComponent(phone)+'&city='+encodeURIComponent(city);
+      previewFrame.src='../junk-removal-reusable-preview/?name='+encodeURIComponent(company)+'&phone='+encodeURIComponent(phone)+'&city='+encodeURIComponent(city);
     }
     const phoneMock=document.getElementById('phoneMock');
     const setMode=mode=>phoneMock.className='phone '+mode+'-mode';
