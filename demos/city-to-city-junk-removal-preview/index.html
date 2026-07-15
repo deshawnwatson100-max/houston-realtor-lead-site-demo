@@ -37,19 +37,30 @@
         var widget = document.querySelector('chat-widget');
         function pin(el){
           if (!el) return;
-          var rect = el.getBoundingClientRect();
-          var h = rect.height || (el.id === 'lc_text-widget--btn' ? 58 : 72);
-          var topPx = Math.max(16, window.innerHeight - bottomPx - h);
           el.style.setProperty('position', 'fixed', 'important');
-          el.style.setProperty('top', topPx + 'px', 'important');
-          el.style.setProperty('bottom', 'auto', 'important');
           el.style.setProperty('left', 'auto', 'important');
           el.style.setProperty('right', '20px', 'important');
           el.style.setProperty('z-index', '99999999', 'important');
+          if (mobile) {
+            el.style.setProperty('top', 'auto', 'important');
+            el.style.setProperty('bottom', bottomPx + 'px', 'important');
+          } else {
+            var rect = el.getBoundingClientRect();
+            var h = rect.height || (el.id === 'lc_text-widget--btn' ? 58 : 72);
+            var topPx = Math.max(16, window.innerHeight - bottomPx - h);
+            el.style.setProperty('top', topPx + 'px', 'important');
+            el.style.setProperty('bottom', 'auto', 'important');
+          }
         }
         pin(widget);
         var root = widget && widget.shadowRoot;
         if (!root) return;
+        if (mobile && !root.querySelector('#als-mobile-chat-position-fix')) {
+          var style = document.createElement('style');
+          style.id = 'als-mobile-chat-position-fix';
+          style.textContent = '#lc_text-widget,#lc_text-widget--btn,.lc_text-widget,.lc_text-widget--bubble{position:fixed!important;top:auto!important;bottom:88px!important;right:auto!important;left:calc(min(100vw, 390px) - 78px)!important;z-index:99999999!important}#lc_text-widget--btn{opacity:0!important;pointer-events:none!important}.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important}';
+          root.appendChild(style);
+        }
         var wrapper = root.querySelector('#lc_text-widget');
         var bubble = root.querySelector('#lc_text-widget--btn');
         var prompt = root.querySelector('.lc_text-widget--prompt');
@@ -145,6 +156,12 @@
       .nav{top:0!important;width:100%!important;max-width:100%!important;margin:0!important;border-left:0!important;border-right:0!important;border-radius:0!important;padding:14px 24px!important;min-height:78px!important}.nav::before{border-radius:0!important}.hero{padding-top:56px!important}
     }
   </style>
+
+  <style>
+    /* Mobile-only visible chat trigger above footer; desktop untouched */
+    .als-mobile-chat-trigger{display:none}
+    @media(max-width:640px){.als-mobile-chat-trigger{position:fixed;left:calc(min(100vw, 390px) - 78px);right:auto;bottom:88px;z-index:99999999;width:58px;height:58px;border:0;border-radius:999px;background:#2389d7;color:#fff;display:grid;place-items:center;box-shadow:0 16px 36px rgba(35,137,215,.38);cursor:pointer}.als-mobile-chat-trigger svg{width:29px;height:29px;display:block}.als-mobile-chat-trigger path{fill:none;stroke:currentColor;stroke-width:2.35;stroke-linecap:round;stroke-linejoin:round}}
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -231,6 +248,10 @@
 
     <section class="section final-cta"><h2>Ready to clear space?</h2><p>Same-day service available across <span data-city>Service Area</span>.</p><div class="hero-actions" style="justify-content:center"><a class="btn yellow" href="#quote">Get a FREE Quote</a><a class="btn outline" data-phone-link href="tel:0000000000">Call <span data-phone>(000) 000-0000</span></a></div></section>
   </main>
+  
+  <button class="als-mobile-chat-trigger" type="button" aria-label="Open chat">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg>
+  </button>
   <div class="mobile-sticky-footer" aria-label="Quick contact actions">
     <a data-phone-link href="tel:0000000000"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.6 3.7 9 3.1c.6-.1 1.2.2 1.4.8l.9 2.7c.2.5 0 1.1-.4 1.5L9.6 9.3c1 2 2.7 3.7 4.8 4.8l1.2-1.3c.4-.4 1-.6 1.5-.4l2.7.9c.6.2.9.8.8 1.4l-.6 2.4c-.2.8-.9 1.4-1.8 1.4C11.1 18.5 5.5 12.9 5.5 5.8c0-.9.5-1.7 1.1-2.1Z"/></svg></span><span>Call</span></a>
     <a data-text-link href="sms:0000000000"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg></span><span>Text</span></a>
@@ -321,6 +342,23 @@ const params=new URLSearchParams(window.location.search);
       heroCarousel.addEventListener('pointerdown',e=>{sx=e.clientX;heroCarousel.setPointerCapture(e.pointerId)});
       heroCarousel.addEventListener('pointerup',e=>{const dx=e.clientX-sx;if(Math.abs(dx)>45){autoDone=true;go(heroIndex+(dx<0?1:-1));}});
     }
+  </script>
+
+  <script>
+    (function(){
+      function wireMobileChatTrigger(){
+        var trigger = document.querySelector('.als-mobile-chat-trigger');
+        if (!trigger || trigger.dataset.wired === '1') return;
+        trigger.dataset.wired = '1';
+        trigger.addEventListener('click', function(){
+          var widget = document.querySelector('chat-widget');
+          var root = widget && widget.shadowRoot;
+          var btn = root && root.querySelector('#lc_text-widget--btn');
+          if (btn) btn.click();
+        });
+      }
+      window.addEventListener('load', function(){wireMobileChatTrigger(); setTimeout(wireMobileChatTrigger, 1200);});
+    })();
   </script>
 </body>
 </html>
