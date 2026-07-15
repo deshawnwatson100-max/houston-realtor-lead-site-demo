@@ -107,6 +107,12 @@
     /* Quick polish: center mobile hero logo card only */
     @media(max-width:640px){.city-hero-card{margin-left:auto!important;margin-right:auto!important;left:auto!important;right:auto!important;justify-self:center!important}.city-hero-logo{margin-left:auto!important;margin-right:auto!important}}
   </style>
+
+  <style>
+    /* Quick polish: footer outline icons only */
+    .mobile-sticky-footer .ico svg{width:32px;height:32px;display:block}.mobile-sticky-footer .ico svg path{fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+    @media(max-width:640px){.mobile-sticky-footer .ico{font-size:0!important;line-height:0!important}.mobile-sticky-footer .ico svg{width:32px!important;height:32px!important}.mobile-sticky-footer a span:last-child{font-weight:900!important}}
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -194,9 +200,9 @@
     <section class="section final-cta"><h2>Ready to clear space?</h2><p>Same-day service available across <span data-city>Service Area</span>.</p><div class="hero-actions" style="justify-content:center"><a class="btn yellow" href="#quote">Get a FREE Quote</a><a class="btn outline" data-phone-link href="tel:0000000000">Call <span data-phone>(000) 000-0000</span></a></div></section>
   </main>
   <div class="mobile-sticky-footer" aria-label="Quick contact actions">
-    <a data-phone-link href="tel:0000000000"><span class="ico">☎</span><span>Call</span></a>
-    <a data-text-link href="sms:0000000000"><span class="ico">▱</span><span>Text</span></a>
-    <a href="#quote"><span class="ico">▤</span><span>Quote</span></a>
+    <a data-phone-link href="tel:0000000000"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.6 3.7 9 3.1c.6-.1 1.2.2 1.4.8l.9 2.7c.2.5 0 1.1-.4 1.5L9.6 9.3c1 2 2.7 3.7 4.8 4.8l1.2-1.3c.4-.4 1-.6 1.5-.4l2.7.9c.6.2.9.8.8 1.4l-.6 2.4c-.2.8-.9 1.4-1.8 1.4C11.1 18.5 5.5 12.9 5.5 5.8c0-.9.5-1.7 1.1-2.1Z"/></svg></span><span>Call</span></a>
+    <a data-text-link href="sms:0000000000"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg></span><span>Text</span></a>
+    <a href="#quote"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.8h6.5L18 8.3v11.9H7V3.8Z"/><path d="M13.5 3.8v4.5H18"/><path d="M9.8 12h5.4M9.8 15h5.4"/></svg></span><span>Quote</span></a>
   </div>
 
   <footer class="footer"><div><strong data-company>Junk Removal Company</strong><p>Local junk removal, cleanouts, light demolition, debris hauling, and photo-based quote intake.</p><a class="quote-btn" data-phone-link href="tel:0000000000">Call <span data-phone>(000) 000-0000</span></a></div><div><strong>Services</strong><p>Junk Removal<br>Demolition<br>Cleanouts<br>Hot Tub Removal<br>Shed Demolition</p></div><div><strong>Top Areas</strong><p><span data-city>Service Area</span><br>Nearby homes<br>Rental properties<br>Businesses</p></div><div><strong>Contact</strong><p><span data-phone>(000) 000-0000</span><br><span data-city>Service Area</span><br>7 days a week</p></div></footer>
