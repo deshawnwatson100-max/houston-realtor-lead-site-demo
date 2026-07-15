@@ -33,30 +33,47 @@
       function placeChatAboveFooter(){
         if (new URLSearchParams(window.location.search).get('embeddedPhone') === '1') return;
         var mobile = window.matchMedia('(max-width: 640px)').matches;
-        var bottom = mobile ? '88px' : '20px';
+        var bottomPx = mobile ? 88 : 20;
         var widget = document.querySelector('chat-widget');
         function pin(el){
           if (!el) return;
+          var rect = el.getBoundingClientRect();
+          var h = rect.height || (el.id === 'lc_text-widget--btn' ? 58 : 72);
+          var topPx = Math.max(16, window.innerHeight - bottomPx - h);
           el.style.setProperty('position', 'fixed', 'important');
-          el.style.setProperty('top', 'auto', 'important');
+          el.style.setProperty('top', topPx + 'px', 'important');
+          el.style.setProperty('bottom', 'auto', 'important');
           el.style.setProperty('left', 'auto', 'important');
-          el.style.setProperty('bottom', bottom, 'important');
           el.style.setProperty('right', '20px', 'important');
           el.style.setProperty('z-index', '99999999', 'important');
         }
         pin(widget);
         var root = widget && widget.shadowRoot;
         if (!root) return;
-        ['#lc_text-widget--btn','#lc_text-widget','.lc_text-widget--btn','.lc_text-widget','button','[role="button"]'].forEach(function(sel){
-          root.querySelectorAll(sel).forEach(pin);
-        });
+        var wrapper = root.querySelector('#lc_text-widget');
+        var bubble = root.querySelector('#lc_text-widget--btn');
+        var prompt = root.querySelector('.lc_text-widget--prompt');
+        var msg = root.querySelector('.lc_text-widget_prompt--msg-bubble');
+        pin(wrapper);
+        pin(bubble);
+        if (prompt) {
+          prompt.style.setProperty('position', 'relative', 'important');
+          prompt.style.setProperty('top', '0px', 'important');
+          prompt.style.setProperty('bottom', 'auto', 'important');
+        }
+        if (msg) {
+          msg.style.setProperty('position', 'relative', 'important');
+          msg.style.setProperty('top', '0px', 'important');
+          msg.style.setProperty('bottom', 'auto', 'important');
+        }
       }
       window.addEventListener('load', function(){
         placeChatAboveFooter();
-        setTimeout(placeChatAboveFooter, 500);
+        setTimeout(placeChatAboveFooter, 250);
+        setTimeout(placeChatAboveFooter, 750);
         setTimeout(placeChatAboveFooter, 1500);
         setTimeout(placeChatAboveFooter, 3000);
-        setTimeout(placeChatAboveFooter, 5000);
+        setInterval(placeChatAboveFooter, 1200);
       });
       window.addEventListener('resize', placeChatAboveFooter);
       new MutationObserver(placeChatAboveFooter).observe(document.documentElement, {childList:true, subtree:true});
