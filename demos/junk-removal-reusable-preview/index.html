@@ -173,6 +173,15 @@
     .als-mobile-chat-trigger{display:none}
     @media(max-width:640px){.als-mobile-chat-trigger{position:fixed;left:calc(min(100vw, 390px) - 78px);right:auto;bottom:88px;z-index:99999999;width:58px;height:58px;border:0;border-radius:999px;background:#2389d7;color:#fff;display:grid;place-items:center;box-shadow:0 16px 36px rgba(35,137,215,.38);cursor:pointer}.als-mobile-chat-trigger svg{width:29px;height:29px;display:block}.als-mobile-chat-trigger path{fill:none;stroke:currentColor;stroke-width:2.35;stroke-linecap:round;stroke-linejoin:round}}
   </style>
+
+  <style>
+    /* Generic base: rotating hero images only */
+    .generic-hero-rotator{position:relative;width:min(76%,315px);aspect-ratio:1/1;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,.92);box-shadow:0 22px 60px rgba(7,24,39,.24);background:#102033}
+    .generic-hero-rotator img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:genericHeroFade 20s infinite;transform:scale(1.04)}
+    .generic-hero-rotator img:nth-child(1){animation-delay:0s}.generic-hero-rotator img:nth-child(2){animation-delay:4s}.generic-hero-rotator img:nth-child(3){animation-delay:8s}.generic-hero-rotator img:nth-child(4){animation-delay:12s}.generic-hero-rotator img:nth-child(5){animation-delay:16s}
+    @keyframes genericHeroFade{0%,16%{opacity:1}22%,100%{opacity:0}}
+    @media(max-width:640px){.generic-hero-rotator{width:min(74%,260px)}}
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -191,7 +200,7 @@
         <div class="rating-line"><span class="stars">★★★★★</span><strong>5.0 on Google</strong><span>· Service Area junk removal customers</span></div>
         <div class="owner-line"><div class="avatar"></div><div><strong>Owner-operated local service</strong><br><span>Service Area crew. Clear pricing. Heavy lifting handled.</span></div></div>
       </div>
-      <div class="hero-card city-hero-card"><div class="city-hero-logo generic-hero-mark">JUNK<br>REMOVAL</div><div class="caption">Same-day pickup • Cleanouts • Demo debris</div></div>
+      <div class="hero-card city-hero-card"><div class="generic-hero-rotator" aria-label="Junk removal work photos"><img src="assets/01-junk-removal-truck.png" alt="Junk removal pickup truck"><img src="assets/02-garage-before.jpg" alt="Garage cleanout before"><img src="assets/03-garage-after.jpg" alt="Garage cleanout after"><img src="assets/04-curb-before.jpg" alt="Curbside junk before pickup"><img src="assets/05-curb-after.jpg" alt="Curbside junk after pickup"></div><div class="caption">Same-day pickup • Cleanouts • Demo debris</div></div>
     </section>
 
     <section class="feature-bar" aria-label="Service highlights"><div><span>✓</span>Same-Day Service</div><div><span>✓</span>Upfront Pricing</div><div><span>✓</span>We Load Everything</div><div><span>✓</span>Local & Owner-Operated</div></section>
