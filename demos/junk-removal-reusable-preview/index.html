@@ -35,26 +35,28 @@
         var mobile = window.matchMedia('(max-width: 640px)').matches;
         var bottom = mobile ? '88px' : '20px';
         var widget = document.querySelector('chat-widget');
+        function pin(el){
+          if (!el) return;
+          el.style.setProperty('position', 'fixed', 'important');
+          el.style.setProperty('top', 'auto', 'important');
+          el.style.setProperty('left', 'auto', 'important');
+          el.style.setProperty('bottom', bottom, 'important');
+          el.style.setProperty('right', '20px', 'important');
+          el.style.setProperty('z-index', '99999999', 'important');
+        }
+        pin(widget);
         var root = widget && widget.shadowRoot;
         if (!root) return;
-        var launcher = root.querySelector('#lc_text-widget--btn');
-        var wrapper = root.querySelector('#lc_text-widget');
-        if (launcher) {
-          launcher.style.setProperty('bottom', bottom, 'important');
-          launcher.style.setProperty('right', '20px', 'important');
-          launcher.style.setProperty('z-index', '99999999', 'important');
-        }
-        if (wrapper) {
-          wrapper.style.setProperty('bottom', bottom, 'important');
-          wrapper.style.setProperty('right', '20px', 'important');
-          wrapper.style.setProperty('z-index', '99999999', 'important');
-        }
+        ['#lc_text-widget--btn','#lc_text-widget','.lc_text-widget--btn','.lc_text-widget','button','[role="button"]'].forEach(function(sel){
+          root.querySelectorAll(sel).forEach(pin);
+        });
       }
       window.addEventListener('load', function(){
         placeChatAboveFooter();
         setTimeout(placeChatAboveFooter, 500);
         setTimeout(placeChatAboveFooter, 1500);
         setTimeout(placeChatAboveFooter, 3000);
+        setTimeout(placeChatAboveFooter, 5000);
       });
       window.addEventListener('resize', placeChatAboveFooter);
       new MutationObserver(placeChatAboveFooter).observe(document.documentElement, {childList:true, subtree:true});
