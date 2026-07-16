@@ -36,7 +36,36 @@
   <script>
     const sections=[...document.querySelectorAll('.section')], links=[...document.querySelectorAll('#sideNav a')], progress=document.getElementById('progress');
     const update=()=>{let idx=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)idx=i});links.forEach((a,i)=>a.classList.toggle('active',i===idx));progress.style.width=((idx+1)/sections.length*100)+'%'};addEventListener('scroll',update,{passive:true});update();
-    function collect(){const fd=new FormData(document.getElementById('onboardingForm'));const out={};for(const [k,v] of fd.entries()){if(v instanceof File){if(v.name)out[k]=(out[k]||[]).concat(v.name)}else if(out[k]){out[k]=[].concat(out[k],v)}else out[k]=v}return out}
+
+    function fileToDataUrl(file){
+      return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+    }
+    async function imageFileToUpload(file, category){
+      const original={name:file.name,type:file.type,size:file.size,category};
+      if(!file.type.startsWith('image/')) return {...original,base64:await fileToDataUrl(file)};
+      try{
+        const img=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src=URL.createObjectURL(file)});
+        const max=1600, scale=Math.min(1,max/Math.max(img.width,img.height));
+        const canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);
+        canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+        const base64=canvas.toDataURL('image/jpeg',.84);
+        URL.revokeObjectURL(img.src);
+        return {...original,name:file.name.replace(/\.[^.]+$/,'.jpg'),type:'image/jpeg',base64,compressed:true};
+      }catch(err){return {...original,base64:await fileToDataUrl(file)}}
+    }
+    async function collect(){
+      const form=document.getElementById('onboardingForm');
+      const fd=new FormData(form), out={}, uploads=[];
+      for(const [k,v] of fd.entries()){
+        if(v instanceof File){
+          if(v.name) uploads.push(await imageFileToUpload(v,k));
+        }else if(out[k]) out[k]=[].concat(out[k],v);
+        else out[k]=v;
+      }
+      out.uploads=uploads.slice(0,16);
+      out.uploadSummary=uploads.length?uploads.map(f=>`${f.category}: ${f.name}`).join(', '):'';
+      return out;
+    }
     async function submitOnboarding(payload){
       const endpoints=['/.netlify/functions/onboarding-submit','/api/onboarding-submit'];
       let lastError;
@@ -52,16 +81,18 @@
     document.getElementById('onboardingForm').onsubmit=async e=>{
       e.preventDefault();
       const btn=e.submitter||document.querySelector('button[type=submit]');
-      const payload=collect();
-      localStorage.setItem('alsOnboarding',JSON.stringify(payload));
-      if(btn){btn.disabled=true;btn.textContent='Submitting...'}
+      if(btn){btn.disabled=true;btn.textContent='Uploading...'}
       try{
+        const payload=await collect();
+        localStorage.setItem('alsOnboarding',JSON.stringify({...payload,uploads:payload.uploads?.map(f=>({name:f.name,type:f.type,size:f.size,category:f.category}))}));
+        if(btn)btn.textContent='Submitting...';
         await submitOnboarding(payload);
         document.getElementById('success').textContent='Onboarding submitted. We’ll review your information and begin the project after payment is complete.';
         document.getElementById('success').style.display='block';
         setTimeout(()=>location.href='thank-you.html',900);
       }catch(err){
-        document.getElementById('success').textContent='Saved locally, but the submit endpoint is not active yet. Please try again in a moment.';
+        console.error(err);
+        document.getElementById('success').textContent='Submission could not be completed. Please try again or contact Agent Lead Sites if the issue continues.';
         document.getElementById('success').style.display='block';
       }finally{if(btn){btn.disabled=false;btn.textContent='Submit Onboarding'}}
     };

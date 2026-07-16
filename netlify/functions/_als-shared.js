@@ -64,17 +64,64 @@ function compact(value) {
   return value == null ? '' : String(value);
 }
 
-function buildOnboardingNote(payload, paymentStatus = 'Onboarding submitted') {
+async function uploadHighLevelMedia(file) {
+  if (!file || !file.base64) return null;
+  const token = requireEnv('HIGHLEVEL_API_KEY');
+  const cleanBase64 = String(file.base64).split(',').pop();
+  const buffer = Buffer.from(cleanBase64, 'base64');
+  const form = new FormData();
+  form.append('file', new Blob([buffer], { type: file.type || 'application/octet-stream' }), file.name || 'onboarding-file');
+  form.append('locationId', DEFAULTS.locationId);
+  form.append('altId', DEFAULTS.locationId);
+  form.append('altType', 'location');
+  const res = await fetch(`${HL_BASE}/medias/upload-file`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, Version: '2021-07-28', Accept: 'application/json' },
+    body: form
+  });
+  const text = await res.text();
+  let data;
+  try { data = text ? JSON.parse(text) : {}; } catch { data = { raw: text }; }
+  if (!res.ok) throw new Error(`HighLevel media upload failed: ${data.message || data.error || text}`);
+  return { category: file.category || 'upload', name: file.name, type: file.type, size: file.size, fileId: data.fileId, url: data.url };
+}
+
+async function uploadOnboardingFiles(payload) {
+  const files = Array.isArray(payload.uploads) ? payload.uploads.slice(0, 16) : [];
+  const uploaded = [];
+  for (const file of files) uploaded.push(await uploadHighLevelMedia(file));
+  return uploaded.filter(Boolean);
+}
+
+function buildOnboardingNote(payload, paymentStatus = 'Onboarding submitted', uploadedFiles = []) {
+  const fileLines = uploadedFiles.length
+    ? uploadedFiles.map((f, i) => `File ${i + 1} (${f.category || 'upload'}): ${f.name || 'uploaded file'} — ${f.url || 'uploaded'}`).join('\n')
+    : compact(payload.uploadSummary) || '—';
   const order = [
-    ['Business Name', payload.businessName], ['Owner Name', payload.ownerName], ['Email', payload.email], ['Phone', payload.phone],
-    ['Address', payload.address], ['Current Website', payload.website], ['Google Business Profile', payload.gbp], ['Social Links', payload.social],
-    ['Brand Colors', payload.colors], ['Preferred Font', payload.font], ['Business Description', payload.description],
-    ['Difference', payload.difference], ['Ideal Customer', payload.idealCustomer], ['Services', payload.services],
-    ['Service Areas', payload.serviceAreas], ['Hours', payload.hours], ['Emergency Services', payload.emergency],
-    ['Licensed / Insured', payload.licensed], ['Years in Business', payload.years], ['Primary Goal', payload.goal], ['CTA', payload.cta],
-    ['Google Review Link', payload.googleReview], ['Facebook Review Link', payload.facebookReview],
-    ['Notification Email', payload.notifyEmail], ['Notification Phone', payload.notifyPhone], ['Existing GHL', payload.ghl],
-    ['Calendar', payload.calendar], ['Booking', payload.booking], ['Follow-up', payload.followup]
+    ['Business Name', payload.businessName],
+    ['Owner Name', payload.ownerName],
+    ['Best Email', payload.email],
+    ['Best Phone Number', payload.phone],
+    ['Current Website', payload.website],
+    ['Google Business Profile URL', payload.gbp || payload.googleBusinessProfile],
+    ['Tell us about your business', payload.description],
+    ['What makes your business different', payload.difference],
+    ['Highest-priority services', payload.priorityServices],
+    ['Cities / service areas', payload.serviceAreas],
+    ['Facebook', payload.facebook],
+    ['Instagram', payload.instagram],
+    ['TikTok', payload.tiktok],
+    ['YouTube', payload.youtube],
+    ['Google Business Profile', payload.googleBusinessProfile || payload.gbp],
+    ['Google Review Link', payload.googleReview],
+    ['Yelp Business Profile URL', payload.yelpBusinessProfile],
+    ['Yelp Review Link', payload.yelpReview],
+    ['Owns domain', payload.ownsDomain],
+    ['Domain Name', payload.domainName],
+    ['Registrar', payload.registrar],
+    ['Registrar account email', payload.registrarEmail],
+    ['Terms agreed', payload.termsAgree ? 'Yes' : 'No'],
+    ['Uploaded file links', fileLines]
   ];
   return [`Agent Lead Sites onboarding received.`, `Payment status: ${paymentStatus}`, '', ...order.map(([k, v]) => `${k}: ${compact(v) || '—'}`)].join('\n');
 }
@@ -88,7 +135,6 @@ async function upsertContact(payload) {
     lastName: owner.lastName,
     email: payload.email,
     phone: payload.phone,
-    address1: payload.address,
     website: payload.website,
     source: 'Agent Lead Sites Onboarding',
     tags: ['agent-lead-sites', 'onboarding-submitted']
@@ -132,5 +178,5 @@ async function createOpportunity(contactId, payload, stageId = DEFAULTS.onboardi
 }
 
 module.exports = {
-  cors, response, DEFAULTS, ghl, compact, buildOnboardingNote, upsertContact, addContactNote, addContactTask, createOpportunity
+  cors, response, DEFAULTS, ghl, compact, buildOnboardingNote, uploadOnboardingFiles, upsertContact, addContactNote, addContactTask, createOpportunity
 };

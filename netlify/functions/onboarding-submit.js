@@ -1,4 +1,4 @@
-const { cors, response, buildOnboardingNote, upsertContact, addContactNote, addContactTask, createOpportunity } = require('./_als-shared.js');
+const { cors, response, buildOnboardingNote, uploadOnboardingFiles, upsertContact, addContactNote, addContactTask, createOpportunity } = require('./_als-shared.js');
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: cors(), body: '' };
@@ -11,20 +11,22 @@ exports.handler = async (event) => {
 
     const contact = await upsertContact(payload);
     const contactId = contact.id || contact.contactId;
-    const note = buildOnboardingNote(payload);
+    const uploadedFiles = await uploadOnboardingFiles(payload);
+    const note = buildOnboardingNote(payload, 'Onboarding submitted', uploadedFiles);
     const [noteResult, taskResult, opportunityResult] = await Promise.all([
       addContactNote(contactId, note),
-      addContactTask(contactId, 'New Agent Lead Sites onboarding submitted', 'Review onboarding, confirm payment status, and start the internal build checklist.'),
+      addContactTask(contactId, 'New Agent Lead Sites onboarding submitted', 'Review onboarding, confirm payment status, uploaded assets, Google/Yelp access, and domain details.'),
       createOpportunity(contactId, payload)
     ]);
 
     return response(200, {
       ok: true,
-      message: 'Onboarding submitted. Contact, notification task, and build opportunity created in HighLevel.',
+      message: 'Onboarding submitted. Contact, note, uploaded assets, task, and opportunity created in HighLevel.',
       contactId,
       opportunityId: opportunityResult?.opportunity?.id || opportunityResult?.id,
       noteResult: noteResult?.skipped ? noteResult : 'created',
-      taskResult: taskResult?.skipped ? taskResult : 'created'
+      taskResult: taskResult?.skipped ? taskResult : 'created',
+      uploadedFiles
     });
   } catch (err) {
     console.error(err);
