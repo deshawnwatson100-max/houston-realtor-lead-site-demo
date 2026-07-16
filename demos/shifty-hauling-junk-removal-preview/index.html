@@ -65,10 +65,10 @@
     <section id="quote" class="quote-section">
       <div class="quote-shell">
         <div class="quote-copy"><div class="eyebrow">Contact / Quote</div><h2>Send the job details before the callback.</h2><p>Photos, project type, timing, and access notes help the team review the job faster before calling back.</p><p><strong>Call:</strong> (806) 808-6742<br><strong>Email:</strong> shiftyhauling@yahoo.com</p></div>
-        <form class="assessment" name="shifty-preview-quote">
+        <form class="assessment" name="shifty-preview-quote" id="quoteForm">
           <h3>What do you need help with?</h3>
           <div class="choice-grid"><label class="choice"><input type="radio" name="service" checked> <b>Junk removal</b><span>Furniture, appliances, clutter, yard debris.</span></label><label class="choice"><input type="radio" name="service"> <b>Dumpster rental</b><span>13 yard or 20 yard dumpster.</span></label><label class="choice"><input type="radio" name="service"> <b>Small demolition</b><span>Shed, deck, or light tear-out.</span></label><label class="choice"><input type="radio" name="service"> <b>Cleanout</b><span>Garage, rental, office, or estate cleanup.</span></label></div>
-          <div class="field"><label>Name</label><input placeholder="Your name"></div><div class="field"><label>Phone</label><input placeholder="Best callback number"></div><div class="field"><label>Job details</label><textarea rows="4" placeholder="Tell us what needs to be removed, where it is, and when you need it done."></textarea></div><button class="submit" type="button">Request Quote Review</button>
+          <div class="field"><label>Name</label><input name="customerName" placeholder="Your name"></div><div class="field"><label>Phone</label><input name="customerPhone" placeholder="Best callback number"></div><div class="field"><label>Job details</label><textarea name="jobDetails" rows="4" placeholder="Tell us what needs to be removed, where it is, and when you need it done."></textarea></div><button class="submit" type="submit">Request Quote Review</button>
         </form>
       </div>
     </section>
@@ -90,5 +90,28 @@
 
   <footer class="footer"><div class="footer-grid"><strong>Shifty Hauling and Junk Removal, LLC</strong><span>Amarillo, TX · (806) 808-6742</span><span>Junk Removal · Dumpster Rentals · Small Demolition</span></div></footer>
   <div class="mobile-sticky-footer"><a href="tel:8068086742">☎<span>Call</span></a><a href="sms:8068086742">💬<span>Text</span></a><a href="#quote">📋<span>Quote</span></a></div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('quoteForm');
+      if(!form) return;
+      form.addEventListener('submit', function(event){
+        event.preventDefault();
+        const service = form.querySelector('input[name="service"]:checked')?.closest('.choice')?.querySelector('b')?.textContent?.trim() || 'Junk removal';
+        const name = form.customerName?.value?.trim() || '';
+        const phone = form.customerPhone?.value?.trim() || '';
+        const details = form.jobDetails?.value?.trim() || '';
+        const message = [
+          'Hi Shifty Hauling, I would like a quote review.',
+          'Service: ' + service,
+          name ? 'Name: ' + name : '',
+          phone ? 'Callback: ' + phone : '',
+          details ? 'Job details: ' + details : ''
+        ].filter(Boolean).join('
+');
+        window.location.href = 'sms:8068086742?&body=' + encodeURIComponent(message);
+      });
+    })();
+  </script>
 </body>
 </html>
