@@ -44,7 +44,7 @@
 
   <style>
     /* Shifty AI chat panel behavior only — existing button styling unchanged */
-    .shifty-ai-backdrop{display:none}.shifty-ai-panel{position:fixed;right:22px;bottom:92px;z-index:999999998;width:min(380px,calc(100vw - 32px));height:min(650px,calc(100vh - 124px));max-height:calc(100vh - 124px);background:#fff;color:#111;border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.28);border:1px solid rgba(17,17,17,.12);overflow:hidden;display:none;font-family:Inter,system-ui,sans-serif}.shifty-ai-panel.open{display:grid;grid-template-rows:auto minmax(0,1fr) auto}.shifty-ai-head{background:#111;color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.shifty-ai-head strong{font-weight:950}.shifty-ai-close{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:20px;line-height:1}.shifty-ai-log{padding:16px;display:grid;align-content:start;gap:10px;overflow:auto;background:#f7f7f7}.shifty-ai-msg{padding:11px 13px;border-radius:16px;font-size:14px;line-height:1.35;max-width:88%}.shifty-ai-msg.bot{background:#fff;border:1px solid #e7e7e7;justify-self:start}.shifty-ai-msg.user{background:#155eef;color:#fff;justify-self:end}.shifty-ai-form{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #e8e8e8}.shifty-ai-form input{flex:1;min-width:0;border:1px solid #d8d8d8;border-radius:999px;padding:12px 13px}.shifty-ai-form button{border:0;border-radius:999px;background:#155eef;color:#fff;font-weight:900;padding:0 16px;cursor:pointer}@media(max-width:640px){body.shifty-ai-open{overflow:hidden}.shifty-ai-backdrop{position:fixed;inset:0;z-index:999999997;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}body.shifty-ai-open .shifty-ai-backdrop{display:block}.shifty-ai-panel{left:16px;right:16px;top:74px;bottom:104px;width:auto;height:auto;max-height:none}.shifty-ai-chat-trigger{transition:opacity .18s ease,visibility .18s ease}body.shifty-ai-open .shifty-ai-chat-trigger{opacity:0;visibility:hidden;pointer-events:none}}
+    .shifty-ai-backdrop{display:none}.shifty-ai-panel{position:fixed;right:22px;bottom:92px;z-index:999999998;width:min(380px,calc(100vw - 32px));height:min(650px,calc(100vh - 124px));max-height:calc(100vh - 124px);background:#fff;color:#111;border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.28);border:1px solid rgba(17,17,17,.12);overflow:hidden;display:none;font-family:Inter,system-ui,sans-serif}.shifty-ai-panel.open{display:grid;grid-template-rows:auto minmax(0,1fr) auto}.shifty-ai-head{background:#111;color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.shifty-ai-head strong{font-weight:950}.shifty-ai-close{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:20px;line-height:1}.shifty-ai-log{padding:16px;display:grid;align-content:start;gap:10px;overflow:auto;background:#f7f7f7}.shifty-ai-msg{padding:11px 13px;border-radius:16px;font-size:14px;line-height:1.35;max-width:88%}.shifty-ai-msg.bot{background:#fff;border:1px solid #e7e7e7;justify-self:start}.shifty-ai-msg.user{background:#155eef;color:#fff;justify-self:end}.shifty-ai-form{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #e8e8e8}.shifty-ai-form input{flex:1;min-width:0;border:1px solid #d8d8d8;border-radius:999px;padding:12px 13px}.shifty-ai-form button{border:0;border-radius:999px;background:#155eef;color:#fff;font-weight:900;padding:0 16px;cursor:pointer}@media(max-width:640px){body.shifty-ai-open{overflow:hidden}.shifty-ai-backdrop{position:fixed;inset:0;z-index:999999997;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}body.shifty-ai-open .shifty-ai-backdrop{display:block}.shifty-ai-panel{left:16px;right:16px;top:74px;bottom:104px;width:auto;height:auto;max-height:none}.shifty-ai-chat-trigger{transition:opacity .18s ease,visibility .18s ease}body.shifty-ai-open .shifty-ai-chat-trigger{opacity:0;visibility:hidden;pointer-events:none}body.shifty-ai-keyboard .shifty-ai-panel{top:var(--shifty-ai-kb-top,64px);bottom:auto;height:var(--shifty-ai-kb-height,420px);max-height:none}.shifty-ai-log{min-height:0}body.shifty-ai-keyboard .shifty-ai-log{padding-bottom:10px}}
   </style>
 </head>
 <body>
@@ -205,6 +205,14 @@
       var messages=[];
       var opened=false;
       function qs(sel){return document.querySelector(sel)}
+      function syncMobileKeyboardLayout(){
+        if(!window.matchMedia || !window.matchMedia('(max-width:640px)').matches) return;
+        var vv=window.visualViewport; if(!vv) return;
+        var top=Math.max(58,Math.round(vv.offsetTop+58));
+        var height=Math.max(300,Math.round(vv.height-70));
+        document.documentElement.style.setProperty('--shifty-ai-kb-top',top+'px');
+        document.documentElement.style.setProperty('--shifty-ai-kb-height',height+'px');
+      }
       function patchHighLevelBubble(){
         var widget=document.querySelector('chat-widget');
         var root=widget&&widget.shadowRoot;
@@ -224,11 +232,11 @@
       }
       function openPanel(){
         var panel=qs('#shiftyAiPanel'); var input=qs('#shiftyAiInput'); if(!panel) return;
-        panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); document.body.classList.add('shifty-ai-open');
+        panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); document.body.classList.add('shifty-ai-open'); syncMobileKeyboardLayout();
         if(!opened){opened=true; addMsg('assistant','Hey — I’m the Shifty AI assistant. I can help with junk removal, dumpster rentals, small demolition, pricing, and scheduling. What do you need help with?')}
         setTimeout(function(){input&&input.focus()},80);
       }
-      function closePanel(){var panel=qs('#shiftyAiPanel'); if(panel){panel.classList.remove('open'); panel.setAttribute('aria-hidden','true')} document.body.classList.remove('shifty-ai-open')}
+      function closePanel(){var panel=qs('#shiftyAiPanel'); if(panel){panel.classList.remove('open'); panel.setAttribute('aria-hidden','true')} document.body.classList.remove('shifty-ai-open'); document.body.classList.remove('shifty-ai-keyboard')}
       async function sendMessage(text){
         addMsg('user',text); messages.push({role:'user',content:text});
         addMsg('assistant','Typing...');
@@ -248,9 +256,9 @@
         var trigger=qs('.shifty-ai-chat-trigger');
         if(trigger&&!trigger.dataset.aiPanelWired){trigger.dataset.aiPanelWired='1';trigger.addEventListener('click',openPanel)}
         var close=qs('.shifty-ai-close'); if(close&&!close.dataset.aiPanelWired){close.dataset.aiPanelWired='1';close.addEventListener('click',closePanel)} var backdrop=qs('.shifty-ai-backdrop'); if(backdrop&&!backdrop.dataset.aiPanelWired){backdrop.dataset.aiPanelWired='1';backdrop.addEventListener('click',closePanel)}
-        var form=qs('#shiftyAiForm'); if(form&&!form.dataset.aiPanelWired){form.dataset.aiPanelWired='1';form.addEventListener('submit',function(e){e.preventDefault();var input=qs('#shiftyAiInput');var text=(input&&input.value||'').trim();if(!text)return;input.value='';sendMessage(text);})}
+        var inputEl=qs('#shiftyAiInput'); if(inputEl&&!inputEl.dataset.aiPanelWired){inputEl.dataset.aiPanelWired='1';inputEl.addEventListener('focus',function(){document.body.classList.add('shifty-ai-keyboard');syncMobileKeyboardLayout();setTimeout(syncMobileKeyboardLayout,250)});inputEl.addEventListener('blur',function(){setTimeout(function(){document.body.classList.remove('shifty-ai-keyboard')},120)})} var form=qs('#shiftyAiForm'); if(form&&!form.dataset.aiPanelWired){form.dataset.aiPanelWired='1';form.addEventListener('submit',function(e){e.preventDefault();var input=qs('#shiftyAiInput');var text=(input&&input.value||'').trim();if(!text)return;input.value='';sendMessage(text);})}
       }
-      window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(patchHighLevelBubble,1600)});
+      window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(patchHighLevelBubble,1600); if(window.visualViewport){visualViewport.addEventListener('resize',syncMobileKeyboardLayout);visualViewport.addEventListener('scroll',syncMobileKeyboardLayout)}});
       new MutationObserver(wire).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
