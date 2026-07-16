@@ -38,27 +38,20 @@
         function pin(el){
           if (!el) return;
           el.style.setProperty('position', 'fixed', 'important');
+          el.style.setProperty('inset', 'auto 16px ' + bottomPx + 'px auto', 'important');
+          el.style.setProperty('top', 'auto', 'important');
+          el.style.setProperty('bottom', bottomPx + 'px', 'important');
+          el.style.setProperty('right', mobile ? '16px' : '20px', 'important');
           el.style.setProperty('left', 'auto', 'important');
-          el.style.setProperty('right', '20px', 'important');
           el.style.setProperty('z-index', '99999999', 'important');
-          if (mobile) {
-            el.style.setProperty('top', 'auto', 'important');
-            el.style.setProperty('bottom', bottomPx + 'px', 'important');
-          } else {
-            var rect = el.getBoundingClientRect();
-            var h = rect.height || (el.id === 'lc_text-widget--btn' ? 58 : 72);
-            var topPx = Math.max(16, window.innerHeight - bottomPx - h);
-            el.style.setProperty('top', topPx + 'px', 'important');
-            el.style.setProperty('bottom', 'auto', 'important');
-          }
         }
         pin(widget);
         var root = widget && widget.shadowRoot;
         if (!root) return;
-        if (mobile && !root.querySelector('#als-mobile-chat-position-fix')) {
+        if (!root.querySelector('#als-mobile-chat-position-fix')) {
           var style = document.createElement('style');
           style.id = 'als-mobile-chat-position-fix';
-          style.textContent = '#lc_text-widget,#lc_text-widget--btn,.lc_text-widget,.lc_text-widget--bubble{position:fixed!important;top:auto!important;bottom:88px!important;right:auto!important;left:calc(min(100vw, 390px) - 78px)!important;z-index:99999999!important}#lc_text-widget--btn{opacity:0!important;pointer-events:none!important}.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important}';
+          style.textContent = '#lc_text-widget,#lc_text-widget--btn,.lc_text-widget,.lc_text-widget--bubble{position:fixed!important;inset:auto '+(mobile?'16px 92px':'20px 20px')+' auto!important;top:auto!important;bottom:'+(mobile?'92px':'20px')+'!important;right:'+(mobile?'16px':'20px')+'!important;left:auto!important;z-index:99999999!important}#lc_text-widget--btn{opacity:0!important;pointer-events:none!important}.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important}';
           root.appendChild(style);
         }
         var wrapper = root.querySelector('#lc_text-widget');
@@ -165,7 +158,13 @@
 
   <style>
     /* Demo-ready AI chat trigger: visible and reliable on desktop/mobile */
-    .als-ai-chat-demo-trigger{position:fixed!important;right:22px!important;bottom:24px!important;left:auto!important;z-index:999999999!important;width:auto!important;height:58px!important;min-width:132px!important;border:0!important;border-radius:999px!important;background:#2389d7!important;color:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;padding:0 18px!important;box-shadow:0 18px 42px rgba(35,137,215,.42)!important;cursor:pointer!important;font-weight:950!important;font-family:Inter,system-ui,sans-serif!important;letter-spacing:-.02em!important}.als-ai-chat-demo-trigger svg{width:25px!important;height:25px!important;display:block!important}.als-ai-chat-demo-trigger path{fill:none!important;stroke:currentColor!important;stroke-width:2.35!important;stroke-linecap:round!important;stroke-linejoin:round!important}.als-ai-chat-demo-trigger span{display:block!important;font-size:15px!important;line-height:1!important}@media(max-width:640px){.als-ai-chat-demo-trigger{right:14px!important;bottom:86px!important;min-width:118px!important;height:54px!important;padding:0 14px!important}.als-ai-chat-demo-trigger span{font-size:14px!important}.als-ai-chat-demo-trigger svg{width:23px!important;height:23px!important}}
+    .als-ai-chat-demo-trigger{position:fixed!important;right:22px!important;bottom:24px!important;left:auto!important;z-index:999999999!important;width:auto!important;height:58px!important;min-width:132px!important;border:0!important;border-radius:999px!important;background:#2389d7!important;color:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;padding:0 18px!important;box-shadow:0 18px 42px rgba(35,137,215,.42)!important;cursor:pointer!important;font-weight:950!important;font-family:Inter,system-ui,sans-serif!important;letter-spacing:-.02em!important}.als-ai-chat-demo-trigger svg{width:25px!important;height:25px!important;display:block!important}.als-ai-chat-demo-trigger path{fill:none!important;stroke:currentColor!important;stroke-width:2.35!important;stroke-linecap:round!important;stroke-linejoin:round!important}.als-ai-chat-demo-trigger span{display:block!important;font-size:15px!important;line-height:1!important}@media(max-width:640px){.als-ai-chat-demo-trigger{left:16px!important;right:16px!important;bottom:86px!important;width:auto!important;min-width:0!important;height:54px!important;padding:0 14px!important;border-radius:18px!important}.als-ai-chat-demo-trigger span{font-size:14px!important}.als-ai-chat-demo-trigger svg{width:23px!important;height:23px!important}}
+  </style>
+
+  <style>
+    /* Fix HighLevel chat bubble placement: keep it bottom-right, away from nav/contact */
+    chat-widget{position:fixed!important;inset:auto 16px 92px auto!important;top:auto!important;right:16px!important;bottom:92px!important;left:auto!important;z-index:99999999!important}
+    @media(min-width:641px){chat-widget{inset:auto 22px 24px auto!important;right:22px!important;bottom:24px!important}}
   </style>
 </head>
 <body>
