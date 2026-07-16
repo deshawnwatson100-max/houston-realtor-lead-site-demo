@@ -18,6 +18,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/shifty-ai-chat"
+  to = "/.netlify/functions/shifty-ai-chat"
+  status = 200
+
+[[redirects]]
   from = "/api/stripe-webhook"
   to = "/.netlify/functions/stripe-webhook"
   status = 200

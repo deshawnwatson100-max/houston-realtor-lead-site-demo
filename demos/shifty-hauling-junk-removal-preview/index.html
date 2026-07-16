@@ -41,6 +41,11 @@
     /* Review text readability only */
     .dark .review{color:#111!important}.dark .review p{color:#2b2b2b!important}.dark .review strong{color:#0b0b0b!important}
   </style>
+
+  <style>
+    /* Shifty AI chat panel behavior only — existing button styling unchanged */
+    .shifty-ai-panel{position:fixed;right:22px;bottom:92px;z-index:999999998;width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 124px);background:#fff;color:#111;border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.28);border:1px solid rgba(17,17,17,.12);overflow:hidden;display:none;font-family:Inter,system-ui,sans-serif}.shifty-ai-panel.open{display:grid;grid-template-rows:auto minmax(0,1fr) auto}.shifty-ai-head{background:#111;color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.shifty-ai-head strong{font-weight:950}.shifty-ai-close{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:20px;line-height:1}.shifty-ai-log{padding:16px;display:grid;gap:10px;overflow:auto;max-height:420px;background:#f7f7f7}.shifty-ai-msg{padding:11px 13px;border-radius:16px;font-size:14px;line-height:1.35;max-width:88%}.shifty-ai-msg.bot{background:#fff;border:1px solid #e7e7e7;justify-self:start}.shifty-ai-msg.user{background:#155eef;color:#fff;justify-self:end}.shifty-ai-form{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #e8e8e8}.shifty-ai-form input{flex:1;min-width:0;border:1px solid #d8d8d8;border-radius:999px;padding:12px 13px}.shifty-ai-form button{border:0;border-radius:999px;background:#155eef;color:#fff;font-weight:900;padding:0 16px;cursor:pointer}@media(max-width:640px){.shifty-ai-panel{left:16px;right:16px;bottom:92px;width:auto;max-height:calc(100vh - 168px)}.shifty-ai-log{max-height:calc(100vh - 300px)}}
+  </style>
 </head>
 <body>
   <div class="top-strip">Need Junk Removal? Contact Shifty Hauling Today!</div>
@@ -164,6 +169,11 @@
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg>
     <span>AI Chat</span>
   </button>
+  <section class="shifty-ai-panel" id="shiftyAiPanel" aria-label="Shifty AI chat" aria-hidden="true">
+    <div class="shifty-ai-head"><strong>Shifty AI Chat</strong><button class="shifty-ai-close" type="button" aria-label="Close AI chat">×</button></div>
+    <div class="shifty-ai-log" id="shiftyAiLog"></div>
+    <form class="shifty-ai-form" id="shiftyAiForm"><input id="shiftyAiInput" autocomplete="off" placeholder="Ask about pricing, scheduling, or services..." aria-label="Message Shifty AI"><button type="submit">Send</button></form>
+  </section>
 
   <footer class="footer"><div class="footer-grid"><strong>Shifty Hauling and Junk Removal, LLC</strong><span>Amarillo, TX · (806) 808-6742</span><span>Junk Removal · Dumpster Rentals · Small Demolition</span></div></footer>
   <div class="mobile-sticky-footer"><a href="tel:8068086742"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.6 3.7 9 3.1c.6-.1 1.2.2 1.4.8l.9 2.7c.2.5 0 1.1-.4 1.5L9.6 9.3c1 2 2.7 3.7 4.8 4.8l1.2-1.3c.4-.4 1-.6 1.5-.4l2.7.9c.6.2.9.8.8 1.4l-.6 2.4c-.2.8-.9 1.4-1.8 1.4C11.1 18.5 5.5 12.9 5.5 5.8c0-.9.5-1.7 1.1-2.1Z"/></svg></span><span>Call</span></a><a href="sms:8068086742"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg></span><span>Text</span></a><a href="#quote"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.8h7.7L18 7.1v13.1H7V3.8Z"/><path d="M14.5 3.9v3.4h3.3M9.7 11h5.8M9.7 14.2h5.8M9.7 17.4h3.8"/></svg></span><span>Quote</span></a></div>
@@ -191,6 +201,9 @@
 
   <script>
     (function(){
+      var messages=[];
+      var opened=false;
+      function qs(sel){return document.querySelector(sel)}
       function patchHighLevelBubble(){
         var widget=document.querySelector('chat-widget');
         var root=widget&&widget.shadowRoot;
@@ -199,24 +212,44 @@
         if(!style){
           style=document.createElement('style');
           style.id='shifty-chat-position-fix';
-          style.textContent='#lc_text-widget,#lc_text-widget--btn,.lc_text-widget,.lc_text-widget--bubble{position:fixed!important;right:16px!important;left:auto!important;z-index:99999999!important}#lc_text-widget--btn{opacity:0!important;pointer-events:none!important;top:auto!important;bottom:92px!important}.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important}#lc_text-widget.lc_text-widget--active,#lc_text-widget.lc_text-widget{top:86px!important;bottom:92px!important;height:auto!important;max-height:calc(100vh - 178px)!important;width:min(340px,calc(100vw - 32px))!important;right:16px!important;left:auto!important}.lc_text-widget--box{max-height:calc(100vh - 230px)!important;overflow:auto!important}.lc_text-widget--formContainer{max-height:calc(100vh - 310px)!important;overflow:auto!important}@media(max-width:640px){#lc_text-widget.lc_text-widget--active,#lc_text-widget.lc_text-widget{top:76px!important;bottom:92px!important;right:16px!important;left:16px!important;width:auto!important;max-height:calc(100vh - 168px)!important}.lc_text-widget--box{width:100%!important;max-height:calc(100vh - 220px)!important}.lc_text-widget--formContainer{max-height:calc(100vh - 300px)!important}}';
+          style.textContent='#lc_text-widget--btn,.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important;opacity:0!important;pointer-events:none!important}';
           root.appendChild(style);
         }
       }
-      function openHighLevelChat(){
-        var widget=document.querySelector('chat-widget');
-        var root=widget&&widget.shadowRoot;
-        var selectors=['#lc_text-widget--btn','button[aria-label*="chat" i]','.lc_text-widget--bubble','.lc_text-widget--btn','#lc_text-widget'];
-        for(var i=0;i<selectors.length;i++){var el=root&&root.querySelector(selectors[i]); if(el){el.click(); return true;}}
-        if(widget){widget.click(); return true;}
-        return false;
+      function addMsg(role,text){
+        var log=qs('#shiftyAiLog'); if(!log) return;
+        var msg=document.createElement('div'); msg.className='shifty-ai-msg '+(role==='user'?'user':'bot'); msg.textContent=text;
+        log.appendChild(msg); log.scrollTop=log.scrollHeight;
+      }
+      function openPanel(){
+        var panel=qs('#shiftyAiPanel'); var input=qs('#shiftyAiInput'); if(!panel) return;
+        panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+        if(!opened){opened=true; addMsg('assistant','Hey — I’m the Shifty AI assistant. I can help with junk removal, dumpster rentals, small demolition, pricing, and scheduling. What do you need help with?')}
+        setTimeout(function(){input&&input.focus()},80);
+      }
+      function closePanel(){var panel=qs('#shiftyAiPanel'); if(panel){panel.classList.remove('open'); panel.setAttribute('aria-hidden','true')}}
+      async function sendMessage(text){
+        addMsg('user',text); messages.push({role:'user',content:text});
+        addMsg('assistant','Typing...');
+        var log=qs('#shiftyAiLog'); var typing=log&&log.lastElementChild;
+        try{
+          var res=await fetch('/api/shifty-ai-chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,messages:messages.slice(-10)})});
+          var data=await res.json(); if(!res.ok) throw new Error(data.error||'Chat unavailable');
+          if(typing) typing.textContent=data.reply;
+          messages.push({role:'assistant',content:data.reply});
+        }catch(err){
+          if(typing) typing.textContent='I can help, but the chat connection is having trouble. For fastest help, call Shifty at (806) 808-6742 or use the quote intake on this page.';
+          console.error(err);
+        }
       }
       function wire(){
         patchHighLevelBubble();
-        var trigger=document.querySelector('.shifty-ai-chat-trigger');
-        if(trigger&&!trigger.dataset.wired){trigger.dataset.wired='1';trigger.addEventListener('click',function(){if(openHighLevelChat())return; var tries=0,t=setInterval(function(){tries++; if(openHighLevelChat()||tries>12)clearInterval(t);},350);});}
+        var trigger=qs('.shifty-ai-chat-trigger');
+        if(trigger&&!trigger.dataset.aiPanelWired){trigger.dataset.aiPanelWired='1';trigger.addEventListener('click',openPanel)}
+        var close=qs('.shifty-ai-close'); if(close&&!close.dataset.aiPanelWired){close.dataset.aiPanelWired='1';close.addEventListener('click',closePanel)}
+        var form=qs('#shiftyAiForm'); if(form&&!form.dataset.aiPanelWired){form.dataset.aiPanelWired='1';form.addEventListener('submit',function(e){e.preventDefault();var input=qs('#shiftyAiInput');var text=(input&&input.value||'').trim();if(!text)return;input.value='';sendMessage(text);})}
       }
-      window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(wire,1400);});
+      window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(patchHighLevelBubble,1600)});
       new MutationObserver(wire).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
