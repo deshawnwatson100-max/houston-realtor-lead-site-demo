@@ -24,6 +24,12 @@
       document.head.appendChild(s);
     })();
   </script>
+
+  <style>
+    /* Keep HighLevel's native bubble from overlapping the Shifty nav/contact button. */
+    chat-widget{position:fixed!important;inset:auto 16px 92px auto!important;top:auto!important;right:16px!important;bottom:92px!important;left:auto!important;z-index:99999999!important}
+    .shifty-ai-chat-trigger{position:fixed;right:22px;bottom:24px;z-index:999999999;border:0;border-radius:999px;background:#155eef;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;height:58px;min-width:132px;padding:0 18px;box-shadow:0 18px 42px rgba(21,94,239,.38);cursor:pointer;font-weight:950;font-family:Inter,system-ui,sans-serif;letter-spacing:-.02em}.shifty-ai-chat-trigger svg{width:25px;height:25px}.shifty-ai-chat-trigger path{fill:none;stroke:currentColor;stroke-width:2.35;stroke-linecap:round;stroke-linejoin:round}.shifty-ai-chat-trigger span{font-size:15px;line-height:1}@media(max-width:640px){.shifty-ai-chat-trigger{left:16px;right:16px;bottom:86px;width:auto;min-width:0;height:54px;border-radius:18px}.shifty-ai-chat-trigger span{font-size:14px}.shifty-ai-chat-trigger svg{width:23px;height:23px}}
+  </style>
 </head>
 <body>
   <div class="top-strip">Need Junk Removal? Contact Shifty Hauling Today!</div>
@@ -140,6 +146,12 @@
     </section>
   </main>
 
+
+  <button class="shifty-ai-chat-trigger" type="button" aria-label="Open AI chat">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg>
+    <span>AI Chat</span>
+  </button>
+
   <footer class="footer"><div class="footer-grid"><strong>Shifty Hauling and Junk Removal, LLC</strong><span>Amarillo, TX · (806) 808-6742</span><span>Junk Removal · Dumpster Rentals · Small Demolition</span></div></footer>
   <div class="mobile-sticky-footer"><a href="tel:8068086742">☎<span>Call</span></a><a href="sms:8068086742">💬<span>Text</span></a><a href="#quote">📋<span>Quote</span></a></div>
 
@@ -161,6 +173,38 @@
       prevBtn.onclick=()=>{if(current>0){current--;show()}};
       function updateBranch(){const checked=document.querySelector('input[name="service"]:checked');const v=checked?checked.value:'junk';document.querySelectorAll('.branch').forEach(b=>b.classList.remove('show'));const branch=document.querySelector('.branch-'+v); if(branch) branch.classList.add('show')}
       document.querySelectorAll('input[name="service"]').forEach(r=>r.onchange=updateBranch); updateBranch(); show();
+    })();
+  </script>
+
+  <script>
+    (function(){
+      function patchHighLevelBubble(){
+        var widget=document.querySelector('chat-widget');
+        var root=widget&&widget.shadowRoot;
+        if(!root) return;
+        var style=root.querySelector('#shifty-chat-position-fix');
+        if(!style){
+          style=document.createElement('style');
+          style.id='shifty-chat-position-fix';
+          style.textContent='#lc_text-widget,#lc_text-widget--btn,.lc_text-widget,.lc_text-widget--bubble{position:fixed!important;inset:auto 16px 92px auto!important;top:auto!important;bottom:92px!important;right:16px!important;left:auto!important;z-index:99999999!important}#lc_text-widget--btn{opacity:0!important;pointer-events:none!important}.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important}';
+          root.appendChild(style);
+        }
+      }
+      function openHighLevelChat(){
+        var widget=document.querySelector('chat-widget');
+        var root=widget&&widget.shadowRoot;
+        var selectors=['#lc_text-widget--btn','button[aria-label*="chat" i]','.lc_text-widget--bubble','.lc_text-widget--btn','#lc_text-widget'];
+        for(var i=0;i<selectors.length;i++){var el=root&&root.querySelector(selectors[i]); if(el){el.click(); return true;}}
+        if(widget){widget.click(); return true;}
+        return false;
+      }
+      function wire(){
+        patchHighLevelBubble();
+        var trigger=document.querySelector('.shifty-ai-chat-trigger');
+        if(trigger&&!trigger.dataset.wired){trigger.dataset.wired='1';trigger.addEventListener('click',function(){if(openHighLevelChat())return; var tries=0,t=setInterval(function(){tries++; if(openHighLevelChat()||tries>12)clearInterval(t);},350);});}
+      }
+      window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(wire,1400);});
+      new MutationObserver(wire).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
 </body>
