@@ -57,10 +57,17 @@
     /* Dedicated inner pages only */
     .page-hero{background:linear-gradient(135deg,#000 0%,#171717 58%,#3a0000 100%);color:#fff;padding:110px 6vw 78px}.page-hero .wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}.page-hero h1{font-family:'Space Grotesk';font-size:clamp(46px,7vw,86px);line-height:.9;margin:18px 0;letter-spacing:-.07em}.page-hero p{font-size:20px;color:#f1f1f1;max-width:650px}.page-card{background:#fff;color:#111;border-radius:28px;padding:28px;box-shadow:0 22px 60px rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.12)}.page-card h3{font-size:28px;margin:0 0 12px}.page-list{display:grid;gap:10px;margin:0;padding:0;list-style:none}.page-list li{padding:12px 14px;border-radius:14px;background:#f6f6f6;font-weight:850}.page-section{padding:76px 6vw}.page-section.dark{background:#111;color:#fff}.page-section .wrap{max-width:1180px;margin:0 auto}.split{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}.service-box{background:#fff;border:1px solid #e6e6e6;border-radius:22px;padding:24px;box-shadow:0 14px 36px rgba(0,0,0,.06)}.dark .service-box{background:#191919;border-color:#292929;color:#fff}.service-box h3{margin:0 0 10px;font-size:24px}.service-box p{color:#5d5d5d}.dark .service-box p{color:#d8d8d8}.price-chip{display:inline-flex;margin-top:12px;border-radius:999px;background:var(--red);color:#fff;padding:10px 14px;font-weight:950}.cta-band{background:#0b0b0b;color:#fff;border-radius:28px;padding:34px;display:flex;align-items:center;justify-content:space-between;gap:20px}.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.contact-tile{background:#fff;border:1px solid #e7e7e7;border-radius:20px;padding:22px;font-weight:850}.contact-tile b{display:block;margin-bottom:8px;color:var(--red)}@media(max-width:900px){.page-hero .wrap,.split{grid-template-columns:1fr}.service-grid,.contact-grid{grid-template-columns:1fr 1fr}.cta-band{display:block}.cta-band .btn{margin-top:18px}}@media(max-width:640px){.page-hero{padding:76px 22px 52px}.page-section{padding:58px 22px}.service-grid,.contact-grid{grid-template-columns:1fr}.page-card{padding:22px}.page-hero h1{font-size:48px}}
   </style>
+
+  <style>
+    /* Mobile hamburger page menu only */
+    .mobile-menu-toggle{display:none;border:0;background:#111;color:#fff;border-radius:999px;width:44px;height:44px;font-size:24px;font-weight:950;line-height:1;cursor:pointer}
+    @media(max-width:980px){.nav{gap:12px}.nav .mobile-menu-toggle{display:inline-flex;align-items:center;justify-content:center;margin-left:auto}.nav .navlinks{position:absolute;left:16px;right:16px;top:calc(100% + 8px);z-index:20;display:none;grid-template-columns:1fr;background:#fff;border:1px solid #e8e8e8;border-radius:18px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.18)}.nav.menu-open .navlinks{display:grid}.nav .navlinks a{display:block;padding:14px 16px;border-radius:12px;color:#111;font-weight:950}.nav .navlinks a:hover{background:#f4f4f4}.nav .nav-actions{display:none}}
+  </style>
 </head><body>
   <div class="top-strip">Need Junk Removal? Contact Shifty Hauling Today!</div>
   <nav class="nav">
     <a class="brand" href="/"><span class="brand-mark">SH</span><span>Shifty Hauling<br><small>and Junk Removal, LLC</small></span></a>
+    <button class="mobile-menu-toggle" type="button" aria-label="Open page menu" aria-expanded="false">☰</button>
     <div class="navlinks"><a href="/">Home</a><a href="/junk-removal/">Junk Removal</a><a href="/dumpster-rentals/">Dumpster Rentals</a><a href="/small-demolition-projects/">Small Demolition</a><a href="/about/">About</a><a href="/contact/">Contact</a></div>
     <div class="nav-actions"><a class="phone" href="tel:8068086742">(806) 808-6742</a><a class="quote-btn" href="/#quote">Contact Us</a></div>
   </nav>
@@ -166,6 +173,16 @@
       }
       window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(patchHighLevelBubble,1600); if(window.visualViewport){visualViewport.addEventListener('resize',syncMobileKeyboardLayout);visualViewport.addEventListener('scroll',syncMobileKeyboardLayout)}});
       new MutationObserver(wire).observe(document.documentElement,{childList:true,subtree:true});
+    })();
+  </script>
+
+  <script>
+    (function(){
+      document.querySelectorAll('.mobile-menu-toggle').forEach(btn=>{
+        const nav=btn.closest('.nav');
+        btn.addEventListener('click',()=>{const open=!nav.classList.contains('menu-open');nav.classList.toggle('menu-open',open);btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'×':'☰'});
+        document.addEventListener('click',e=>{if(nav.classList.contains('menu-open')&&!nav.contains(e.target)){nav.classList.remove('menu-open');btn.setAttribute('aria-expanded','false');btn.textContent='☰'}});
+      });
     })();
   </script>
 </body>
