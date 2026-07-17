@@ -109,8 +109,8 @@
 
   <style>
     /* Logo/color personalization only — AI chat stays unchanged */
-    .brand-logo-img{width:100%;height:100%;object-fit:cover;display:block}.brand-mark.has-logo{padding:0;overflow:hidden;background:#fff!important;border:2px solid var(--yellow)!important;box-shadow:0 8px 22px rgba(0,0,0,.16)}
-    @media(max-width:640px){.brand-mark.has-logo{width:42px!important;height:42px!important;min-width:42px!important}}
+    .brand-logo-img{width:100%;height:100%;object-fit:cover;display:block}.brand-mark.has-logo{padding:0;overflow:hidden;background:#fff!important;border:2px solid var(--yellow)!important;box-shadow:0 8px 22px rgba(0,0,0,.16)}.brand-mark.has-logo.logo-wide{width:96px;height:54px;border-radius:14px}.brand-mark.has-logo.logo-wide .brand-logo-img{object-fit:contain;padding:4px;background:#fff}
+    @media(max-width:640px){.brand-mark.has-logo{width:42px!important;height:42px!important;min-width:42px!important}.brand-mark.has-logo.logo-wide{width:82px!important;height:46px!important;min-width:82px!important}.brand-mark.has-logo.logo-wide .brand-logo-img{padding:3px}}
   </style>
 
   <style>
@@ -287,9 +287,11 @@ const params=new URLSearchParams(window.location.search);
     if(accent) document.documentElement.style.setProperty('--yellow2', accent);
     if(dark){ document.documentElement.style.setProperty('--navy', dark); document.documentElement.style.setProperty('--navy2', dark); }
     const logo=clean(params.get('logo'));
+    const logoMode=clean(params.get('logoMode'));
     if(logo){
       document.querySelectorAll('.brand-mark').forEach(mark=>{
         mark.classList.add('has-logo');
+        if(logoMode==='wide') mark.classList.add('logo-wide');
         mark.innerHTML='<img class="brand-logo-img" src="'+logo.replace(/"/g,'')+'" alt="'+company.replace(/"/g,'')+' logo">';
       });
     }
