@@ -52,6 +52,12 @@
     /* Shifty map section only */
     .map-section{padding:76px 6vw;background:#fff}.map-wrap{max-width:1180px;margin:0 auto}.map-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:22px}.map-head h2{font-family:'Space Grotesk';font-size:clamp(34px,5vw,62px);line-height:.95;letter-spacing:-.05em;margin:6px 0 0}.map-head p{max-width:460px;color:#5e5e5e;margin:0;font-weight:650}.map-card{position:relative;overflow:hidden;border-radius:10px;border:1px solid #e8e8e8;background:#efeade;box-shadow:0 18px 50px rgba(0,0,0,.10)}.map-frame{display:block;width:100%;height:min(68vw,620px);min-height:430px;border:0;background:#efeade}.map-overlay{position:absolute;right:22px;bottom:22px;z-index:3;background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:16px 18px;box-shadow:0 8px 24px rgba(0,0,0,.16);max-width:min(340px,calc(100% - 44px))}.map-overlay strong{display:block;font-size:19px;line-height:1.25;margin-bottom:7px}.map-overlay span{display:block;color:#555;font-weight:700}.map-overlay .rating{color:#111;margin-top:8px}.map-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.map-actions a{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:11px 15px;font-weight:950;background:#111;color:#fff}.map-actions a:first-child{background:var(--red)}@media(max-width:760px){.map-section{padding:58px 22px}.map-head{display:block}.map-head p{margin-top:10px}.map-card{border-radius:0;margin-inline:-6px}.map-frame{height:560px;min-height:560px}.map-overlay{left:14px;right:14px;bottom:14px;top:auto;max-width:none;padding:14px 15px}.map-overlay strong{font-size:18px}.map-actions{display:grid;grid-template-columns:1fr 1fr}.map-actions a{padding:12px 10px;font-size:14px}}
   </style>
+
+
+  <style>
+    /* Quote intake modal behavior only */
+    body.quote-modal-open{overflow:hidden}.quote-section{position:fixed;inset:0;z-index:1000000001;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.32);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}.quote-section.open{display:flex}.quote-section .quote-shell{position:relative;width:min(1120px,calc(100vw - 48px));max-height:min(760px,calc(100vh - 48px));overflow:auto;border-radius:30px;box-shadow:0 28px 90px rgba(0,0,0,.35);animation:quoteFloatIn .22s ease-out}.quote-close{position:absolute;right:18px;top:18px;z-index:4;border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:999px;width:38px;height:38px;font-size:22px;line-height:1;cursor:pointer}.assessment-progress{margin:0 0 18px}.progress-meta{display:flex;justify-content:space-between;gap:12px;color:#555;font-size:13px;font-weight:900;margin-bottom:9px}.progress-track{height:9px;background:#eee;border-radius:999px;overflow:hidden}.progress-fill{height:100%;width:16.66%;background:var(--red);border-radius:999px;transition:width .22s ease}@keyframes quoteFloatIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}@media(max-width:760px){.quote-section{padding:12px}.quote-section .quote-shell{width:100%;max-height:calc(100dvh - 24px);border-radius:24px;grid-template-columns:1fr}.quote-close{right:14px;top:14px;background:rgba(0,0,0,.28)}}
+  </style>
 </head>
 <body>
   <div class="top-strip">Need Junk Removal? Contact Shifty Hauling Today!</div>
@@ -67,7 +73,7 @@
         <div class="kicker">Amarillo, TX · Open 7 days · 8am-8pm</div>
         <h1>Amarillo junk removal experts.</h1>
         <p>Fast, reliable, and affordable junk removal, dumpster rentals, and small demolition projects for Amarillo and surrounding areas.</p>
-        <div class="hero-actions"><a class="btn red" href="tel:8068086742">Call (806) 808-6742</a><a class="btn outline" href="#quote">Start Quote Intake →</a></div>
+        <div class="hero-actions"><a class="btn red" href="tel:8068086742">Call (806) 808-6742</a><button type="button" class="btn outline" onclick="window.openQuoteIntake&&window.openQuoteIntake()">Start Quote Intake →</button></div>
         <div class="rating-line"><span class="stars">★★★★★</span><strong>Locally owned and operated</strong><span>· All prices include taxes and fees</span></div>
         <div class="owner-line"><div class="avatar"></div><div><strong>Ask about pricing specials</strong><br><span>Junk removal starts at $60 for one item.</span></div></div>
       </div>
@@ -105,10 +111,11 @@
       <div class="cards"><div class="card"><h3>Shed & deck removal</h3><p>Safe teardown, loading, and haul-away for unwanted small structures.</p></div><div class="card"><h3>Interior tear-outs</h3><p>Support for light interior demolition and debris removal.</p></div><div class="card"><h3>Minimal disruption</h3><p>Experienced crew, careful work, and cleanup after the project.</p></div></div>
     </section>
 
-    <section id="quote" class="quote-section">
+    <section id="quote" class="quote-section" aria-label="Quote intake" aria-hidden="true">
       <div class="quote-shell">
+        <button class="quote-close" type="button" aria-label="Close quote intake">×</button>
         <div class="quote-copy"><div class="eyebrow">Contact / Quote</div><h2>Send the job details before the callback.</h2><p>Photos, project type, timing, and access notes help the team review the job faster before calling back.</p><p><strong>Call:</strong> (806) 808-6742<br><strong>Email:</strong> shiftyhauling@yahoo.com</p></div>
-        <div class="assessment"><form id="jobForm">
+        <div class="assessment"><div class="assessment-progress" aria-label="Quote intake progress"><div class="progress-meta"><span id="progressText">Step 1 of 6</span><span id="progressPercent">17% complete</span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div><form id="jobForm">
           <div class="steps active" data-step="1">
             <h3 class="step-title">What type of job is this?</h3><p class="step-note">Choose the closest match for your project.</p>
             <div class="choice-grid">
@@ -206,13 +213,20 @@
       const phone='(806) 808-6742';
       const address='Amarillo, TX 79109';
       const steps=[...document.querySelectorAll('.steps')]; let current=0;
-      const form=document.getElementById('jobForm'), status=document.getElementById('assessmentStatus'), nextBtn=document.getElementById('next'), prevBtn=document.getElementById('prev');
+      const form=document.getElementById('jobForm'), status=document.getElementById('assessmentStatus'), nextBtn=document.getElementById('next'), prevBtn=document.getElementById('prev'), quoteModal=document.getElementById('quote'), quoteClose=document.querySelector('.quote-close'), progressFill=document.getElementById('progressFill'), progressText=document.getElementById('progressText'), progressPercent=document.getElementById('progressPercent');
       if(!form || !nextBtn || !prevBtn) return;
-      const show=()=>{steps.forEach((s,i)=>s.classList.toggle('active',i===current));prevBtn.style.visibility=current?'visible':'hidden';nextBtn.textContent=current===steps.length-1?'Submit Assessment':'Next'};
+      const setQuoteOpen=(open)=>{if(!quoteModal)return;quoteModal.classList.toggle('open',open);quoteModal.setAttribute('aria-hidden',open?'false':'true');document.body.classList.toggle('quote-modal-open',open);if(open){setTimeout(()=>{quoteModal.querySelector('input,select,textarea,button')?.focus()},80)}};
+      window.openQuoteIntake=()=>setQuoteOpen(true);
+      const show=()=>{steps.forEach((s,i)=>s.classList.toggle('active',i===current));prevBtn.style.visibility=current?'visible':'hidden';nextBtn.textContent=current===steps.length-1?'Submit Assessment':'Next';const pct=Math.round(((current+1)/steps.length)*100);if(progressFill)progressFill.style.width=pct+'%';if(progressText)progressText.textContent='Step '+(current+1)+' of '+steps.length;if(progressPercent)progressPercent.textContent=pct+'% complete'};
       const collectAssessment=async()=>{const fd=new FormData(form);const data=Object.fromEntries([...fd.entries()].filter(([k,v])=>!(v instanceof File)));data.company=company;data.city=city;data.clientPhone=phone;data.clientAddress=address;const toFilePayload=file=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve({name:file.name,type:file.type,size:file.size,base64:reader.result});reader.onerror=reject;reader.readAsDataURL(file)});const photoFiles=[...(form.querySelector('input[name="photos"]')?.files||[])].filter(f=>f.size<=4*1024*1024).slice(0,3);const videoFiles=[...(form.querySelector('input[name="video"]')?.files||[])].filter(f=>f.size<=8*1024*1024).slice(0,1);data.photoCount=photoFiles.length;data.videoAttached=videoFiles.length>0;data.photos=await Promise.all(photoFiles.map(toFilePayload));data.videos=await Promise.all(videoFiles.map(toFilePayload));return data};
       const submitAssessment=async()=>{if(!form.reportValidity())return;nextBtn.disabled=true;nextBtn.textContent='Sending...';status.style.display='block';status.style.background='#fff8ef';status.textContent='Sending your assessment and media to the team...';try{const res=await fetch('https://agent-lead-sites-onboarding.netlify.app/api/junk-removal-assessment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(await collectAssessment())});const data=await res.json();if(!res.ok)throw new Error(data.error||'Submission failed');const fileText=data.uploadedFiles?.length?` ${data.uploadedFiles.length} file link(s) were attached for review.`:'';status.style.background='#ecfdf5';status.textContent='Thanks — your job details were sent. The team will review your request and follow up prepared.'+fileText;form.querySelectorAll('input,select,textarea,button').forEach(el=>el.disabled=true)}catch(err){status.style.background='#fff1f2';status.textContent='We could not send this automatically. Please call the team directly.';console.error(err)}finally{nextBtn.disabled=false;if(current===steps.length-1)nextBtn.textContent='Submit Assessment'}};
       nextBtn.onclick=()=>{if(current<steps.length-1){current++;show()}else{submitAssessment()}};
       prevBtn.onclick=()=>{if(current>0){current--;show()}};
+      document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a');if(!a)return;const href=a.getAttribute('href')||'';const full=a.href||'';if(href==='#quote'||href==='/#quote'||full.endsWith('#quote')){e.preventDefault();setQuoteOpen(true)}},true);
+      quoteClose&&quoteClose.addEventListener('click',()=>setQuoteOpen(false));
+      quoteModal&&quoteModal.addEventListener('click',e=>{if(e.target===quoteModal)setQuoteOpen(false)});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&quoteModal&&quoteModal.classList.contains('open'))setQuoteOpen(false)});
+      if(location.hash==='#quote')setQuoteOpen(true);
       function updateBranch(){const checked=document.querySelector('input[name="service"]:checked');const v=checked?checked.value:'junk';document.querySelectorAll('.branch').forEach(b=>b.classList.remove('show'));const branch=document.querySelector('.branch-'+v); if(branch) branch.classList.add('show')}
       document.querySelectorAll('input[name="service"]').forEach(r=>r.onchange=updateBranch); updateBranch(); show();
     })();
