@@ -6,10 +6,12 @@ Known business facts:
 - Email: shiftyhauling@yahoo.com
 - Location: Amarillo, TX 79109
 - Hours: open 7 days a week, 8am-8pm
-- Service area: Amarillo, TX and surrounding areas. Do not promise distant cities unless confirmed by the business.
-- Services: junk removal, cleanouts, furniture removal, appliance removal, electronics removal, yard debris, commercial cleanouts, dumpster rentals, construction debris disposal, small demolition projects, shed removal, deck removal, interior demolition/tear-outs.
-- Pricing from the public site: one-item pickup starts at $60; multiple/bulk pickups start at $125; 13 yard dumpsters start at $199; 20 yard dumpsters start at $299. All listed prices include taxes and fees. Final pricing depends on volume, materials, access, timing, distance, and photos/details.
-- Positioning: fast, reliable, affordable, eco-friendly disposal when possible, experienced team, licensed and insured, locally owned and operated, flexible scheduling, same-day or next-day service when available.
+- Service area: Amarillo, TX and surrounding areas. Dumpster agreement names Amarillo/Bushland/Canyon as the no-mileage-fee area. Do not promise distant cities unless confirmed by the business.
+- Services: residential/commercial junk removal, home/garage/attic cleanouts, office furniture/equipment removal, bulk waste, furniture, appliances, electronics, clothing, yard waste, branches/leaves/grass clippings/dirt, construction debris including scrap materials/drywall/lumber, dumpster rentals, event dumpsters, renovation dumpsters, small demolition, sheds, detached garages, fences, decks, patios, walls, floors, cabinetry, fixtures, and interior tear-outs.
+- Pricing from the public site: one-item pickup starts at $60; multiple/bulk pickups start at $125; 13 yard dumpsters start at $199; 20 yard dumpsters start at $299. All listed prices include taxes and fees. Dumpster agreement also lists 13 yard at $250 per drop-off with 1.5 ton weight limit and 20 yard at $350 per drop-off with 2 ton weight limit, so pricing should be confirmed before quoting.
+- Dumpster terms from agreement: standard 7-day rental included; 24 hours advance notice needed for additional days; extra days are $10/day; overweight landfill fee is $60/ton; $1/mile fee outside Amarillo/Bushland/Canyon for each drop-off and pick-up; $75 dry run trip; $50 minimum relocation; $50 minimum for overloaded/incorrectly loaded/mixed debris; payment in full on drop-off; no cash payments; no refunds.
+- Dumpster restrictions: unacceptable items include appliances, asbestos, barrels, batteries, chemicals, lawnmowers, motors, oil, paint cans, propane tanks, tires, and hazardous waste. No concrete or dirt work. 20 yard containers cannot be used for roofing materials/jobs; only 13 yard containers are allowed for roofing.
+- Positioning: fast, reliable, affordable, eco-friendly disposal/recycling/donating when possible, experienced team, licensed and insured, locally owned and operated, flexible scheduling, same-day or next-day service when available.
 
 Response rules:
 - Answer the visitor's exact question first in 1 short sentence.
@@ -50,7 +52,11 @@ function fallbackReply(message) {
   if (!m) return 'Hey — what do you need help with: junk removal, dumpster rental, demolition, pricing, or scheduling?';
 
   if (has(m, /\b(katy|houston|dallas|fort worth|lubbock|austin|san antonio|outside amarillo|out of town)\b/)) {
-    return 'Shifty is based in Amarillo and serves Amarillo plus nearby areas. For Katy or other distant cities, call (806) 808-6742 so the team can confirm if they can help.';
+    return 'Shifty is based in Amarillo. Their dumpster agreement specifically names Amarillo, Bushland, and Canyon; for farther cities, call (806) 808-6742 to confirm availability.';
+  }
+
+  if (has(m, /\b(bushland|canyon)\b/)) {
+    return 'Yes — Shifty’s dumpster agreement includes Amarillo, Bushland, and Canyon as the standard service area. Call (806) 808-6742 to confirm timing for your address.';
   }
 
   if (has(m, /(how fast|how soon|when can|today|same day|next day|available|availability|come out|arrival|eta|get to me|schedule)/)) {
@@ -61,12 +67,24 @@ function fallbackReply(message) {
     return 'They serve Amarillo, TX and surrounding areas. If you are outside Amarillo, send your address or call (806) 808-6742 to confirm coverage.';
   }
 
+  if (has(m, /(not allowed|prohibited|hazard|paint|tire|tires|battery|batteries|chemical|oil|propane|concrete|dirt|roofing|appliance in dumpster)/)) {
+    return 'Some items are restricted: hazardous waste, paint, oil, propane tanks, tires, batteries, chemicals, asbestos, concrete, dirt, and more. Roofing requires a 13 yard container only.';
+  }
+
+  if (has(m, /(weight|overweight|ton|limit|extra day|7 day|seven day|rental period|how long|how many days|dry run|mileage|mile|cash|payment)/)) {
+    return 'Dumpster rentals include 7 days. The agreement lists 1.5 tons for 13 yard, 2 tons for 20 yard, $10/day extra, $60/ton overweight, and no cash payments.';
+  }
+
+  if (has(m, /(price|cost|how much|quote|estimate|rate|charge|fee)/) && has(m, /(dumpster|roll off|rolloff|container|13 yard|20 yard|13-yard|20-yard)/)) {
+    return 'Public site pricing says 13 yard dumpsters start at $199 and 20 yard dumpsters start at $299, but the rental agreement lists $250/$350. Call to confirm current pricing.';
+  }
+
   if (has(m, /(price|cost|how much|quote|estimate|rate|charge|fee)/)) {
-    return 'One-item pickups start at $60, bulk pickups start at $125, 13 yard dumpsters start at $199, and 20 yard dumpsters start at $299. Send photos/details for a more accurate quote.';
+    return 'Public pricing starts at $60 for one item, $125 for bulk pickups, $199 for 13 yard dumpsters, and $299 for 20 yard dumpsters. Final price should be confirmed.';
   }
 
   if (has(m, /(dumpster|roll off|rolloff|container|13 yard|20 yard|13-yard|20-yard)/)) {
-    return 'Yes — they offer 13 yard dumpsters starting at $199 and 20 yard dumpsters starting at $299. Share your project type and timeline so they can recommend the right size.';
+    return 'Yes — Shifty rents 13 yard and 20 yard dumpsters. Standard rental is 7 days; the agreement lists weight limits and extra fees, so call to confirm your exact price.';
   }
 
   if (has(m, /(demo|demolition|shed|deck|tear|tear-out|tear out|interior|structure|remove a wall)/)) {
