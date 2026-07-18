@@ -11,6 +11,9 @@
   <style>
     :root{--lime:#b7ff2a;--lime2:#8fe81b;--black:#070907;--charcoal:#111611;--ink:#f8fff1;--muted:#b8c6b4;--line:rgba(183,255,42,.22);--card:rgba(255,255,255,.07);--blue:#0d6efd}*{box-sizing:border-box}html,body{margin:0}body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 16% 4%,rgba(183,255,42,.18),transparent 31%),linear-gradient(135deg,#030403 0%,#0b0f0a 56%,#10180d 100%);min-height:100vh;line-height:1.5}.top{height:88px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 clamp(20px,7vw,90px);border-bottom:1px solid var(--line);background:rgba(0,0,0,.52);backdrop-filter:blur(16px)}.logo{height:58px;width:auto;max-width:280px;object-fit:contain}.top a{color:#dfffd2;text-decoration:none;font-weight:900;font-size:13px;border:1px solid rgba(183,255,42,.28);border-radius:999px;padding:10px 13px}.wrap{width:min(1060px,92vw);margin:0 auto;padding:54px 0 44px;display:grid;grid-template-columns:1.02fr .98fr;gap:28px;align-items:stretch}.hero,.panel{border:1px solid var(--line);border-radius:34px;background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.045));box-shadow:0 30px 90px rgba(0,0,0,.22)}.hero{padding:clamp(26px,4vw,46px);position:relative;overflow:hidden}.hero:after{content:'';position:absolute;right:-90px;top:-90px;width:230px;height:230px;border-radius:50%;background:rgba(183,255,42,.14)}.eyebrow{display:inline-flex;gap:8px;align-items:center;background:#000;color:#fff;border:1px solid rgba(183,255,42,.45);border-radius:999px;padding:9px 13px;font-weight:950;font-size:13px}.eyebrow b{color:var(--lime)}h1{font-size:clamp(38px,6vw,72px);line-height:.94;letter-spacing:-.065em;margin:18px 0 16px;position:relative;z-index:1}h1 span{color:var(--lime)}.sub{color:#d7e2d2;font-size:18px;max-width:640px;position:relative;z-index:1}.value{display:grid;gap:10px;margin:26px 0 0;padding:0;list-style:none;position:relative;z-index:1}.value li{padding:14px 15px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(183,255,42,.16);font-weight:850;color:#f4ffec}.panel{padding:28px;display:flex;flex-direction:column;justify-content:space-between}.price-card{background:#fff;color:#071007;border-radius:28px;padding:26px;box-shadow:0 24px 80px rgba(0,0,0,.24)}.label{font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:950;color:#4b5748}.amount{font-size:48px;letter-spacing:-.055em;font-weight:1000;margin:6px 0 4px}.small{color:#5f6b5b;font-weight:700}.btn{display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;border-radius:999px;padding:16px 18px;font-weight:1000;margin-top:20px}.pay{background:var(--lime);color:#071007;box-shadow:0 20px 44px rgba(183,255,42,.24)}.terms{color:#eaffdd;border:1px solid rgba(183,255,42,.26);background:rgba(255,255,255,.06)}.terms-note{margin-top:14px;color:#d6e1d1;font-size:13px;line-height:1.55}.terms-note a{color:var(--lime);font-weight:900}.summary{display:grid;gap:12px;margin-top:20px}.summary div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:10px;color:#dfe9db;font-weight:750}.summary b{color:#fff}.fine{margin-top:22px;color:#9fada0;font-size:13px}.fine strong{color:#fff}@media(max-width:860px){.top{height:auto;padding:16px 20px;align-items:flex-start}.logo{height:48px}.wrap{grid-template-columns:1fr;padding-top:28px}.amount{font-size:42px}}
   </style>
+  <style>
+    .pay.disabled{opacity:.48;filter:grayscale(.3);cursor:not-allowed;box-shadow:none}.terms-check{display:flex;gap:11px;align-items:flex-start;margin-top:18px;padding:14px;border:1px solid rgba(183,255,42,.24);border-radius:18px;background:rgba(255,255,255,.06);color:#f3ffe9;font-size:14px;font-weight:800;line-height:1.45}.terms-check input{width:20px;height:20px;margin-top:1px;accent-color:var(--lime);flex:0 0 auto}.terms-check a{color:var(--lime);font-weight:1000}
+  </style>
 </head>
 <body>
   <div class="top">
@@ -37,7 +40,7 @@
         <div class="label">Due today</div>
         <div class="amount">$250</div>
         <div class="small">Website build deposit</div>
-        <a class="btn pay" href="https://buy.stripe.com/dRm14m7oydVx5REdLQ1gs0f">Pay $250 Deposit</a>
+        <a class="btn pay disabled" id="depositPayLink" data-payment-url="https://buy.stripe.com/dRm14m7oydVx5REdLQ1gs0f" href="#" aria-disabled="true" tabindex="-1">Pay $250 Deposit</a>
       </div>
       <div>
         <div class="summary">
@@ -45,11 +48,27 @@
           <div><span>Ongoing monthly service</span><b>$200/mo</b></div>
           <div><span>First draft target</span><b>~48 hours</b></div>
         </div>
-        <p class="terms-note">By paying the deposit, the client agrees to the <a href="terms.html" target="_blank" rel="noopener">Agent Lead Sites Terms of Service</a>.</p>
+        <label class="terms-check"><input type="checkbox" id="termsAgree"> <span>I have read and agree to the <a href="terms.html" target="_blank" rel="noopener">Agent Lead Sites Terms of Service</a>.</span></label>
+        <p class="terms-note">The deposit payment link becomes active after the Terms of Service Agreement is accepted.</p>
         <a class="btn terms" href="terms.html" target="_blank" rel="noopener">Read Terms of Service</a>
         <p class="fine"><strong>Note:</strong> The $250 deposit begins the build. The remaining $500 is due at launch/completion. Monthly service is handled according to the terms or any written agreement.</p>
       </div>
     </aside>
   </main>
+  <script>
+    const termsAgree=document.getElementById('termsAgree');
+    const payLink=document.getElementById('depositPayLink');
+    const paymentUrl=payLink.dataset.paymentUrl;
+    function updatePaymentAccess(){
+      const active=termsAgree.checked;
+      payLink.classList.toggle('disabled',!active);
+      payLink.setAttribute('aria-disabled',String(!active));
+      payLink.tabIndex=active?0:-1;
+      payLink.href=active?paymentUrl:'#';
+    }
+    payLink.addEventListener('click',e=>{if(payLink.getAttribute('aria-disabled')==='true')e.preventDefault()});
+    termsAgree.addEventListener('change',updatePaymentAccess);
+    updatePaymentAccess();
+  </script>
 </body>
 </html>
