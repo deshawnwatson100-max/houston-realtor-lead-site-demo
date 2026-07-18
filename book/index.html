@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a Website Call — Agent Lead Sites</title>
+  <meta name="description" content="Book a website call with Agent Lead Sites to discuss a lead-focused website, preview, AI chat, onboarding, and local growth support." />
+  <style>
+    :root{--lime:#b7ff2a;--lime2:#8fe81b;--black:#050705;--ink:#f8fff1;--muted:#b9c8b3;--line:rgba(183,255,42,.22);--card:rgba(255,255,255,.075);--danger:#ff6b6b}*{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 4%,rgba(183,255,42,.18),transparent 30%),linear-gradient(135deg,#030403 0%,#0b0f0a 55%,#111a0d 100%);line-height:1.55}a{color:inherit;text-decoration:none}.wrap{max-width:1040px;margin:0 auto;padding:0 22px}.top{height:88px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:12px;font-weight:950;letter-spacing:-.04em}.brand img{width:54px;height:54px;border-radius:14px;object-fit:cover}.brand small{display:block;color:var(--muted);font-weight:800;font-size:11px;letter-spacing:.14em}.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:999px;font-weight:950;border:1px solid rgba(183,255,42,.34)}.btn.primary{background:linear-gradient(135deg,var(--lime),var(--lime2));color:#081008}.btn.ghost{background:rgba(255,255,255,.06)}.hero{padding:42px 0 28px;display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:start}.eyebrow{display:inline-flex;color:var(--lime);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.15em}.hero h1{font-size:clamp(42px,6vw,68px);line-height:.92;letter-spacing:-.075em;margin:16px 0}.hero p{color:var(--muted);font-size:18px}.panel,.form{border:1px solid var(--line);background:var(--card);border-radius:28px;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.28)}.panel ul{padding-left:20px;color:var(--muted)}.panel li{margin:10px 0}.form{background:rgba(255,255,255,.09)}label{display:block;font-size:13px;font-weight:950;color:var(--ink);margin:14px 0 7px}input,select,textarea{width:100%;border:1px solid rgba(183,255,42,.22);background:rgba(5,7,5,.74);color:var(--ink);border-radius:14px;padding:14px;font:inherit}textarea{min-height:110px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{color:var(--muted);font-size:14px}.status{display:none;margin-top:14px;padding:14px;border-radius:14px;background:rgba(183,255,42,.12);border:1px solid rgba(183,255,42,.25);color:var(--lime);font-weight:900}.footer{padding:28px 0 42px;color:var(--muted);font-size:14px}@media(max-width:850px){.hero,.grid{grid-template-columns:1fr}.top{height:auto;padding:18px 0;align-items:flex-start}.top .btn{display:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top"><a class="brand" href="/"><img src="/demos/agent-lead-sites-onboarding/assets/agent-lead-sites-logo-final.jpg" alt="Agent Lead Sites"><span>Agent Lead Sites<small>WE BUILD. WE OPTIMIZE. YOU GROW.</small></span></a><a class="btn ghost" href="/">Back to Home</a></header>
+    <main class="hero">
+      <section><span class="eyebrow">Book a website call</span><h1>Let’s see what your website should do next.</h1><p>Use this form when a business owner wants a website, preview, AI chat, lead capture, or ongoing growth support. We’ll review the details and follow up with the best next step.</p><div class="panel"><strong>Good fit for:</strong><ul><li>local service businesses that need more calls or quote requests</li><li>businesses with no website or an outdated website</li><li>owners who want a preview before committing</li><li>clients ready for onboarding, deposit, and launch</li></ul></div></section>
+      <form class="form" name="website-call-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/book/?submitted=true">
+        <input type="hidden" name="form-name" value="website-call-request">
+        <p style="display:none"><label>Don’t fill this out: <input name="bot-field"></label></p>
+        <div class="grid"><div><label>Business Name *</label><input name="businessName" required></div><div><label>Owner Name *</label><input name="ownerName" required></div></div>
+        <div class="grid"><div><label>Email *</label><input type="email" name="email" required></div><div><label>Phone *</label><input name="phone" required></div></div>
+        <div class="grid"><div><label>Current Website</label><input name="website" placeholder="https://"></div><div><label>Service Area</label><input name="serviceArea" placeholder="City / metro"></div></div>
+        <label>What do they need?</label><select name="need"><option>New website</option><option>Website redesign</option><option>Mobile preview/demo</option><option>AI chat + lead capture</option><option>Not sure yet</option></select>
+        <label>Notes</label><textarea name="notes" placeholder="Services, goals, pain points, timeline, or anything they mentioned."></textarea>
+        <button class="btn primary" type="submit" style="width:100%;margin-top:16px">Request Website Call</button>
+        <p class="note">This creates a website-call request. Calendar automation can be connected later if needed.</p>
+        <div class="status" id="status">Request received. We’ll follow up with the next step.</div>
+      </form>
+    </main>
+    <footer class="footer">Agent Lead Sites — websites, previews, intake systems, AI chat, and growth support for local service businesses.</footer>
+  </div>
+  <script>if(new URLSearchParams(location.search).get('submitted')==='true'){document.getElementById('status').style.display='block'}</script>
+</body>
+</html>

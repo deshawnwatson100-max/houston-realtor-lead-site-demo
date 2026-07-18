@@ -48,6 +48,11 @@
   status = 200
 
 [[redirects]]
+  from = "/book"
+  to = "/book/index.html"
+  status = 200
+
+[[redirects]]
   from = "/pay/shifty-domain"
   to = "https://invoice.stripe.com/i/acct_1Ts5aXCOYmprLe15/live_YWNjdF8xVHM1YVhDT1ltcHJMZTE1LF9VdVBraWlyVU1TVTVQN3R6NGM2QldWSFpqTkxTOHp3LDE3NDkzMjIzMw0200gM3brwJM?s=ap"
   status = 302
