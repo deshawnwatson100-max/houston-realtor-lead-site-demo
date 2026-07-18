@@ -28,8 +28,8 @@
         <li>✅ Click-to-call and text make contacting you easy</li>
       </ul>
       <div class="actions">
-        <a class="btn chat" id="exploreWebsite" href="../junk-removal-reusable-preview/" target="_blank">Explore Website</a>
-        <a class="btn voice" id="tryWebsiteChat" href="../junk-removal-reusable-preview/" target="_blank">Try Website Chat</a><a class="btn outline" href="strategy-demo-walkthrough.html" target="_blank">Website Walkthrough</a>
+        <a class="btn chat" id="exploreWebsite" href="/demos/junk-removal-reusable-preview/" target="_blank">Explore Website</a>
+        <a class="btn voice" id="tryWebsiteChat" href="/demos/junk-removal-reusable-preview/" target="_blank">Try Website Chat</a><a class="btn outline" href="/demos/agent-lead-sites-onboarding/strategy-demo-walkthrough.html" target="_blank">Website Walkthrough</a>
       </div>
       <p class="fineprint">Customized to your business, branding, services, and service area.</p>
     </section>
@@ -40,12 +40,12 @@
         <div class="screen">
           <div class="phone-status"><span>1:56</span><span>▰▰ 5G ◖</span></div>
           <div class="site-preview">
-            <iframe class="site-frame" id="previewFrame" title="Live preview site inside phone" src="../junk-removal-reusable-preview/index.html?embeddedPhone=1"></iframe>
+            <iframe class="site-frame" id="previewFrame" title="Live preview site inside phone" src="/demos/junk-removal-reusable-preview/index.html?embeddedPhone=1"></iframe>
             <div class="frame-shade"></div>
             <div class="phone-preview-footer" aria-label="Phone preview actions">
               <a data-phone-link href="tel:0000000000"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 19 19.5 19.5 0 0 1 5 12.8 19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6.1 6.1l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Call</a>
               <a data-text-link href="sms:0000000000"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></span>Text</a>
-              <a href="../junk-removal-reusable-preview/index.html#quote" target="_blank"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>Quote</a>
+              <a href="/demos/junk-removal-reusable-preview/index.html#quote" target="_blank"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>Quote</a>
             </div>
           </div>
           </div>
@@ -69,7 +69,7 @@
     const previewFrame=document.getElementById('previewFrame');
     if(previewFrame){
       const city=clean(params.get('city'))||'Service Area';
-      previewFrame.src='../junk-removal-reusable-preview/index.html?embeddedPhone=1&name='+encodeURIComponent(company)+'&phone='+encodeURIComponent(phone)+'&city='+encodeURIComponent(city);
+      previewFrame.src='/demos/junk-removal-reusable-preview/index.html?embeddedPhone=1&name='+encodeURIComponent(company)+'&phone='+encodeURIComponent(phone)+'&city='+encodeURIComponent(city);
     }
   </script>
 </body>
