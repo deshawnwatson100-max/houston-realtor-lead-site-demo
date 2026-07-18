@@ -26,3 +26,28 @@
   from = "/api/stripe-webhook"
   to = "/.netlify/functions/stripe-webhook"
   status = 200
+
+[[redirects]]
+  from = "/onboarding"
+  to = "/demos/agent-lead-sites-onboarding/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/deposit"
+  to = "/demos/agent-lead-sites-onboarding/deposit.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/demos/agent-lead-sites-onboarding/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/demo"
+  to = "/demos/agent-lead-sites-onboarding/demo-drop-system.html"
+  status = 200
+
+[[redirects]]
+  from = "/pay/shifty-domain"
+  to = "https://invoice.stripe.com/i/acct_1Ts5aXCOYmprLe15/live_YWNjdF8xVHM1YVhDT1ltcHJMZTE1LF9VdVBraWlyVU1TVTVQN3R6NGM2QldWSFpqTkxTOHp3LDE3NDkzMjIzMw0200gM3brwJM?s=ap"
+  status = 302
