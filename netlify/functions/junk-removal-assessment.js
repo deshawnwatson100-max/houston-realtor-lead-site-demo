@@ -11,6 +11,15 @@ function splitName(full = '') {
   return { firstName: parts[0] || '', lastName: parts.slice(1).join(' ') || '' };
 }
 
+function normalizePhone(value = '') {
+  const raw = String(value || '').trim();
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return raw.startsWith('+') ? raw : `+${digits}`;
+}
+
 async function upsertJunkLead(payload) {
   const name = payload.customerName || payload.name || 'New Junk Removal Lead';
   const parts = splitName(name);
@@ -121,6 +130,47 @@ function buildAssessmentNote(payload, uploadedFiles = []) {
   return ['New junk-removal website assessment submitted.', '', ...order.map(([k, v]) => `${k}: ${compact(v) || '—'}`)].join('\n');
 }
 
+function buildOwnerSms(payload, uploadedFiles = []) {
+  const files = uploadedFiles.length ? `\nFiles: ${uploadedFiles.map(f => f.url).filter(Boolean).join(', ')}` : '';
+  return [
+    `New Shifty website quote request`,
+    `Name: ${compact(payload.customerName) || '—'}`,
+    `Phone: ${compact(payload.customerPhone) || '—'}`,
+    `Service: ${compact(payload.service) || '—'}`,
+    `Address: ${compact(payload.address) || '—'}`,
+    `Volume: ${compact(payload.volume) || '—'}`,
+    `Date: ${compact(payload.preferredDate) || '—'}`,
+    `Notes: ${compact(payload.additionalNotes || payload.specificItems || payload.demoNotes) || '—'}${files}`
+  ].join('\n').slice(0, 1500);
+}
+
+async function sendOwnerSms(payload, uploadedFiles = []) {
+  const to = normalizePhone(process.env.JUNK_ASSESSMENT_SMS_TO || process.env.SHIFTY_INTAKE_SMS_TO || '');
+  if (!to) return { skipped: true, reason: 'No SMS recipient configured' };
+  const contactPayload = {
+    locationId: DEFAULTS.locationId,
+    name: process.env.JUNK_ASSESSMENT_SMS_NAME || 'Shifty Intake SMS Recipient',
+    firstName: process.env.JUNK_ASSESSMENT_SMS_FIRST_NAME || 'Shifty',
+    lastName: process.env.JUNK_ASSESSMENT_SMS_LAST_NAME || 'Intake Recipient',
+    phone: to,
+    source: 'Shifty Intake SMS Notification Recipient',
+    tags: ['shifty-intake-sms-recipient', 'agent-lead-sites']
+  };
+  const recipient = await ghl('/contacts/upsert', { method: 'POST', body: contactPayload });
+  const contact = recipient.contact || recipient;
+  const contactId = contact.id || contact.contactId;
+  if (!contactId) throw new Error('SMS recipient contact was not created');
+  const message = buildOwnerSms(payload, uploadedFiles);
+  return ghl('/conversations/messages', {
+    method: 'POST',
+    body: {
+      type: 'SMS',
+      contactId,
+      message
+    }
+  });
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: cors(), body: '' };
   if (event.httpMethod !== 'POST') return response(405, { error: 'Method not allowed' });
@@ -133,10 +183,11 @@ exports.handler = async (event) => {
     const contactId = contact.id || contact.contactId;
     const uploadedFiles = await uploadAssessmentFiles(payload);
     const note = buildAssessmentNote(payload, uploadedFiles);
-    const [noteResult, taskResult, oppResult] = await Promise.all([
+    const [noteResult, taskResult, oppResult, smsResult] = await Promise.all([
       addContactNote(contactId, note),
       addContactTask(contactId, `Review junk removal quote request — ${payload.customerName}`, `Call/text ${payload.customerName} at ${payload.customerPhone}. Service: ${payload.service || 'junk removal'}. Address: ${payload.address || 'not provided'}.`),
-      createJunkOpportunity(contactId, payload)
+      createJunkOpportunity(contactId, payload),
+      sendOwnerSms(payload, uploadedFiles).catch(err => ({ skipped: true, reason: err.message }))
     ]);
     return response(200, {
       ok: true,
@@ -144,6 +195,7 @@ exports.handler = async (event) => {
       opportunityId: oppResult?.opportunity?.id || oppResult?.id || '',
       taskId: taskResult?.task?.id || taskResult?.id || '',
       noteCreated: !noteResult?.skipped,
+      smsNotification: smsResult?.skipped ? { sent: false, reason: smsResult.reason } : { sent: true, id: smsResult?.messageId || smsResult?.id || '' },
       uploadedFiles,
       ownerAppReady: true
     });
