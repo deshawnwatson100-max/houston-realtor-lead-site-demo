@@ -66,7 +66,7 @@ exports.handler = async function handler(event) {
       );
       place = search?.places?.[0];
       placeId = place?.id;
-      if (!placeId) throw firstErr;
+      if (!placeId) throw new Error('Shifty listing is not returned by Google Places API search yet. Enable Places API Legacy or configure SHIFTY_GOOGLE_PLACE_ID from Google Business Profile API.');
       place = await placesRequest(
         `https://places.googleapis.com/v1/places/${placeId}`,
         'id,displayName,formattedAddress,rating,userRatingCount,googleMapsUri,reviews'
