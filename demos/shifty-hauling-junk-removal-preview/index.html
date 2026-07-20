@@ -184,9 +184,9 @@
       <div class="cards"><div class="card"><h3>Fast & reliable</h3><p>On-time service for quick cleanups and larger projects.</p></div><div class="card"><h3>Upfront pricing</h3><p>Clear quotes with upfront pricing and any additional taxes or fees explained before the job.</p></div><div class="card"><h3>Eco-friendly disposal</h3><p>Items are recycled or donated whenever possible.</p></div><div class="card"><h3>Experienced team</h3><p>Prepared for junk removal, dumpsters, and small demolition jobs.</p></div><div class="card"><h3>Licensed & insured</h3><p>Work is handled safely with care for your property.</p></div><div class="card"><h3>Local Amarillo crew</h3><p>Serving Amarillo and surrounding areas with flexible scheduling.</p></div></div>
     </section>
 
-    <section class="section dark">
-      <div class="section-head"><div><div class="eyebrow">Reviews</div><h2>What clients say.</h2><a class="google-rating-card" href="https://maps.app.goo.gl/K1aGKt52n8KT6Dc7A?g_st=ic" target="_blank" rel="noopener"><span class="g-stars">★★★★★</span><strong>5.0 Google rating</strong></a></div><p class="section-sub">Real customer proof from Shifty’s Google listing and current site reviews.</p></div>
-      <div class="reviews"><div class="review"><div class="review-stars">★★★★★</div><p>“Always prompt and priced fairly. Couldn’t recommend them more.”</p><strong>Justin W.</strong></div><div class="review"><div class="review-stars">★★★★★</div><p>“Absolutely the best. Every time they have left the site clean.”</p><strong>Vickie D.</strong></div><div class="review"><div class="review-stars">★★★★★</div><p>“They get out there fast, get it done, and at a reasonable price.”</p><strong>Cody W.</strong></div><div class="review"><div class="review-stars">★★★★★</div><p>“Always nice and honest with their pricing. Always on time.”</p><strong>Baylie G.</strong></div></div>
+    <section class="section dark" id="reviews">
+      <div class="section-head"><div><div class="eyebrow">Reviews</div><h2>What clients say.</h2><a id="googleRatingCard" class="google-rating-card" href="https://www.google.com/maps/search/?api=1&query=Shifty%20Hauling%20and%20Junk%20Removal%2C%20LLC%20Amarillo%2C%20TX" target="_blank" rel="noopener"><span class="g-stars">★★★★★</span><strong id="googleRatingText">Google reviews loading…</strong></a></div><p class="section-sub" id="googleReviewSub">Real customer proof pulled from Shifty’s Google listing.</p></div>
+      <div class="reviews" id="googleReviews"><div class="review"><div class="review-stars">★★★★★</div><p>Loading Shifty’s Google reviews…</p><strong>Google Reviews</strong></div></div>
     </section>
 
 
@@ -309,6 +309,38 @@
         btn.addEventListener('click',()=>{const open=!nav.classList.contains('menu-open');nav.classList.toggle('menu-open',open);btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'×':'☰'});
         document.addEventListener('click',e=>{if(nav.classList.contains('menu-open')&&!nav.contains(e.target)){nav.classList.remove('menu-open');btn.setAttribute('aria-expanded','false');btn.textContent='☰'}});
       });
+    })();
+  </script>
+  <script>
+    (() => {
+      const reviewsEl = document.getElementById('googleReviews');
+      const ratingText = document.getElementById('googleRatingText');
+      const ratingCard = document.getElementById('googleRatingCard');
+      const sub = document.getElementById('googleReviewSub');
+      if (!reviewsEl || !ratingText) return;
+      const esc = value => String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+      const stars = rating => '★★★★★'.slice(0, Math.max(1, Math.round(Number(rating) || 5)));
+      fetch('/.netlify/functions/shifty-google-reviews')
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.ok) throw new Error(data?.error || 'Google reviews unavailable');
+          if (data.googleMapsUri) ratingCard.href = data.googleMapsUri;
+          const rating = data.rating ? Number(data.rating).toFixed(1) : '5.0';
+          const count = data.reviewCount ? ` · ${data.reviewCount} Google reviews` : '';
+          ratingText.textContent = `${rating} Google rating${count}`;
+          sub.textContent = 'Real customer proof pulled from Shifty’s Google listing.';
+          const reviews = (data.reviews || []).filter(review => review.text).slice(0, 4);
+          if (!reviews.length) {
+            reviewsEl.innerHTML = '<div class="review"><div class="review-stars">★★★★★</div><p>Google review feed is connected. Reviews will appear here as soon as Google returns public review text for this listing.</p><strong>Google Reviews</strong></div>';
+            return;
+          }
+          reviewsEl.innerHTML = reviews.map(review => `<div class="review"><div class="review-stars">${stars(review.rating)}</div><p>“${esc(review.text)}”</p><strong>${esc(review.author)}</strong></div>`).join('');
+        })
+        .catch(() => {
+          ratingText.textContent = 'Google reviews connected soon';
+          sub.textContent = 'Google review feed is being connected securely. Check back shortly for live Google review data.';
+          reviewsEl.innerHTML = '<div class="review"><div class="review-stars">★★★★★</div><p>Google review feed is being connected securely through Shifty’s verified Google listing.</p><strong>Google Reviews</strong></div>';
+        });
     })();
   </script>
 </body>
