@@ -375,11 +375,16 @@ const params=new URLSearchParams(window.location.search);
             if(isVoice){
               style.textContent=':host{display:block!important;position:relative!important;width:100%!important;height:100%!important}#lc_text-widget{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;min-height:402px!important;max-height:none!important;display:block!important;z-index:1!important}#lc_text-widget--btn,[class*="prompt"],.lc_text-widget_heading_close--btn{display:none!important}#lc_text-widget--box{position:relative!important;width:100%!important;max-width:390px!important;height:402px!important;max-height:402px!important;margin:0 auto!important;box-shadow:none!important;border:1px solid rgba(15,23,42,.1)!important;border-radius:24px!important;overflow:hidden!important}.lc_text-widget--agency-branding{display:none!important}@media(max-width:640px){#lc_text-widget{min-height:375px!important}#lc_text-widget--box{height:375px!important;max-height:375px!important;max-width:100%!important}}';
             }else if(host.widgetId===MESSAGE_WIDGET_ID){
-              style.textContent='#lc_text-widget,#lc_text-widget--btn{right:22px!important;bottom:24px!important;top:auto!important;left:auto!important;z-index:999999999!important}[class*="prompt"]{display:none!important}@media(max-width:640px){#lc_text-widget,#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important}#lc_text-widget.lc_text-widget--active{top:82px!important;bottom:84px!important;left:14px!important;right:14px!important;width:calc(100vw - 28px)!important;height:calc(100dvh - 166px)!important;max-height:680px!important}#lc_text-widget.lc_text-widget--active #lc_text-widget--btn{display:none!important}.header-circular-image-container{display:none!important}.switchview-container{display:none!important}#lc_text-widget--box.active{width:100%!important;height:auto!important;min-height:228px!important;max-height:260px!important}.lc_text-widget--formContainer{min-height:150px!important;height:auto!important}.lc_text-widget--agency-branding{display:none!important}.lc_text-widget_heading_close--btn{display:block!important;visibility:visible!important;opacity:1!important}}';
+              style.textContent='#lc_text-widget,#lc_text-widget--btn{right:22px!important;bottom:24px!important;top:auto!important;left:auto!important;z-index:999999999!important}[class*="prompt"]{display:none!important}@media(max-width:640px){#lc_text-widget,#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important}#lc_text-widget.lc_text-widget--active{top:82px!important;bottom:auto!important;left:14px!important;right:14px!important;width:calc(100vw - 28px)!important;height:auto!important;min-height:188px!important;max-height:220px!important}#lc_text-widget.lc_text-widget--active #lc_text-widget--btn{display:none!important}.header-circular-image-container{display:none!important}.switchview-container{display:none!important}#lc_text-widget--box.active{width:100%!important;height:auto!important;min-height:188px!important;max-height:220px!important}.lc_text-widget--formContainer{min-height:110px!important;height:auto!important}.lc_text-widget--agency-branding{display:none!important}.lc_text-widget_heading_close--btn{display:block!important;visibility:visible!important;opacity:1!important}}';
             }
             host.shadowRoot.appendChild(style);
           }
           if(host.widgetId===MESSAGE_WIDGET_ID){
+            var prompt=document.getElementById('alsChatPrompt');
+            if(prompt){
+              if(host.active)prompt.classList.add('is-hidden');
+              else if(prompt.dataset.dismissed!=='true')prompt.classList.remove('is-hidden');
+            }
             var heading=host.shadowRoot.querySelector('.lc_text-widget_heading--content');
             var sub=host.shadowRoot.querySelector('.lc_text-widget_sub-heading--root');
             if(heading)heading.textContent='Hi, I’m the AI assistant.';
@@ -404,7 +409,7 @@ const params=new URLSearchParams(window.location.search);
         prompt.dataset.bound='true';
         prompt.addEventListener('click',function(){openMessageWidget()});
         prompt.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openMessageWidget()}});
-        if(close)close.addEventListener('click',function(e){e.stopPropagation();prompt.classList.add('is-hidden')});
+        if(close)close.addEventListener('click',function(e){e.stopPropagation();prompt.dataset.dismissed='true';prompt.classList.add('is-hidden')});
       }
       if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){wirePrompt();placeGhlWidgets()});else{wirePrompt();placeGhlWidgets()}
       window.addEventListener('load',function(){wirePrompt();placeGhlWidgets();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
