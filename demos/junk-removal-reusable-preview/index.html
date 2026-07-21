@@ -128,7 +128,7 @@
     /* GHL widgets: embedded voice section + floating message widget */
     .ai-voice-section{padding-top:42px;padding-bottom:42px;background:linear-gradient(135deg,#f8fbff,#eef5ff)}
     .ai-voice-shell{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,440px);gap:36px;align-items:center}
-    .ai-voice-copy h2{font-size:clamp(32px,4vw,54px);line-height:.98;margin:10px 0 14px;color:var(--navy);letter-spacing:-.05em}.ai-voice-copy p{font-size:18px;color:#475569;line-height:1.6;max-width:560px}.ai-voice-points{display:grid;gap:10px;margin-top:22px}.ai-voice-points div{display:flex;gap:10px;align-items:flex-start;font-weight:900;color:#0f172a}.ai-voice-points span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#111;flex:0 0 auto}.ai-voice-widget-card{position:relative;min-height:690px;border-radius:28px;background:#fff;border:1px solid rgba(15,23,42,.1);box-shadow:0 28px 70px rgba(15,23,42,.14);padding:18px;overflow:hidden}.ai-voice-start-card{position:absolute;inset:18px;z-index:3;border-radius:24px;background:radial-gradient(circle at 50% 12%,rgba(43,148,222,.18),transparent 34%),linear-gradient(180deg,#fff,#f6fbff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px}.ai-voice-widget-card.voice-started .ai-voice-start-card{display:none}.ai-voice-orb{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),#1455ff);color:#fff;font-weight:1000;font-size:34px;box-shadow:0 20px 45px rgba(43,148,222,.35);margin-bottom:22px}.ai-voice-start-card h3{font-size:28px;margin:0 0 10px;color:var(--navy);letter-spacing:-.04em}.ai-voice-start-card p{font-size:16px;line-height:1.55;color:#64748b;margin:0 0 22px;max-width:320px}.ai-voice-widget-card chat-widget{display:block!important;position:relative!important;width:100%!important;height:100%!important;pointer-events:none!important}.ai-voice-widget-card.voice-started chat-widget{pointer-events:auto!important}
+    .ai-voice-copy h2{font-size:clamp(32px,4vw,54px);line-height:.98;margin:10px 0 14px;color:var(--navy);letter-spacing:-.05em}.ai-voice-copy p{font-size:18px;color:#475569;line-height:1.6;max-width:560px}.ai-voice-points{display:grid;gap:10px;margin-top:22px}.ai-voice-points div{display:flex;gap:10px;align-items:flex-start;font-weight:900;color:#0f172a}.ai-voice-points span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#111;flex:0 0 auto}.ai-voice-widget-card{position:relative;min-height:690px;border-radius:28px;background:#fff;border:1px solid rgba(15,23,42,.1);box-shadow:0 28px 70px rgba(15,23,42,.14);padding:18px;overflow:hidden}.ai-voice-widget-card chat-widget{display:block!important;position:relative!important;width:100%!important;height:100%!important}
     chat-widget,
     iframe[src*="leadconnector"],
     iframe[src*="leadconnectorhq"],
@@ -171,12 +171,6 @@
           <div class="ai-voice-points"><div><span>✓</span>Get answers fast</div><div><span>✓</span>Ask by voice</div><div><span>✓</span>Start your quote when you’re ready</div></div>
         </div>
         <div class="ai-voice-widget-card" id="ghlVoiceWidgetMount" aria-label="Talk with the AI receptionist">
-          <div class="ai-voice-start-card" id="ghlVoiceStartCard">
-            <div class="ai-voice-orb">AI</div>
-            <h3>Need a fast answer?</h3>
-            <p>Tap below and ask your question out loud.</p>
-            <button type="button" class="btn yellow" id="startGhlVoice">Start Voice Chat</button>
-          </div>
           <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a5fb4276e5637c729afc89e"></script>
         </div>
       </div>
@@ -378,18 +372,6 @@ const params=new URLSearchParams(window.location.search);
               style.textContent='#lc_text-widget,#lc_text-widget--btn{right:22px!important;bottom:24px!important;top:auto!important;left:auto!important;z-index:999999999!important}@media(max-width:640px){#lc_text-widget,#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important}}';
             }
             host.shadowRoot.appendChild(style);
-          }
-          if(isVoice&&!host.shadowRoot.querySelector('#lc_text-widget--box')){
-            var start=document.getElementById('startGhlVoice');
-            if(start&&!start.dataset.ghlVoiceBound){
-              start.dataset.ghlVoiceBound='true';
-              start.addEventListener('click',function(){
-                var voiceHost=[].slice.call(document.querySelectorAll('chat-widget')).find(function(w){return w.widgetId===VOICE_WIDGET_ID||w.chatType==='voiceAiChat'});
-                var btn=voiceHost&&voiceHost.shadowRoot&&voiceHost.shadowRoot.querySelector('#lc_text-widget--btn');
-                document.getElementById('ghlVoiceWidgetMount')?.classList.add('voice-started');
-                if(btn&&!voiceHost.active)btn.click();
-              });
-            }
           }
         });
       }
