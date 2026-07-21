@@ -130,6 +130,12 @@
     @media(max-width:640px){.shifty-ai-chat-trigger{right:14px;bottom:84px;height:44px;min-width:112px;padding:0 14px;font-size:14px}.shifty-ai-chat-trigger svg{width:20px;height:20px}.shifty-ai-panel{left:12px;right:12px;top:58px;bottom:76px;width:auto;height:auto;max-height:none;border-radius:22px}.shifty-ai-menu{left:12px;right:12px;bottom:138px;width:auto}.shifty-ai-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.34);backdrop-filter:blur(4px);z-index:999999997}.shifty-ai-open .shifty-ai-backdrop{display:block}.shifty-ai-keyboard .shifty-ai-panel{top:var(--shifty-ai-kb-top,58px);height:var(--shifty-ai-kb-height,420px);bottom:auto}.shifty-ai-open .mobile-sticky-footer{filter:blur(2px)}}
   </style>
 
+  <style>
+    /* Mobile AI panel overlap fix only */
+    body.shifty-ai-open .shifty-ai-chat-trigger{display:none!important;pointer-events:none!important}
+    @media(max-width:640px){.shifty-ai-form.voice-ready{grid-template-columns:minmax(0,1fr) auto!important}.shifty-ai-form.voice-ready button[type="submit"]{display:none!important}.shifty-ai-voice-btn{min-width:82px!important}.shifty-ai-form input{font-size:16px!important}}
+  </style>
+
 </head>
 <body>
   <nav class="nav">
