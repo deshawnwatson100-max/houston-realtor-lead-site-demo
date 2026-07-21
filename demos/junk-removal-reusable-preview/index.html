@@ -136,8 +136,7 @@
     [class*="chat-widget" i],
     [id*="lc_text-widget" i],
     [class*="lc_text-widget" i]{z-index:999999999!important}
-    .als-chat-prompt{position:fixed;right:18px;bottom:96px;z-index:999999998;width:min(310px,calc(100vw - 34px));display:flex;align-items:center;gap:12px;padding:14px 42px 14px 14px;background:#fff;border-radius:10px;box-shadow:0 10px 32px rgba(15,23,42,.22);border:1px solid rgba(15,23,42,.08);cursor:pointer;color:#475569;font-size:15px;line-height:1.35}.als-chat-prompt::after{content:"";position:absolute;right:20px;bottom:-10px;border-width:10px 10px 0 10px;border-style:solid;border-color:#fff transparent transparent transparent}.als-chat-avatar{width:40px;height:40px;border-radius:999px;overflow:hidden;flex:0 0 auto;background:#e2e8f0}.als-chat-avatar img{width:100%;height:100%;object-fit:cover;display:block}.als-chat-prompt strong{display:block;color:#475569;font-size:16px;font-weight:700}.als-chat-prompt span{display:block;color:#475569}.als-chat-close{position:absolute;right:10px;top:10px;border:0;background:transparent;color:#334155;font-size:22px;line-height:1;cursor:pointer;padding:0 2px}.als-chat-prompt.is-hidden{display:none!important}
-    @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 16px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-copy p{font-size:16px}.als-chat-prompt{right:12px;bottom:152px;width:min(304px,calc(100vw - 24px));padding:14px 40px 14px 14px}}
+    @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 16px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-copy p{font-size:16px}}
   </style>
 
 </head>
@@ -348,77 +347,33 @@ const params=new URLSearchParams(window.location.search);
     }
   </script>
 
-  <div class="als-chat-prompt" id="alsChatPrompt" role="button" tabindex="0" aria-label="Open chat">
-    <div class="als-chat-avatar"><img src="https://widgets.leadconnectorhq.com/chat-widget/assets/defaultAvatar.png" alt=""></div>
-    <div><strong>Hi, I’m the AI assistant.</strong><span>What can I help you with?</span></div>
-    <button class="als-chat-close" id="alsChatPromptClose" type="button" aria-label="Close chat prompt">×</button>
-  </div>
-
   <script
     src="https://widgets.leadconnectorhq.com/loader.js"
     data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
-    data-widget-id="6a5679f90ae6fc5167688516"
-    data-source="WEB_USER">
+    data-widget-id="6a5fe241c6e06ac8e8227ce7">
   </script>
   <script>
     (function(){
       var VOICE_WIDGET_ID='6a5fb4276e5637c729afc89e';
-      var MESSAGE_WIDGET_ID='6a5679f90ae6fc5167688516';
+      var MESSAGE_WIDGET_ID='6a5fe241c6e06ac8e8227ce7';
       function placeGhlWidgets(){
         document.querySelectorAll('chat-widget').forEach(function(host){
           if(!host||!host.shadowRoot)return;
           var isVoice=host.widgetId===VOICE_WIDGET_ID||host.chatType==='voiceAiChat';
           var marker=isVoice?'#als-ghl-voice-embed':'#als-ghl-floating-message';
-          if(!host.shadowRoot.querySelector(marker)){
-            var style=document.createElement('style');
-            style.id=isVoice?'als-ghl-voice-embed':'als-ghl-floating-message';
-            if(isVoice){
-              style.textContent=':host{display:block!important;position:relative!important;width:100%!important;height:100%!important}#lc_text-widget{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;min-height:402px!important;max-height:none!important;display:block!important;z-index:1!important}#lc_text-widget--btn,[class*="prompt"],.lc_text-widget_heading_close--btn{display:none!important}#lc_text-widget--box{position:relative!important;width:100%!important;max-width:390px!important;height:402px!important;max-height:402px!important;margin:0 auto!important;box-shadow:none!important;border:1px solid rgba(15,23,42,.1)!important;border-radius:24px!important;overflow:hidden!important}.lc_text-widget--agency-branding{display:none!important}@media(max-width:640px){#lc_text-widget{min-height:375px!important}#lc_text-widget--box{height:375px!important;max-height:375px!important;max-width:100%!important}}';
-            }else if(host.widgetId===MESSAGE_WIDGET_ID){
-              style.textContent='#lc_text-widget,#lc_text-widget--btn{right:22px!important;bottom:24px!important;top:auto!important;left:auto!important;z-index:999999999!important}[class*="prompt"]{display:none!important}@media(max-width:640px){#lc_text-widget,#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important}#lc_text-widget.lc_text-widget--active{top:96px!important;bottom:112px!important;left:14px!important;right:14px!important;width:calc(100vw - 28px)!important;height:calc(100dvh - 208px)!important;max-height:475px!important}#lc_text-widget.lc_text-widget--active #lc_text-widget--btn{display:none!important}.header-circular-image-container{display:none!important}#lc_text-widget--box.active{width:100%!important;height:100%!important;max-height:100%!important}.lc_text-widget--formContainer{position:relative!important;height:calc(100% - 52px)!important;min-height:0!important}.switchview-container{display:block!important;position:absolute!important;left:16px!important;right:16px!important;bottom:16px!important;width:auto!important;max-width:none!important;margin:0!important}.lc_text-widget--text-input:has(#msgsndr_1),.lc_text-widget--text-input:has(#msgsndr_2),.lc_text-widget--text-input:has(#msgsndr_5),.lc_legal-text-wrapper{display:none!important}.lc_text-widget--form{height:auto!important;min-height:0!important;margin:0!important;width:100%!important}#msgsndr_message-form{position:relative!important;z-index:1!important;height:44px!important;min-height:44px!important;width:calc(100% - 72px)!important;margin:0!important}#msgsndr_message-form>input{display:none!important}#msgsndr_4{height:44px!important;min-height:44px!important;max-height:44px!important;border-radius:22px!important;padding:11px 14px!important;resize:none!important;overflow:hidden!important}.lc_send_button--container{position:absolute!important;right:0!important;bottom:0!important;width:64px!important;height:44px!important;margin:0!important;z-index:5!important}.lc_send_button--container #lc_text-widget--send-btn{width:64px!important;min-width:64px!important;max-width:64px!important;height:44px!important;border-radius:22px!important;margin:0!important;padding:0!important}.lc_text-widget--agency-branding{display:none!important}.lc_text-widget_heading_close--btn{display:block!important;visibility:visible!important;opacity:1!important}}';
-            }
-            host.shadowRoot.appendChild(style);
+          if(host.shadowRoot.querySelector(marker))return;
+          var style=document.createElement('style');
+          style.id=isVoice?'als-ghl-voice-embed':'als-ghl-floating-message';
+          if(isVoice){
+            style.textContent=':host{display:block!important;position:relative!important;width:100%!important;height:100%!important}#lc_text-widget{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;min-height:402px!important;max-height:none!important;display:block!important;z-index:1!important}#lc_text-widget--btn,[class*="prompt"],.lc_text-widget_heading_close--btn{display:none!important}#lc_text-widget--box{position:relative!important;width:100%!important;max-width:390px!important;height:402px!important;max-height:402px!important;margin:0 auto!important;box-shadow:none!important;border:1px solid rgba(15,23,42,.1)!important;border-radius:24px!important;overflow:hidden!important}.lc_text-widget--agency-branding{display:none!important}@media(max-width:640px){#lc_text-widget{min-height:375px!important}#lc_text-widget--box{height:375px!important;max-height:375px!important;max-width:100%!important}}';
+          }else if(host.widgetId===MESSAGE_WIDGET_ID){
+            style.textContent='#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important;z-index:999999999!important}@media(min-width:641px){#lc_text-widget--btn{right:22px!important;bottom:24px!important}}';
           }
-          if(host.widgetId===MESSAGE_WIDGET_ID){
-            var prompt=document.getElementById('alsChatPrompt');
-            if(prompt){
-              if(host.active)prompt.classList.add('is-hidden');
-              else if(prompt.dataset.dismissed!=='true')prompt.classList.remove('is-hidden');
-            }
-            var heading=host.shadowRoot.querySelector('.lc_text-widget_heading--content');
-            var sub=host.shadowRoot.querySelector('.lc_text-widget_sub-heading--root');
-            if(heading)heading.textContent='Hi, I’m the AI assistant.';
-            if(sub)sub.textContent='What can I help you with today? Ask about pricing, pickup times, what we haul, or anything else.';
-            ['msgsndr_1','msgsndr_2','msgsndr_5'].forEach(function(id){
-              var field=host.shadowRoot.getElementById(id);
-              var wrap=field&&field.closest('.lc_text-widget--text-input');
-              if(wrap)wrap.style.setProperty('display','none','important');
-            });
-            host.shadowRoot.querySelectorAll('#msgsndr_message-form > input,.lc_legal-text-wrapper').forEach(function(el){el.style.setProperty('display','none','important')});
-          }
+          host.shadowRoot.appendChild(style);
         });
       }
-      function openMessageWidget(){
-        var prompt=document.getElementById('alsChatPrompt');
-        var host=[].slice.call(document.querySelectorAll('chat-widget')).find(function(w){return w.widgetId===MESSAGE_WIDGET_ID});
-        var btn=host&&host.shadowRoot&&host.shadowRoot.querySelector('#lc_text-widget--btn');
-        if(prompt)prompt.classList.add('is-hidden');
-        if(btn&&!host.active)btn.click();
-        setTimeout(placeGhlWidgets,150);
-        setTimeout(placeGhlWidgets,700);
-        setTimeout(placeGhlWidgets,1500);
-      }
-      function wirePrompt(){
-        var prompt=document.getElementById('alsChatPrompt');
-        var close=document.getElementById('alsChatPromptClose');
-        if(!prompt||prompt.dataset.bound)return;
-        prompt.dataset.bound='true';
-        prompt.addEventListener('click',function(){openMessageWidget()});
-        prompt.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openMessageWidget()}});
-        if(close)close.addEventListener('click',function(e){e.stopPropagation();prompt.dataset.dismissed='true';prompt.classList.add('is-hidden')});
-      }
-      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){wirePrompt();placeGhlWidgets()});else{wirePrompt();placeGhlWidgets()}
-      window.addEventListener('load',function(){wirePrompt();placeGhlWidgets();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeGhlWidgets);else placeGhlWidgets();
+      window.addEventListener('load',function(){placeGhlWidgets();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
       new MutationObserver(placeGhlWidgets).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
