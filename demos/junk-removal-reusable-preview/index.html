@@ -350,7 +350,7 @@ const params=new URLSearchParams(window.location.search);
 
   <div class="als-chat-prompt" id="alsChatPrompt" role="button" tabindex="0" aria-label="Open chat">
     <div class="als-chat-avatar"><img src="https://widgets.leadconnectorhq.com/chat-widget/assets/defaultAvatar.png" alt=""></div>
-    <div><strong>Hi there! Have a question?</strong><span>Chat with us here.</span></div>
+    <div><strong>Hi, I’m the AI assistant.</strong><span>What can I help you with?</span></div>
     <button class="als-chat-close" id="alsChatPromptClose" type="button" aria-label="Close chat prompt">×</button>
   </div>
 
@@ -379,6 +379,12 @@ const params=new URLSearchParams(window.location.search);
             }
             host.shadowRoot.appendChild(style);
           }
+          if(host.widgetId===MESSAGE_WIDGET_ID){
+            var heading=host.shadowRoot.querySelector('.lc_text-widget_heading--content');
+            var sub=host.shadowRoot.querySelector('.lc_text-widget_sub-heading--root');
+            if(heading)heading.textContent='Hi, I’m the AI assistant.';
+            if(sub)sub.textContent='What can I help you with today? Ask about pricing, pickup times, what we haul, or anything else.';
+          }
         });
       }
       function openMessageWidget(){
@@ -387,6 +393,9 @@ const params=new URLSearchParams(window.location.search);
         var btn=host&&host.shadowRoot&&host.shadowRoot.querySelector('#lc_text-widget--btn');
         if(prompt)prompt.classList.add('is-hidden');
         if(btn&&!host.active)btn.click();
+        setTimeout(placeGhlWidgets,150);
+        setTimeout(placeGhlWidgets,700);
+        setTimeout(placeGhlWidgets,1500);
       }
       function wirePrompt(){
         var prompt=document.getElementById('alsChatPrompt');
