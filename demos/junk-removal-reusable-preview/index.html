@@ -136,8 +136,7 @@
     [class*="chat-widget" i],
     [id*="lc_text-widget" i],
     [class*="lc_text-widget" i]{z-index:999999999!important}
-    .als-native-chat-prompt{position:fixed;right:88px;bottom:105px;z-index:999999998;width:min(340px,calc(100vw - 112px));background:#fff;color:#111827;border-radius:12px;padding:18px 52px 18px 22px;box-shadow:0 10px 28px rgba(15,23,42,.18);font-size:22px;font-weight:700;line-height:1.35;cursor:pointer}.als-native-chat-prompt:after{content:"";position:absolute;right:22px;bottom:-10px;border-width:10px 10px 0 10px;border-style:solid;border-color:#fff transparent transparent transparent}.als-native-chat-prompt button{position:absolute;right:16px;top:16px;border:0;background:transparent;color:#374151;font-size:28px;line-height:1;cursor:pointer}.als-native-chat-prompt.is-hidden{display:none!important}
-    @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 16px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-copy p{font-size:16px}.als-native-chat-prompt{right:86px;bottom:158px;width:min(286px,calc(100vw - 110px));padding:16px 48px 16px 20px;font-size:20px}}
+    @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 16px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-copy p{font-size:16px}}
   </style>
 
 </head>
@@ -348,11 +347,6 @@ const params=new URLSearchParams(window.location.search);
     }
   </script>
 
-  <div class="als-native-chat-prompt" id="alsNativeChatPrompt" role="button" tabindex="0" aria-label="Open chat">
-    Hi there! Have a question? Chat with us here.
-    <button id="alsNativeChatPromptClose" type="button" aria-label="Close chat prompt">×</button>
-  </div>
-
   <script
     src="https://widgets.leadconnectorhq.com/loader.js"
     data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
@@ -373,7 +367,7 @@ const params=new URLSearchParams(window.location.search);
           if(isVoice){
             style.textContent=':host{display:block!important;position:relative!important;width:100%!important;height:100%!important}#lc_text-widget{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;min-height:402px!important;max-height:none!important;display:block!important;z-index:1!important}#lc_text-widget--btn,[class*="prompt"],.lc_text-widget_heading_close--btn{display:none!important}#lc_text-widget--box{position:relative!important;width:100%!important;max-width:390px!important;height:402px!important;max-height:402px!important;margin:0 auto!important;box-shadow:none!important;border:1px solid rgba(15,23,42,.1)!important;border-radius:24px!important;overflow:hidden!important}.lc_text-widget--agency-branding{display:none!important}@media(max-width:640px){#lc_text-widget{min-height:375px!important}#lc_text-widget--box{height:375px!important;max-height:375px!important;max-width:100%!important}}';
           }else if(host.widgetId===MESSAGE_WIDGET_ID){
-            style.textContent='#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important;z-index:999999999!important}[class*="prompt"]{display:none!important}@media(min-width:641px){#lc_text-widget--btn{right:22px!important;bottom:24px!important}}@media(max-width:640px){:host(.als-keyboard-open){--chat-widget-height:calc(var(--als-vvh,100dvh) - 104px)!important;--chat-widget-max-height:calc(var(--als-vvh,100dvh) - 104px)!important;--chat-widget-branding-max-height:calc(var(--als-vvh,100dvh) - 104px)!important}:host(.als-keyboard-open) #lc_text-widget.lc_text-widget--active{top:calc(var(--als-vv-top,0px) + 82px)!important;bottom:auto!important;left:14px!important;right:14px!important;width:calc(100vw - 28px)!important;height:calc(var(--als-vvh,100dvh) - 104px)!important;max-height:none!important}:host(.als-keyboard-open) #lc_text-widget--box{height:100%!important;max-height:100%!important}}';
+            style.textContent='#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important;z-index:999999999!important}@media(min-width:641px){#lc_text-widget--btn{right:22px!important;bottom:24px!important}}@media(max-width:640px){:host(.als-keyboard-open){--chat-widget-height:calc(var(--als-vvh,100dvh) - 104px)!important;--chat-widget-max-height:calc(var(--als-vvh,100dvh) - 104px)!important;--chat-widget-branding-max-height:calc(var(--als-vvh,100dvh) - 104px)!important}:host(.als-keyboard-open) #lc_text-widget.lc_text-widget--active{top:calc(var(--als-vv-top,0px) + 82px)!important;bottom:auto!important;left:14px!important;right:14px!important;width:calc(100vw - 28px)!important;height:calc(var(--als-vvh,100dvh) - 104px)!important;max-height:none!important}:host(.als-keyboard-open) #lc_text-widget--box{height:100%!important;max-height:100%!important}}';
           }
           host.shadowRoot.appendChild(style);
         });
@@ -385,11 +379,6 @@ const params=new URLSearchParams(window.location.search);
         document.querySelectorAll('chat-widget').forEach(function(host){
           if(host.widgetId!==MESSAGE_WIDGET_ID)return;
           host.classList.toggle('als-keyboard-open',keyboardOpen);
-          var prompt=document.getElementById('alsNativeChatPrompt');
-          if(prompt){
-            if(host.active)prompt.classList.add('is-hidden');
-            else if(prompt.dataset.dismissed!=='true')prompt.classList.remove('is-hidden');
-          }
           if(vv){
             host.style.setProperty('--als-vvh',vv.height+'px');
             host.style.setProperty('--als-vv-top',vv.offsetTop+'px');
@@ -415,31 +404,13 @@ const params=new URLSearchParams(window.location.search);
           }
         });
       }
-      function openNativeChat(){
-        var prompt=document.getElementById('alsNativeChatPrompt');
-        var host=[].slice.call(document.querySelectorAll('chat-widget')).find(function(w){return w.widgetId===MESSAGE_WIDGET_ID});
-        var btn=host&&host.shadowRoot&&host.shadowRoot.querySelector('#lc_text-widget--btn');
-        if(prompt)prompt.classList.add('is-hidden');
-        if(btn&&!host.active)btn.click();
-        setTimeout(function(){placeGhlWidgets();syncKeyboardFit()},150);
-        setTimeout(function(){placeGhlWidgets();syncKeyboardFit()},900);
-      }
-      function wireNativePrompt(){
-        var prompt=document.getElementById('alsNativeChatPrompt');
-        var close=document.getElementById('alsNativeChatPromptClose');
-        if(!prompt||prompt.dataset.bound)return;
-        prompt.dataset.bound='true';
-        prompt.addEventListener('click',openNativeChat);
-        prompt.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openNativeChat()}});
-        if(close)close.addEventListener('click',function(e){e.stopPropagation();prompt.dataset.dismissed='true';prompt.classList.add('is-hidden')});
-      }
       if(window.visualViewport){
         window.visualViewport.addEventListener('resize',syncKeyboardFit);
         window.visualViewport.addEventListener('scroll',syncKeyboardFit);
       }
       window.addEventListener('resize',syncKeyboardFit);
-      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){wireNativePrompt();placeGhlWidgets()});else{wireNativePrompt();placeGhlWidgets()}
-      window.addEventListener('load',function(){wireNativePrompt();placeGhlWidgets();syncKeyboardFit();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeGhlWidgets);else placeGhlWidgets();
+      window.addEventListener('load',function(){placeGhlWidgets();syncKeyboardFit();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
       new MutationObserver(placeGhlWidgets).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
