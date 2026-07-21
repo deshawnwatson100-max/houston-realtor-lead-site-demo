@@ -23,11 +23,6 @@
   status = 200
 
 [[redirects]]
-  from = "/api/elevenlabs-voice-agent"
-  to = "/.netlify/functions/elevenlabs-voice-agent"
-  status = 200
-
-[[redirects]]
   from = "/api/stripe-webhook"
   to = "/.netlify/functions/stripe-webhook"
   status = 200
