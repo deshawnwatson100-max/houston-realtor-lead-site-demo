@@ -125,30 +125,18 @@
   </style>
 
   <style>
-    /* Position the real GoHighLevel AI widget in the bottom-right floating slot */
+    /* GHL widgets: embedded voice section + floating message widget */
+    .ai-voice-section{padding-top:42px;padding-bottom:42px;background:linear-gradient(135deg,#f8fbff,#eef5ff)}
+    .ai-voice-shell{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,440px);gap:36px;align-items:center}
+    .ai-voice-copy h2{font-size:clamp(32px,4vw,54px);line-height:.98;margin:10px 0 14px;color:var(--navy);letter-spacing:-.05em}.ai-voice-copy p{font-size:18px;color:#475569;line-height:1.6;max-width:560px}.ai-voice-points{display:grid;gap:10px;margin-top:22px}.ai-voice-points div{display:flex;gap:10px;align-items:flex-start;font-weight:900;color:#0f172a}.ai-voice-points span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#111;flex:0 0 auto}.ai-voice-widget-card{position:relative;min-height:690px;border-radius:28px;background:#fff;border:1px solid rgba(15,23,42,.1);box-shadow:0 28px 70px rgba(15,23,42,.14);padding:18px;overflow:hidden}.ai-voice-start-card{position:absolute;inset:18px;z-index:3;border-radius:24px;background:radial-gradient(circle at 50% 12%,rgba(43,148,222,.18),transparent 34%),linear-gradient(180deg,#fff,#f6fbff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px}.ai-voice-widget-card.voice-started .ai-voice-start-card{display:none}.ai-voice-orb{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),#1455ff);color:#fff;font-weight:1000;font-size:34px;box-shadow:0 20px 45px rgba(43,148,222,.35);margin-bottom:22px}.ai-voice-start-card h3{font-size:28px;margin:0 0 10px;color:var(--navy);letter-spacing:-.04em}.ai-voice-start-card p{font-size:16px;line-height:1.55;color:#64748b;margin:0 0 22px;max-width:320px}.ai-voice-widget-card chat-widget{display:block!important;position:relative!important;width:100%!important;height:100%!important;pointer-events:none!important}.ai-voice-widget-card.voice-started chat-widget{pointer-events:auto!important}
     chat-widget,
     iframe[src*="leadconnector"],
     iframe[src*="leadconnectorhq"],
     [id*="chat-widget" i],
     [class*="chat-widget" i],
     [id*="lc_text-widget" i],
-    [class*="lc_text-widget" i]{
-      right:22px!important;
-      bottom:24px!important;
-      top:auto!important;
-      left:auto!important;
-      z-index:999999999!important;
-    }
-    chat-widget{position:fixed!important}
-    @media(max-width:640px){
-      chat-widget,
-      iframe[src*="leadconnector"],
-      iframe[src*="leadconnectorhq"],
-      [id*="chat-widget" i],
-      [class*="chat-widget" i],
-      [id*="lc_text-widget" i],
-      [class*="lc_text-widget" i]{right:14px!important;bottom:84px!important}
-    }
+    [class*="lc_text-widget" i]{z-index:999999999!important}
+    @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:34px 16px}.ai-voice-widget-card{min-height:650px;padding:10px;border-radius:22px}.ai-voice-copy p{font-size:16px}}
   </style>
 
 </head>
@@ -174,6 +162,25 @@
 
     <section class="feature-bar" aria-label="Service highlights"><div><span>✓</span>Same-Day Service</div><div><span>✓</span>Upfront Pricing</div><div><span>✓</span>We Load Everything</div><div><span>✓</span>Local & Owner-Operated</div></section>
 
+    <section class="section ai-voice-section" id="ai-voice">
+      <div class="ai-voice-shell">
+        <div class="ai-voice-copy">
+          <div class="kicker">Talk with the AI receptionist</div>
+          <h2>Have a specific question? Ask the AI before you book.</h2>
+          <p>Customers can talk through pricing, timing, service areas, and job details right on the page — then send the full quote intake when they are ready.</p>
+          <div class="ai-voice-points"><div><span>✓</span>Quick answers for common junk removal questions</div><div><span>✓</span>Voice-first experience without calling a phone number</div><div><span>✓</span>Still keeps the normal message widget available</div></div>
+        </div>
+        <div class="ai-voice-widget-card" id="ghlVoiceWidgetMount" aria-label="Talk with the AI receptionist">
+          <div class="ai-voice-start-card" id="ghlVoiceStartCard">
+            <div class="ai-voice-orb">AI</div>
+            <h3>Ask the AI receptionist</h3>
+            <p>Tap below to start a website voice conversation about pricing, timing, service areas, or job details.</p>
+            <button type="button" class="btn yellow" id="startGhlVoice">Talk with AI</button>
+          </div>
+          <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a5fb4276e5637c729afc89e"></script>
+        </div>
+      </div>
+    </section>
 
     <section class="section quote-section" id="quote"><div class="quote-shell"><div class="quote-copy"><div class="kicker">Get a free quote</div><h2>Send the job details before the callback.</h2><p>This replaces the basic quote form with a full intake that captures address, job type, load size, access notes, photos, video, and timing.</p><div class="mini-list"><div>✓ Photos and video accepted</div><div>✓ Sent into HighLevel</div><div>✓ Crew can review before calling</div></div></div><div class="assessment"><form id="jobForm">
         <div class="steps active" data-step="1">
@@ -350,22 +357,45 @@ const params=new URLSearchParams(window.location.search);
   <script
     src="https://widgets.leadconnectorhq.com/loader.js"
     data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
-    data-widget-id="6a5fb4276e5637c729afc89e">
+    data-widget-id="6a5679f90ae6fc5167688516"
+    data-source="WEB_USER">
   </script>
   <script>
     (function(){
-      function placeGhlWidget(){
-        var host=document.querySelector('chat-widget');
-        if(!host||!host.shadowRoot)return;
-        if(host.shadowRoot.querySelector('#als-ghl-widget-placement'))return;
-        var style=document.createElement('style');
-        style.id='als-ghl-widget-placement';
-        style.textContent='#lc_text-widget,#lc_text-widget--btn{right:22px!important;bottom:24px!important;top:auto!important;left:auto!important;z-index:999999999!important}@media(max-width:640px){#lc_text-widget,#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important}}';
-        host.shadowRoot.appendChild(style);
+      var VOICE_WIDGET_ID='6a5fb4276e5637c729afc89e';
+      var MESSAGE_WIDGET_ID='6a5679f90ae6fc5167688516';
+      function placeGhlWidgets(){
+        document.querySelectorAll('chat-widget').forEach(function(host){
+          if(!host||!host.shadowRoot)return;
+          var isVoice=host.widgetId===VOICE_WIDGET_ID||host.chatType==='voiceAiChat';
+          var marker=isVoice?'#als-ghl-voice-embed':'#als-ghl-floating-message';
+          if(!host.shadowRoot.querySelector(marker)){
+            var style=document.createElement('style');
+            style.id=isVoice?'als-ghl-voice-embed':'als-ghl-floating-message';
+            if(isVoice){
+              style.textContent=':host{display:block!important;position:relative!important;width:100%!important;height:100%!important}#lc_text-widget{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;min-height:650px!important;max-height:none!important;display:block!important;z-index:1!important}#lc_text-widget--btn,[class*="prompt"],.lc_text-widget_heading_close--btn{display:none!important}#lc_text-widget--box{position:relative!important;width:100%!important;max-width:390px!important;height:650px!important;max-height:650px!important;margin:0 auto!important;box-shadow:none!important;border:1px solid rgba(15,23,42,.1)!important;border-radius:24px!important;overflow:hidden!important}.lc_text-widget--agency-branding{display:none!important}@media(max-width:640px){#lc_text-widget{min-height:610px!important}#lc_text-widget--box{height:610px!important;max-height:610px!important;max-width:100%!important}}';
+            }else if(host.widgetId===MESSAGE_WIDGET_ID){
+              style.textContent='#lc_text-widget,#lc_text-widget--btn{right:22px!important;bottom:24px!important;top:auto!important;left:auto!important;z-index:999999999!important}@media(max-width:640px){#lc_text-widget,#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important}}';
+            }
+            host.shadowRoot.appendChild(style);
+          }
+          if(isVoice&&!host.shadowRoot.querySelector('#lc_text-widget--box')){
+            var start=document.getElementById('startGhlVoice');
+            if(start&&!start.dataset.ghlVoiceBound){
+              start.dataset.ghlVoiceBound='true';
+              start.addEventListener('click',function(){
+                var voiceHost=[].slice.call(document.querySelectorAll('chat-widget')).find(function(w){return w.widgetId===VOICE_WIDGET_ID||w.chatType==='voiceAiChat'});
+                var btn=voiceHost&&voiceHost.shadowRoot&&voiceHost.shadowRoot.querySelector('#lc_text-widget--btn');
+                document.getElementById('ghlVoiceWidgetMount')?.classList.add('voice-started');
+                if(btn&&!voiceHost.active)btn.click();
+              });
+            }
+          }
+        });
       }
-      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeGhlWidget);else placeGhlWidget();
-      window.addEventListener('load',function(){placeGhlWidget();setTimeout(placeGhlWidget,800);setTimeout(placeGhlWidget,2000)});
-      new MutationObserver(placeGhlWidget).observe(document.documentElement,{childList:true,subtree:true});
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeGhlWidgets);else placeGhlWidgets();
+      window.addEventListener('load',function(){placeGhlWidgets();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
+      new MutationObserver(placeGhlWidgets).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
 
