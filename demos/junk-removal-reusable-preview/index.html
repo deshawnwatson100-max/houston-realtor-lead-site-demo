@@ -307,6 +307,22 @@ const params=new URLSearchParams(window.location.search);
     if(primary) document.documentElement.style.setProperty('--yellow', primary);
     if(accent) document.documentElement.style.setProperty('--yellow2', accent);
     if(dark){ document.documentElement.style.setProperty('--navy', dark); document.documentElement.style.setProperty('--navy2', dark); }
+    if(primary||accent||dark){
+      const themeStyle=document.createElement('style');
+      themeStyle.id='prospect-color-theme';
+      themeStyle.textContent=`
+        .hero{background:linear-gradient(135deg,var(--navy2) 0%,var(--navy) 62%,color-mix(in srgb,var(--yellow) 34%,var(--navy)) 100%)!important}
+        .quote-btn,.btn.yellow{background:var(--yellow)!important;color:#fff!important;box-shadow:0 14px 30px color-mix(in srgb,var(--yellow) 28%,transparent)!important}
+        .kicker,.stars,.brand small{color:var(--yellow2)!important}
+        .feature-bar,.mobile-sticky-footer a:last-child{background:var(--yellow)!important;color:#111!important}
+        .feature-bar span{border-color:#111!important;color:#111!important}
+        .btn.dark,.quote-copy,.mobile-sticky-footer{background:var(--navy)!important;color:#fff!important}
+        .avatar,.process-num,.pin-dot{background:var(--yellow)!important;color:#111!important}
+        .generic-hero-mark{background:linear-gradient(135deg,var(--navy),var(--yellow))!important}
+        .city-hero-card{background:radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--yellow) 24%,transparent),rgba(255,255,255,.98) 58%)!important}
+      `;
+      document.head.appendChild(themeStyle);
+    }
     const logo=clean(params.get('logo'));
     const logoMode=clean(params.get('logoMode'));
     if(logo){
