@@ -18,6 +18,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/lead-alert"
+  to = "/.netlify/functions/lead-alert"
+  status = 200
+
+[[redirects]]
   from = "/api/shifty-ai-chat"
   to = "/.netlify/functions/shifty-ai-chat"
   status = 200

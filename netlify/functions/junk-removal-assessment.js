@@ -1,4 +1,5 @@
 const { cors, response, DEFAULTS, ghl, addContactNote, addContactTask } = require('./_als-shared.js');
+const { sendLeadSmsAlert } = require('./_lead-sms-alert.js');
 
 function compact(value) {
   if (Array.isArray(value)) return value.filter(Boolean).join(', ');
@@ -9,15 +10,6 @@ function compact(value) {
 function splitName(full = '') {
   const parts = String(full).trim().split(/\s+/).filter(Boolean);
   return { firstName: parts[0] || '', lastName: parts.slice(1).join(' ') || '' };
-}
-
-function normalizePhone(value = '') {
-  const raw = String(value || '').trim();
-  const digits = raw.replace(/\D/g, '');
-  if (!digits) return '';
-  if (digits.length === 10) return `+1${digits}`;
-  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
-  return raw.startsWith('+') ? raw : `+${digits}`;
 }
 
 async function upsertJunkLead(payload) {
@@ -130,45 +122,8 @@ function buildAssessmentNote(payload, uploadedFiles = []) {
   return ['New junk-removal website assessment submitted.', '', ...order.map(([k, v]) => `${k}: ${compact(v) || '—'}`)].join('\n');
 }
 
-function buildOwnerSms(payload, uploadedFiles = []) {
-  const files = uploadedFiles.length ? `\nFiles: ${uploadedFiles.map(f => f.url).filter(Boolean).join(', ')}` : '';
-  return [
-    `New Shifty website quote request`,
-    `Name: ${compact(payload.customerName) || '—'}`,
-    `Phone: ${compact(payload.customerPhone) || '—'}`,
-    `Service: ${compact(payload.service) || '—'}`,
-    `Address: ${compact(payload.address) || '—'}`,
-    `Volume: ${compact(payload.volume) || '—'}`,
-    `Date: ${compact(payload.preferredDate) || '—'}`,
-    `Notes: ${compact(payload.additionalNotes || payload.specificItems || payload.demoNotes) || '—'}${files}`
-  ].join('\n').slice(0, 1500);
-}
-
 async function sendOwnerSms(payload, uploadedFiles = []) {
-  const to = normalizePhone(process.env.JUNK_ASSESSMENT_SMS_TO || process.env.SHIFTY_INTAKE_SMS_TO || '');
-  if (!to) return { skipped: true, reason: 'No SMS recipient configured' };
-  const contactPayload = {
-    locationId: DEFAULTS.locationId,
-    name: process.env.JUNK_ASSESSMENT_SMS_NAME || 'Shifty Intake SMS Recipient',
-    firstName: process.env.JUNK_ASSESSMENT_SMS_FIRST_NAME || 'Shifty',
-    lastName: process.env.JUNK_ASSESSMENT_SMS_LAST_NAME || 'Intake Recipient',
-    phone: to,
-    source: 'Shifty Intake SMS Notification Recipient',
-    tags: ['shifty-intake-sms-recipient', 'agent-lead-sites']
-  };
-  const recipient = await ghl('/contacts/upsert', { method: 'POST', body: contactPayload });
-  const contact = recipient.contact || recipient;
-  const contactId = contact.id || contact.contactId;
-  if (!contactId) throw new Error('SMS recipient contact was not created');
-  const message = buildOwnerSms(payload, uploadedFiles);
-  return ghl('/conversations/messages', {
-    method: 'POST',
-    body: {
-      type: 'SMS',
-      contactId,
-      message
-    }
-  });
+  return sendLeadSmsAlert(payload, uploadedFiles);
 }
 
 exports.handler = async (event) => {
