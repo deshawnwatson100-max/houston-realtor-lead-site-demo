@@ -12,8 +12,17 @@ function splitName(full = '') {
   return { firstName: parts[0] || '', lastName: parts.slice(1).join(' ') || '' };
 }
 
+function industryLabel(payload = {}) {
+  return String(payload.industry || '').toLowerCase().includes('landscap') ? 'Landscaping' : 'Junk Removal';
+}
+
+function industryTag(payload = {}) {
+  return String(payload.industry || '').toLowerCase().includes('landscap') ? 'landscaping-lead' : 'junk-removal-lead';
+}
+
 async function upsertJunkLead(payload) {
-  const name = payload.customerName || payload.name || 'New Junk Removal Lead';
+  const industry = industryLabel(payload);
+  const name = payload.customerName || payload.name || `New ${industry} Lead`;
   const parts = splitName(name);
   const body = {
     locationId: DEFAULTS.locationId,
@@ -23,8 +32,8 @@ async function upsertJunkLead(payload) {
     email: payload.customerEmail || payload.email,
     phone: payload.customerPhone || payload.phone,
     address1: payload.address,
-    source: `Junk Removal Website Assessment — ${payload.company || 'Client Site'}`,
-    tags: ['junk-removal-lead', 'website-assessment', 'agent-lead-sites']
+    source: `${industry} Website Assessment — ${payload.company || 'Client Site'}`,
+    tags: [industryTag(payload), 'website-assessment', 'agent-lead-sites']
   };
   let data;
   try { data = await ghl('/contacts/upsert', { method: 'POST', body }); }
@@ -33,17 +42,18 @@ async function upsertJunkLead(payload) {
 }
 
 async function createJunkOpportunity(contactId, payload) {
+  const industry = industryLabel(payload);
   const name = payload.customerName || payload.customerPhone || 'New Lead';
-  const service = payload.service || 'junk removal';
+  const service = payload.service || industry.toLowerCase();
   const body = {
     locationId: DEFAULTS.locationId,
     pipelineId: DEFAULTS.pipelineId,
     pipelineStageId: process.env.HIGHLEVEL_JUNK_LEAD_STAGE_ID || DEFAULTS.onboardingStageId,
-    name: `Junk Removal Quote — ${name}`,
+    name: `${industry} Quote — ${name}`,
     status: 'open',
     contactId,
     monetaryValue: 0,
-    source: `Junk Removal Website Assessment — ${payload.company || 'Client Site'}`,
+    source: `${industry} Website Assessment — ${payload.company || 'Client Site'}`,
     customFields: []
   };
   try { return await ghl('/opportunities/', { method: 'POST', body }); }
@@ -80,6 +90,7 @@ async function uploadAssessmentFiles(payload) {
 }
 
 function buildAssessmentNote(payload, uploadedFiles = []) {
+  const industry = industryLabel(payload);
   const fileLines = uploadedFiles.length ? uploadedFiles.map((f, i) => `File ${i + 1}: ${f.name || 'uploaded file'} — ${f.url}`).join('\n') : '—';
   const order = [
     ['Client site/company', payload.company],
@@ -119,7 +130,7 @@ function buildAssessmentNote(payload, uploadedFiles = []) {
     ['Video attached', payload.videoAttached],
     ['Uploaded file links', fileLines]
   ];
-  return ['New junk-removal website assessment submitted.', '', ...order.map(([k, v]) => `${k}: ${compact(v) || '—'}`)].join('\n');
+  return [`New ${industry.toLowerCase()} website assessment submitted.`, '', ...order.map(([k, v]) => `${k}: ${compact(v) || '—'}`)].join('\n');
 }
 
 async function sendOwnerSms(payload, uploadedFiles = []) {
@@ -140,7 +151,7 @@ exports.handler = async (event) => {
     const note = buildAssessmentNote(payload, uploadedFiles);
     const [noteResult, taskResult, oppResult, smsResult] = await Promise.all([
       addContactNote(contactId, note),
-      addContactTask(contactId, `Review junk removal quote request — ${payload.customerName}`, `Call/text ${payload.customerName} at ${payload.customerPhone}. Service: ${payload.service || 'junk removal'}. Address: ${payload.address || 'not provided'}.`),
+      addContactTask(contactId, `Review ${industryLabel(payload).toLowerCase()} quote request — ${payload.customerName}`, `Call/text ${payload.customerName} at ${payload.customerPhone}. Service: ${payload.service || industryLabel(payload).toLowerCase()}. Address: ${payload.address || 'not provided'}.`),
       createJunkOpportunity(contactId, payload),
       sendOwnerSms(payload, uploadedFiles).catch(err => ({ skipped: true, reason: err.message }))
     ]);
