@@ -13,23 +13,7 @@
   .steps{display:none}.steps.active{display:block}.step-title{margin:0 0 8px;font-size:28px;line-height:1.05}.step-note,.mini{color:#666;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field.full{grid-column:1/-1}.branch{display:none}.branch.show{display:grid}.navbtns{display:flex;gap:12px;margin-top:20px}.btn.primary,.btn.secondary{border:0;cursor:pointer}.btn.primary{background:var(--red);color:#fff}.btn.secondary{background:#111;color:#fff}.volume{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.vol{border:1px solid #e3e3e3;border-radius:16px;padding:14px;background:#fbfbfb;cursor:pointer}.trailer{height:34px;border:2px solid #111;border-radius:9px;overflow:hidden;background:#fff;margin-bottom:9px}.fill{height:100%;background:var(--red)}.v25{width:25%}.v50{width:50%}.v75{width:75%}.v100{width:100%}.upload{background:#fbfbfb;border:1px dashed #d7d7d7;border-radius:16px;padding:14px}@media(max-width:760px){.grid,.volume{grid-template-columns:1fr}.field.full{grid-column:auto}.step-title{font-size:24px}.navbtns{display:grid;grid-template-columns:1fr 1fr}.assessment{padding:20px}}
 .ai-demo-card{background:linear-gradient(135deg,#000,#2b0000);color:#fff;border-radius:28px;padding:34px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;border:1px solid rgba(233,0,0,.28);box-shadow:0 22px 60px rgba(0,0,0,.18)}.ai-demo-card h2{font-family:'Space Grotesk';font-size:clamp(34px,4vw,56px);line-height:.95;margin:8px 0}.ai-demo-card p{color:#f1f1f1}.ai-points{display:grid;gap:10px;margin:18px 0}.ai-points div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;font-weight:850}.ai-phone{background:#fff;color:#111;border-radius:24px;padding:22px;text-align:center}.ai-phone .screen{background:#111;color:#fff;border-radius:20px;padding:22px;min-height:180px;display:grid;place-items:center;border:4px solid #222}.ai-phone .pulse{width:76px;height:76px;border-radius:999px;background:var(--red);display:grid;place-items:center;margin:0 auto 14px;box-shadow:0 0 0 12px rgba(233,0,0,.18);font-size:32px}@media(max-width:760px){.ai-demo-card{grid-template-columns:1fr;padding:24px}.ai-phone{padding:16px}}</style>
 
-  <script>
-    (function(){
-      if (new URLSearchParams(window.location.search).get('embeddedPhone') === '1') return;
-      var s = document.createElement('script');
-      s.src = 'https://widgets.leadconnectorhq.com/loader.js';
-      s.setAttribute('data-resources-url','https://widgets.leadconnectorhq.com/chat-widget/loader.js');
-      s.setAttribute('data-widget-id','6a5679f90ae6fc5167688516');
-      s.setAttribute('data-source','WEB_USER');
-      document.head.appendChild(s);
-    })();
-  </script>
 
-  <style>
-    /* Keep HighLevel's native bubble from overlapping the Shifty nav/contact button. */
-    chat-widget{position:fixed!important;inset:auto 16px 92px auto!important;top:auto!important;right:16px!important;bottom:92px!important;left:auto!important;z-index:99999999!important}
-    .shifty-ai-chat-trigger{position:fixed;right:22px;bottom:24px;z-index:999999999;border:0;border-radius:999px;background:#155eef;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;height:58px;min-width:132px;padding:0 18px;box-shadow:0 18px 42px rgba(21,94,239,.38);cursor:pointer;font-weight:950;font-family:Inter,system-ui,sans-serif;letter-spacing:-.02em}.shifty-ai-chat-trigger svg{width:25px;height:25px}.shifty-ai-chat-trigger path{fill:none;stroke:currentColor;stroke-width:2.35;stroke-linecap:round;stroke-linejoin:round}.shifty-ai-chat-trigger span{font-size:15px;line-height:1}@media(max-width:640px){.shifty-ai-chat-trigger{left:auto;right:18px;bottom:86px;width:auto;min-width:132px;height:58px;border-radius:999px;padding:0 18px;box-shadow:0 18px 42px rgba(21,94,239,.38)}.shifty-ai-chat-trigger span{font-size:15px}.shifty-ai-chat-trigger svg{width:25px;height:25px}}
-  </style>
 
   <style>
     /* Mobile footer icon polish only */
@@ -43,10 +27,6 @@
     .dark .review{color:#111!important}.dark .review p{color:#2b2b2b!important}.dark .review strong{color:#0b0b0b!important}.review-stars{color:#f5d328;font-size:28px;letter-spacing:2px;line-height:1;margin-bottom:14px}.google-rating-card{display:inline-flex;align-items:center;gap:10px;margin-top:16px;background:#fff;color:#111;border-radius:999px;padding:12px 16px;font-weight:950;box-shadow:0 12px 28px rgba(0,0,0,.18)}.google-rating-card .g-stars{color:#f5d328;letter-spacing:1px}.google-rating-card span{color:#555;font-weight:850}@media(max-width:760px){.google-rating-card{width:100%;justify-content:center;border-radius:18px}.review-stars{font-size:26px}}
   </style>
 
-  <style>
-    /* Shifty AI chat panel behavior only — existing button styling unchanged */
-    .shifty-ai-backdrop{display:none}.shifty-ai-panel{position:fixed;right:22px;bottom:92px;z-index:999999998;width:min(380px,calc(100vw - 32px));height:min(650px,calc(100vh - 124px));max-height:calc(100vh - 124px);background:#fff;color:#111;border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.28);border:1px solid rgba(17,17,17,.12);overflow:hidden;display:none;font-family:Inter,system-ui,sans-serif}.shifty-ai-panel.open{display:grid;grid-template-rows:auto minmax(0,1fr) auto}.shifty-ai-head{background:#111;color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.shifty-ai-head strong{font-weight:950}.shifty-ai-close{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:20px;line-height:1}.shifty-ai-log{padding:16px;display:grid;align-content:start;gap:10px;overflow:auto;background:#f7f7f7}.shifty-ai-msg{padding:11px 13px;border-radius:16px;font-size:14px;line-height:1.35;max-width:88%}.shifty-ai-msg.bot{background:#fff;border:1px solid #e7e7e7;justify-self:start}.shifty-ai-msg.user{background:#155eef;color:#fff;justify-self:end}.shifty-ai-form{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #e8e8e8}.shifty-ai-form input{flex:1;min-width:0;border:1px solid #d8d8d8;border-radius:999px;padding:12px 13px}.shifty-ai-form button{border:0;border-radius:999px;background:#155eef;color:#fff;font-weight:900;padding:0 16px;cursor:pointer}@media(max-width:640px){body.shifty-ai-open{overflow:hidden}.shifty-ai-backdrop{position:fixed;inset:0;z-index:999999997;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}body.shifty-ai-open .shifty-ai-backdrop{display:block}.shifty-ai-panel{left:16px;right:16px;top:74px;bottom:104px;width:auto;height:auto;max-height:none}.shifty-ai-chat-trigger{transition:opacity .18s ease,visibility .18s ease}body.shifty-ai-open .shifty-ai-chat-trigger{opacity:0;visibility:hidden;pointer-events:none}body.shifty-ai-keyboard .shifty-ai-panel{top:var(--shifty-ai-kb-top,64px);bottom:auto;height:var(--shifty-ai-kb-height,420px);max-height:none}.shifty-ai-log{min-height:0}body.shifty-ai-keyboard .shifty-ai-log{padding-bottom:10px}}
-  </style>
 
     <style>
     /* Shifty map section only */
@@ -64,6 +44,16 @@
     .mobile-menu-toggle{display:none;border:1px solid rgba(17,17,17,.16);background:#fff;color:#111;border-radius:999px;width:42px;height:42px;font-size:20px;font-weight:600;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.08)}
     @media(max-width:980px){.nav{gap:12px;overflow:visible}.nav .brand{min-width:0}.nav .mobile-menu-toggle{display:inline-flex;align-items:center;justify-content:center;margin-left:auto}.nav .navlinks{position:absolute;left:14px;right:14px;top:calc(100% + 10px);z-index:1000000002;display:grid;grid-template-columns:1fr;background:#fff;border:1px solid #e8e8e8;border-radius:18px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.20);opacity:0;visibility:hidden;transform:translateY(-8px);pointer-events:none;transition:opacity .18s ease,transform .18s ease,visibility .18s ease}.nav.menu-open .navlinks{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}.nav .navlinks a{display:block;padding:14px 16px;border-radius:12px;color:#111;font-weight:850}.nav .navlinks a:hover{background:#f4f4f4}.nav .nav-actions{display:none}}
   </style>
+
+  <style>
+    /* GHL widgets: embedded voice section + floating message widget */
+    .ai-voice-section{padding-top:42px;padding-bottom:42px;background:linear-gradient(135deg,#fff8f8,#f5f5f5)}
+    .ai-voice-shell{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,440px);gap:36px;align-items:center}
+    .ai-voice-copy h2{font-size:clamp(32px,4vw,54px);line-height:.98;margin:10px 0 14px;color:#111;letter-spacing:-.05em}.ai-voice-copy p{font-size:18px;color:#555;line-height:1.6;max-width:560px}.ai-voice-points{display:grid;gap:10px;margin-top:22px}.ai-voice-points div{display:flex;gap:10px;align-items:flex-start;font-weight:900;color:#111}.ai-voice-points span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;flex:0 0 auto}.ai-voice-widget-card{position:relative;min-height:430px;border-radius:28px;background:#fff;border:1px solid rgba(17,17,17,.1);box-shadow:0 24px 55px rgba(17,17,17,.12);padding:14px;overflow:hidden}.ai-voice-widget-card:not(.is-active){width:100%;max-width:440px;height:auto;min-height:0;max-height:none;display:flex;align-items:center;justify-content:center;background:transparent;border:0;box-shadow:none;padding:0;overflow:visible}.ai-voice-widget-card:not(.is-active) chat-widget{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;position:absolute!important;inset:0!important}.ai-voice-widget-card.is-active .ai-voice-start-btn{display:none!important}.ai-voice-widget-card:not(.is-active) .ai-voice-start-btn{position:static!important;width:360px!important;max-width:100%!important;height:auto!important;min-height:54px!important;border-radius:999px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;font-size:16px!important;padding:14px 20px!important}.ai-voice-widget-card chat-widget{display:block!important;position:relative!important;width:100%!important;height:100%!important}
+    chat-widget,iframe[src*="leadconnector"],iframe[src*="leadconnectorhq"],[id*="chat-widget" i],[class*="chat-widget" i],[id*="lc_text-widget" i],[class*="lc_text-widget" i]{z-index:999999999!important}
+    .als-chat-prompt{position:fixed;right:28px;bottom:96px;z-index:999999998;width:286px;background:#fff;color:#111;border-radius:12px;padding:14px 52px 14px 18px;box-shadow:0 8px 24px rgba(0,0,0,.18);font-size:18px;font-weight:600;line-height:1.3;cursor:pointer}.als-chat-prompt:after{content:"";position:absolute;right:13px;bottom:-9px;border:10px solid transparent;border-top-color:#fff;border-bottom:0}.als-chat-prompt button{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;background:transparent;color:#374151;font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}.als-chat-prompt.is-hidden{display:none!important}
+    @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 22px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-widget-card:not(.is-active){height:auto;min-height:0;max-height:none}.ai-voice-copy p{font-size:16px}.als-chat-prompt{right:20px;bottom:146px;width:280px;padding:12px 52px 12px 16px;font-size:16px}}
+  </style>
 </head><body>
   <div class="top-strip">Need Junk Removal? Contact Shifty Hauling Today!</div>
   <nav class="nav">
@@ -79,16 +69,97 @@
     <section class="page-section dark"><div class="wrap"><div class="split"><div><div class="eyebrow">Careful Work</div><h2>Safe, efficient, and low disruption.</h2></div><div><p>The goal is to remove unwanted structures while keeping the project organized, the site cleaner, and the customer’s property respected.</p></div></div></div></section>
     <section class="page-section"><div class="wrap"><div class="cta-band"><div><div class="eyebrow">Ready for a quote?</div><h2>Send the job details before the callback.</h2><p>Photos, project type, timing, and access notes help the team review your job faster.</p></div><a class="btn red" href="/#quote">Start Quote Intake →</a></div></div></section>
   </main>
-  <button class="shifty-ai-chat-trigger" type="button" aria-label="Open AI chat">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg>
-    <span>AI Chat</span>
-  </button>
-  <div class="shifty-ai-backdrop" aria-hidden="true"></div>
-  <section class="shifty-ai-panel" id="shiftyAiPanel" aria-label="Shifty AI chat" aria-hidden="true">
-    <div class="shifty-ai-head"><strong>Shifty AI Chat</strong><button class="shifty-ai-close" type="button" aria-label="Close AI chat">×</button></div>
-    <div class="shifty-ai-log" id="shiftyAiLog"></div>
-    <form class="shifty-ai-form" id="shiftyAiForm"><input id="shiftyAiInput" autocomplete="off" placeholder="Ask about pricing, scheduling, or services..." aria-label="Message Shifty AI"><button type="submit">Send</button></form>
-  </section>
+
+  <div class="als-chat-prompt" id="alsChatPrompt" role="button" tabindex="0" aria-label="Open chat">
+    Hi there! Have a question? Chat with us here.
+    <button id="alsChatPromptClose" type="button" aria-label="Close chat prompt">×</button>
+  </div>
+
+  <script
+    src="https://widgets.leadconnectorhq.com/loader.js"
+    data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+    data-widget-id="6a5fe241c6e06ac8e8227ce7">
+  </script>
+  <script>
+    (function(){
+      var VOICE_WIDGET_ID='6a5fb4276e5637c729afc89e';
+      var MESSAGE_WIDGET_ID='6a5fe241c6e06ac8e8227ce7';
+      function placeGhlWidgets(){
+        document.querySelectorAll('chat-widget').forEach(function(host){
+          if(!host||!host.shadowRoot)return;
+          var isVoice=host.widgetId===VOICE_WIDGET_ID||host.chatType==='voiceAiChat';
+          var marker=isVoice?'#als-ghl-voice-embed':'#als-ghl-floating-message';
+          if(host.shadowRoot.querySelector(marker))return;
+          var style=document.createElement('style');
+          style.id=isVoice?'als-ghl-voice-embed':'als-ghl-floating-message';
+          if(isVoice){
+            var mount=document.getElementById('ghlVoiceWidgetMount');
+            if(mount&&!mount.classList.contains('is-active'))host.classList.add('als-voice-hidden');
+            style.textContent=':host{display:block!important;position:relative!important;width:100%!important;height:100%!important}:host(.als-voice-hidden){display:none!important}#lc_text-widget{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;min-height:402px!important;max-height:none!important;display:block!important;z-index:1!important}#lc_text-widget--btn,[class*="prompt"],.lc_text-widget_heading_close--btn{display:none!important}#lc_text-widget--box{position:relative!important;width:100%!important;max-width:390px!important;height:402px!important;max-height:402px!important;margin:0 auto!important;box-shadow:none!important;border:1px solid rgba(15,23,42,.1)!important;border-radius:24px!important;overflow:hidden!important}.lc_text-widget--agency-branding{display:none!important}@media(max-width:640px){#lc_text-widget{min-height:375px!important}#lc_text-widget--box{height:375px!important;max-height:375px!important;max-width:100%!important}}';
+          }else if(host.widgetId===MESSAGE_WIDGET_ID){
+            style.textContent='#lc_text-widget--btn{right:14px!important;bottom:84px!important;top:auto!important;left:auto!important;z-index:999999999!important}#lc_text-widget.lc_text-widget--active #lc_text-widget--btn{display:none!important}.header-circular-image-container{display:none!important}[class*="prompt"]{display:none!important}@media(min-width:641px){#lc_text-widget--btn{right:22px!important;bottom:24px!important}}@media(max-width:640px){:host(.als-keyboard-open){--chat-widget-height:calc(var(--als-vvh,100dvh) - 104px)!important;--chat-widget-max-height:calc(var(--als-vvh,100dvh) - 104px)!important;--chat-widget-branding-max-height:calc(var(--als-vvh,100dvh) - 104px)!important}:host(.als-keyboard-open) #lc_text-widget.lc_text-widget--active{top:calc(var(--als-vv-top,0px) + 82px)!important;bottom:auto!important;left:14px!important;right:14px!important;width:calc(100vw - 28px)!important;height:calc(var(--als-vvh,100dvh) - 104px)!important;max-height:none!important}:host(.als-keyboard-open) #lc_text-widget--box{height:100%!important;max-height:100%!important}}';
+          }
+          host.shadowRoot.appendChild(style);
+        });
+        syncKeyboardFit();
+      }
+      function syncKeyboardFit(){
+        var vv=window.visualViewport;
+        var keyboardOpen=!!vv&&window.innerWidth<=640&&(window.innerHeight-vv.height)>120;
+        document.querySelectorAll('chat-widget').forEach(function(host){
+          if(host.widgetId!==MESSAGE_WIDGET_ID)return;
+          host.classList.toggle('als-keyboard-open',keyboardOpen);
+          var prompt=document.getElementById('alsChatPrompt');
+          if(prompt){
+            if(host.active)prompt.classList.add('is-hidden');
+            else if(prompt.dataset.dismissed!=='true')prompt.classList.remove('is-hidden');
+          }
+          if(vv){
+            host.style.setProperty('--als-vvh',vv.height+'px');
+            host.style.setProperty('--als-vv-top',vv.offsetTop+'px');
+          }
+        });
+      }
+      function wireVoiceStart(){
+        var btn=document.getElementById('startVoiceChat');
+        var card=document.getElementById('ghlVoiceWidgetMount');
+        if(!btn||!card||btn.dataset.bound)return;
+        btn.dataset.bound='true';
+        btn.addEventListener('click',function(){
+          card.classList.add('is-active');
+          setTimeout(function(){
+            var host=[].slice.call(document.querySelectorAll('chat-widget')).find(function(w){return w.widgetId===VOICE_WIDGET_ID||w.chatType==='voiceAiChat'});
+            var nativeBtn=host&&host.shadowRoot&&host.shadowRoot.querySelector('#lc_text-widget--btn');
+            if(host){host.classList.remove('als-voice-hidden');host.style.removeProperty('display')}
+            if(nativeBtn&&!host.active)nativeBtn.click();
+            placeGhlWidgets();
+          },250);
+        });
+      }
+      function openPromptChat(){
+        var prompt=document.getElementById('alsChatPrompt');
+        var host=[].slice.call(document.querySelectorAll('chat-widget')).find(function(w){return w.widgetId===MESSAGE_WIDGET_ID});
+        var btn=host&&host.shadowRoot&&host.shadowRoot.querySelector('#lc_text-widget--btn');
+        if(prompt)prompt.classList.add('is-hidden');
+        if(btn&&!host.active)btn.click();
+        setTimeout(function(){placeGhlWidgets();syncKeyboardFit()},250);
+      }
+      function wirePrompt(){
+        var prompt=document.getElementById('alsChatPrompt');
+        var close=document.getElementById('alsChatPromptClose');
+        if(!prompt||prompt.dataset.bound)return;
+        prompt.dataset.bound='true';
+        prompt.addEventListener('click',openPromptChat);
+        prompt.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openPromptChat()}});
+        if(close)close.addEventListener('click',function(e){e.stopPropagation();prompt.dataset.dismissed='true';prompt.classList.add('is-hidden')});
+      }
+      if(window.visualViewport){window.visualViewport.addEventListener('resize',syncKeyboardFit);window.visualViewport.addEventListener('scroll',syncKeyboardFit)}
+      window.addEventListener('resize',syncKeyboardFit);
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){wireVoiceStart();wirePrompt();placeGhlWidgets()});else{wireVoiceStart();wirePrompt();placeGhlWidgets()}
+      window.addEventListener('load',function(){wireVoiceStart();wirePrompt();placeGhlWidgets();syncKeyboardFit();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
+      new MutationObserver(placeGhlWidgets).observe(document.documentElement,{childList:true,subtree:true});
+    })();
+  </script>
 
   <footer class="footer"><div class="footer-grid"><strong>Shifty Hauling and Junk Removal, LLC</strong><span>Amarillo, TX · (806) 808-6742</span><div class="footer-socials" aria-label="Shifty social links"><a class="footer-social" href="mailto:shiftyhauling@yahoo.com" aria-label="Email Shifty Hauling"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4V6Z"/><path d="m4.8 7.2 7.2 6 7.2-6"/></svg></a><a class="footer-social" href="https://www.facebook.com/ShiftyHauling/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.2h2.2V4.8H14c-2.7 0-4.4 1.7-4.4 4.3v2H7v3.5h2.6V21h3.8v-6.4H16l.5-3.5h-3.1V9.5c0-.8.3-1.3.6-1.3Z"/></svg></a></div><span>Junk Removal · Dumpster Rentals · Small Demolition</span></div></footer>
   <div class="mobile-sticky-footer"><a href="tel:8068086742"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.6 3.7 9 3.1c.6-.1 1.2.2 1.4.8l.9 2.7c.2.5 0 1.1-.4 1.5L9.6 9.3c1 2 2.7 3.7 4.8 4.8l1.2-1.3c.4-.4 1-.6 1.5-.4l2.7.9c.6.2.9.8.8 1.4l-.6 2.4c-.2.8-.9 1.4-1.8 1.4C11.1 18.5 5.5 12.9 5.5 5.8c0-.9.5-1.7 1.1-2.1Z"/></svg></span><span>Call</span></a><a href="sms:8068086742"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.2C5 5 6 4 7.2 4h9.6C18 4 19 5 19 6.2v6.1c0 1.2-1 2.2-2.2 2.2H10l-4.2 3.2c-.3.2-.8 0-.8-.4V6.2Z"/></svg></span><span>Text</span></a><a href="/#quote"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.8h7.7L18 7.1v13.1H7V3.8Z"/><path d="M14.5 3.9v3.4h3.3M9.7 11h5.8M9.7 14.2h5.8M9.7 17.4h3.8"/></svg></span><span>Quote</span></a></div>
@@ -114,68 +185,6 @@
     })();
   </script>
 
-  <script>
-    (function(){
-      var messages=[];
-      var opened=false;
-      function qs(sel){return document.querySelector(sel)}
-      function syncMobileKeyboardLayout(){
-        if(!window.matchMedia || !window.matchMedia('(max-width:640px)').matches) return;
-        var vv=window.visualViewport; if(!vv) return;
-        var top=Math.max(58,Math.round(vv.offsetTop+58));
-        var height=Math.max(300,Math.round(vv.height-70));
-        document.documentElement.style.setProperty('--shifty-ai-kb-top',top+'px');
-        document.documentElement.style.setProperty('--shifty-ai-kb-height',height+'px');
-      }
-      function patchHighLevelBubble(){
-        var widget=document.querySelector('chat-widget');
-        var root=widget&&widget.shadowRoot;
-        if(!root) return;
-        var style=root.querySelector('#shifty-chat-position-fix');
-        if(!style){
-          style=document.createElement('style');
-          style.id='shifty-chat-position-fix';
-          style.textContent='#lc_text-widget--btn,.lc_text-widget--prompt,.lc_text-widget_prompt--msg-bubble{display:none!important;opacity:0!important;pointer-events:none!important}';
-          root.appendChild(style);
-        }
-      }
-      function addMsg(role,text){
-        var log=qs('#shiftyAiLog'); if(!log) return;
-        var msg=document.createElement('div'); msg.className='shifty-ai-msg '+(role==='user'?'user':'bot'); msg.textContent=text;
-        log.appendChild(msg); log.scrollTop=log.scrollHeight;
-      }
-      function openPanel(){
-        var panel=qs('#shiftyAiPanel'); var input=qs('#shiftyAiInput'); if(!panel) return;
-        panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); document.body.classList.add('shifty-ai-open'); syncMobileKeyboardLayout();
-        if(!opened){opened=true; addMsg('assistant','Hey — I’m the Shifty AI assistant. I can help with junk removal, dumpster rentals, small demolition, pricing, and scheduling. What do you need help with?')}
-        setTimeout(function(){input&&input.focus()},80);
-      }
-      function closePanel(){var panel=qs('#shiftyAiPanel'); if(panel){panel.classList.remove('open'); panel.setAttribute('aria-hidden','true')} document.body.classList.remove('shifty-ai-open'); document.body.classList.remove('shifty-ai-keyboard')}
-      async function sendMessage(text){
-        addMsg('user',text); messages.push({role:'user',content:text});
-        addMsg('assistant','Typing...');
-        var log=qs('#shiftyAiLog'); var typing=log&&log.lastElementChild;
-        try{
-          var res=await fetch('/api/shifty-ai-chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,messages:messages.slice(-10)})});
-          var data=await res.json(); if(!res.ok) throw new Error(data.error||'Chat unavailable');
-          if(typing) typing.textContent=data.reply;
-          messages.push({role:'assistant',content:data.reply});
-        }catch(err){
-          if(typing) typing.textContent='I can help, but the chat connection is having trouble. For fastest help, call Shifty at (806) 808-6742 or use the quote intake on this page.';
-          console.error(err);
-        }
-      }
-      function wire(){
-        patchHighLevelBubble();
-        var trigger=qs('.shifty-ai-chat-trigger');
-        if(trigger&&!trigger.dataset.aiPanelWired){trigger.dataset.aiPanelWired='1';trigger.addEventListener('click',openPanel)}
-        var close=qs('.shifty-ai-close'); if(close&&!close.dataset.aiPanelWired){close.dataset.aiPanelWired='1';close.addEventListener('click',closePanel)} var backdrop=qs('.shifty-ai-backdrop'); if(backdrop&&!backdrop.dataset.aiPanelWired){backdrop.dataset.aiPanelWired='1';backdrop.addEventListener('click',closePanel)}
-        var inputEl=qs('#shiftyAiInput'); if(inputEl&&!inputEl.dataset.aiPanelWired){inputEl.dataset.aiPanelWired='1';inputEl.addEventListener('focus',function(){document.body.classList.add('shifty-ai-keyboard');syncMobileKeyboardLayout();setTimeout(syncMobileKeyboardLayout,250)});inputEl.addEventListener('blur',function(){setTimeout(function(){document.body.classList.remove('shifty-ai-keyboard')},120)})} var form=qs('#shiftyAiForm'); if(form&&!form.dataset.aiPanelWired){form.dataset.aiPanelWired='1';form.addEventListener('submit',function(e){e.preventDefault();var input=qs('#shiftyAiInput');var text=(input&&input.value||'').trim();if(!text)return;input.value='';sendMessage(text);})}
-      }
-      window.addEventListener('load',function(){wire();setTimeout(wire,600);setTimeout(wire,1800);setInterval(patchHighLevelBubble,1600); if(window.visualViewport){visualViewport.addEventListener('resize',syncMobileKeyboardLayout);visualViewport.addEventListener('scroll',syncMobileKeyboardLayout)}});
-      new MutationObserver(wire).observe(document.documentElement,{childList:true,subtree:true});
-    })();
-  </script>
 
   <script>
     (function(){
