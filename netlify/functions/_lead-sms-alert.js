@@ -166,22 +166,133 @@ async function ensureOwnerContact(to) {
   return contactId;
 }
 
-async function sendLeadSmsAlert(payload = {}, uploadedFiles = []) {
-  const to = ownerSmsNumber(payload);
-  if (!to) return { skipped: true, reason: 'No lead SMS recipient configured' };
-  const contactId = await ensureOwnerContact(to);
-  const message = buildLeadSms(payload, uploadedFiles);
+function ownerEmailAddress(payload = {}) {
+  if (process.env.ALLOW_PAYLOAD_OWNER_EMAIL_TO === '1') {
+    const fromPayload = clean(payload.ownerEmail || payload.ownerEmailTo || payload.emailTo, '');
+    if (fromPayload && fromPayload.includes('@')) return fromPayload;
+  }
+  return clean(
+    process.env.LEAD_EMAIL_TO ||
+    process.env.JUNK_ASSESSMENT_EMAIL_TO ||
+    process.env.SHIFTY_INTAKE_EMAIL_TO ||
+    process.env.HIGHLEVEL_LOCATION_EMAIL ||
+    'agentleadsites@gmail.com',
+    ''
+  );
+}
+
+async function ensureOwnerEmailContact(email) {
+  const body = {
+    locationId: DEFAULTS.locationId,
+    name: process.env.LEAD_EMAIL_RECIPIENT_NAME || 'Lead Email Recipient',
+    firstName: process.env.LEAD_EMAIL_RECIPIENT_FIRST_NAME || 'Lead',
+    lastName: process.env.LEAD_EMAIL_RECIPIENT_LAST_NAME || 'Recipient',
+    email,
+    source: 'Agent Lead Sites Lead Email Notification Recipient',
+    tags: ['lead-email-recipient', 'agent-lead-sites']
+  };
+  const recipient = await ghl('/contacts/upsert', { method: 'POST', body });
+  const contact = recipient.contact || recipient;
+  const contactId = contact.id || contact.contactId;
+  if (!contactId) throw new Error('Email recipient contact was not created');
+  return contactId;
+}
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function buildLeadEmailHtml(message) {
+  return `<div style="font-family:Arial,sans-serif;font-size:16px;line-height:1.45;white-space:pre-wrap;">${escapeHtml(message)}</div>`;
+}
+
+async function sendLeadEmailAlert(payload = {}, uploadedFiles = [], options = {}) {
+  const email = ownerEmailAddress(payload);
+  if (!email) return { skipped: true, reason: 'No lead email recipient configured' };
+  const contactId = await ensureOwnerEmailContact(email);
+  const message = options.message || buildLeadSms(payload, uploadedFiles);
+  const name = clean(payload.customerName || payload.name || payload.fullName, 'New Lead');
   return ghl('/conversations/messages', {
     method: 'POST',
-    body: { type: 'SMS', contactId, message }
+    body: {
+      type: 'Email',
+      contactId,
+      subject: `✅ New Lead — ${name}`,
+      html: buildLeadEmailHtml(message)
+    }
   });
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function readMessageStatus(messageId) {
+  if (!messageId || String(messageId).startsWith('dry_')) return null;
+  try {
+    const data = await ghl(`/conversations/messages/${messageId}`);
+    return data.message || data;
+  } catch (err) {
+    return { statusCheckSkipped: true, reason: err.message };
+  }
+}
+
+function messageIdFrom(result = {}) {
+  return result.messageId || result.emailMessageId || result.id || result.message?.id || '';
+}
+
+function isSmsComplianceFailure(status = {}) {
+  const text = `${status.status || ''} ${status.error || ''} ${status.reason || ''}`.toLowerCase();
+  return text.includes('failed') || text.includes('a2p') || text.includes('30034') || text.includes('compliant');
+}
+
+async function sendLeadSmsAlert(payload = {}, uploadedFiles = []) {
+  const to = ownerSmsNumber(payload);
+  const message = buildLeadSms(payload, uploadedFiles);
+  let sms = { skipped: true, reason: 'No lead SMS recipient configured' };
+  let smsStatus = null;
+  if (to) {
+    const contactId = await ensureOwnerContact(to);
+    sms = await ghl('/conversations/messages', {
+      method: 'POST',
+      body: { type: 'SMS', contactId, message }
+    });
+    const smsMessageId = messageIdFrom(sms);
+    if (smsMessageId && !process.env.ALS_DRY_RUN) {
+      await wait(Number(process.env.LEAD_SMS_STATUS_DELAY_MS || 2500));
+      smsStatus = await readMessageStatus(smsMessageId);
+    }
+  }
+
+  const shouldFallbackToEmail = sms.skipped || isSmsComplianceFailure(smsStatus || sms);
+  if (!shouldFallbackToEmail) {
+    return { channel: 'sms', sms, smsStatus, messageId: messageIdFrom(sms), message };
+  }
+
+  const email = await sendLeadEmailAlert(payload, uploadedFiles, { message });
+  return {
+    channel: 'email_fallback',
+    sms,
+    smsStatus,
+    email,
+    messageId: messageIdFrom(email),
+    message,
+    fallbackReason: sms.skipped ? sms.reason : (smsStatus?.error || smsStatus?.status || 'SMS failed or unavailable')
+  };
 }
 
 module.exports = {
   normalizePhone,
   buildLeadSms,
   sendLeadSmsAlert,
+  sendLeadEmailAlert,
   ownerSmsNumber,
+  ownerEmailAddress,
   priorityScore,
   bookingProbability,
   likelyBudget,

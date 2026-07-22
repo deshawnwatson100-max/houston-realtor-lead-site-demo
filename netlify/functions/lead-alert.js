@@ -14,7 +14,10 @@ exports.handler = async (event) => {
       ok: true,
       sent: !result?.skipped,
       skipped: !!result?.skipped,
-      reason: result?.reason || '',
+      channel: result?.channel || 'sms',
+      smsStatus: result?.smsStatus?.status || '',
+      smsError: result?.smsStatus?.error || '',
+      fallbackReason: result?.fallbackReason || result?.reason || '',
       id: result?.messageId || result?.id || '',
       message
     });
