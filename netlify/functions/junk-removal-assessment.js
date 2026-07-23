@@ -13,11 +13,17 @@ function splitName(full = '') {
 }
 
 function industryLabel(payload = {}) {
-  return String(payload.industry || '').toLowerCase().includes('landscap') ? 'Landscaping' : 'Junk Removal';
+  const industry = String(payload.industry || '').toLowerCase();
+  if (industry.includes('tree')) return 'Tree Service';
+  if (industry.includes('landscap')) return 'Landscaping';
+  return 'Junk Removal';
 }
 
 function industryTag(payload = {}) {
-  return String(payload.industry || '').toLowerCase().includes('landscap') ? 'landscaping-lead' : 'junk-removal-lead';
+  const industry = String(payload.industry || '').toLowerCase();
+  if (industry.includes('tree')) return 'tree-service-lead';
+  if (industry.includes('landscap')) return 'landscaping-lead';
+  return 'junk-removal-lead';
 }
 
 async function upsertJunkLead(payload) {
