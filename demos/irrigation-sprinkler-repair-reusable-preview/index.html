@@ -110,6 +110,8 @@
     .generic-photo-label{position:absolute;left:24px;top:22px;z-index:3;color:#fff;font-weight:900;font-size:20px;letter-spacing:.08em;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.28)}
     .city-hero-card .caption{z-index:4}
     @keyframes genericHeroTrack{0%,15%{transform:translateX(0)}20%,35%{transform:translateX(-20%)}40%,55%{transform:translateX(-40%)}60%,75%{transform:translateX(-60%)}80%,95%{transform:translateX(-80%)}100%{transform:translateX(0)}}
+    /* Irrigation preview only: fade/transparency treatment on existing hero image */
+    .hero{position:relative;overflow:hidden}.hero>*{position:relative;z-index:2}.city-hero-card{background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden!important}.city-hero-card .generic-hero-rotator{opacity:.68;filter:saturate(.95) contrast(.98);-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 13%,#000 34%,#000 68%,rgba(0,0,0,.42) 84%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 13%,#000 34%,#000 68%,rgba(0,0,0,.42) 84%,transparent 100%)}.city-hero-card::after{content:'';position:absolute;inset:-1px;z-index:3;pointer-events:none;background:linear-gradient(90deg,var(--navy2) 0%,rgba(16,20,24,.74) 10%,rgba(16,20,24,0) 33%,rgba(16,20,24,0) 62%,rgba(16,20,24,.72) 88%,var(--navy2) 100%),linear-gradient(180deg,var(--navy2) 0%,rgba(16,20,24,0) 22%,rgba(16,20,24,0) 68%,var(--navy2) 100%)}
   </style>
 
 
