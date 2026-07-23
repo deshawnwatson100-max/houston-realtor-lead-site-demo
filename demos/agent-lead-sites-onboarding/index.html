@@ -23,6 +23,11 @@
     /* Consistent ALS header logo tile */
     .brand img,.top-logo,.top .logo,.als-logo,.hero-logo-image{width:72px!important;height:72px!important;max-width:72px!important;object-fit:contain!important;border-radius:20px!important;background:#050705!important;border:1px solid rgba(183,255,42,.58)!important;box-shadow:0 0 0 1px rgba(183,255,42,.14),0 14px 34px rgba(0,0,0,.34)!important;flex:0 0 72px!important;}
   </style>
+  <style>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    .scroll-reveal-ready,.scroll-reveal-ready body{overflow-x:hidden}.scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+  </style>
+
 </head>
 <body>
   <div class="top"><span class="brand-inline"><img class="top-logo" src="/demos/agent-lead-sites-onboarding/assets/agent-lead-sites-logo-final.jpg" alt="Agent Lead Sites"></span><span>Premium website onboarding • usually under 10 minutes</span></div>
@@ -108,5 +113,45 @@
       }finally{if(btn){btn.disabled=false;btn.textContent='Submit Onboarding'}}
     };
   </script>
+  <script>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    (function(){
+      var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sectionTargets='.quote-section, .demo-band, .final-cta, .cta-section, .contact-section, .lead-section, .assessment-wrap, .listings, .areas, .split, .feature-box, .cta:not(a):not(button)';
+      var cardTargets='.service-card, .review-card, .step-card, .demo-card, .feature-card, .testimonial-card, .process-card, .property-card, .benefit, .feature, .listing, .choice, .mini, .card';
+      function initScrollReveal(){
+        var sections=[].slice.call(document.querySelectorAll(sectionTargets)).filter(function(el){return !el.closest('.hero,.nav,footer')});
+        var cards=[].slice.call(document.querySelectorAll(cardTargets)).filter(function(el){return !el.closest('.hero,.nav,footer,.quote-section,.final-cta,.mobile-sticky-footer,.als-chat-prompt')});
+        var seen=[];
+        function unique(el){if(seen.indexOf(el)>=0)return false;seen.push(el);return true;}
+        sections=sections.filter(unique).slice(0,6);
+        cards=cards.filter(unique).slice(0,18);
+        var items=sections.concat(cards);
+        if(!items.length)return;
+        sections.forEach(function(el){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction','up')});
+        cards.forEach(function(el,i){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction',i%2?'right':'left')});
+        if(reduceMotion){items.forEach(function(el){el.classList.add('is-visible')});return;}
+        document.documentElement.classList.add('scroll-reveal-ready');
+        function revealVisible(){
+          items.forEach(function(el){
+            if(el.classList.contains('is-visible'))return;
+            var rect=el.getBoundingClientRect();
+            if(rect.top < window.innerHeight*.9 && rect.bottom > 0)el.classList.add('is-visible');
+          });
+        }
+        if('IntersectionObserver' in window){
+          var observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
+            });
+          },{threshold:.06,rootMargin:'0px 0px -4% 0px'});
+          items.forEach(function(el){observer.observe(el)});
+        }
+        requestAnimationFrame(revealVisible);
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initScrollReveal);else initScrollReveal();
+    })();
+  </script>
+
 </body>
 </html>

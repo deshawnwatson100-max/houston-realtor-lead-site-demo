@@ -142,6 +142,11 @@
     @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 16px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-widget-card:not(.is-active){height:auto;min-height:0;max-height:none}.ai-voice-copy p{font-size:16px}.als-chat-prompt{right:20px;bottom:146px;width:280px;padding:12px 52px 12px 16px;font-size:16px}}
   </style>
 
+  <style>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    .scroll-reveal-ready,.scroll-reveal-ready body{overflow-x:hidden}.scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+  </style>
+
 </head>
 <body>
   <nav class="nav">
@@ -485,6 +490,46 @@ const params=new URLSearchParams(window.location.search);
       if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){wireVoiceStart();wirePrompt();placeGhlWidgets()});else{wireVoiceStart();wirePrompt();placeGhlWidgets()}
       window.addEventListener('load',function(){wireVoiceStart();wirePrompt();placeGhlWidgets();syncKeyboardFit();setTimeout(placeGhlWidgets,800);setTimeout(placeGhlWidgets,2000);setTimeout(placeGhlWidgets,4000)});
       new MutationObserver(placeGhlWidgets).observe(document.documentElement,{childList:true,subtree:true});
+    })();
+  </script>
+
+  <script>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    (function(){
+      var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sectionTargets='.quote-section, .demo-band, .final-cta, .cta-section, .contact-section, .lead-section, .assessment-wrap, .listings, .areas, .split, .feature-box, .cta:not(a):not(button)';
+      var cardTargets='.service-card, .review-card, .step-card, .demo-card, .feature-card, .testimonial-card, .process-card, .property-card, .benefit, .feature, .listing, .choice, .mini, .card';
+      function initScrollReveal(){
+        var sections=[].slice.call(document.querySelectorAll(sectionTargets)).filter(function(el){return !el.closest('.hero,.nav,footer')});
+        var cards=[].slice.call(document.querySelectorAll(cardTargets)).filter(function(el){return !el.closest('.hero,.nav,footer,.quote-section,.final-cta,.mobile-sticky-footer,.als-chat-prompt')});
+        var seen=[];
+        function unique(el){if(seen.indexOf(el)>=0)return false;seen.push(el);return true;}
+        sections=sections.filter(unique).slice(0,6);
+        cards=cards.filter(unique).slice(0,18);
+        var items=sections.concat(cards);
+        if(!items.length)return;
+        sections.forEach(function(el){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction','up')});
+        cards.forEach(function(el,i){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction',i%2?'right':'left')});
+        if(reduceMotion){items.forEach(function(el){el.classList.add('is-visible')});return;}
+        document.documentElement.classList.add('scroll-reveal-ready');
+        function revealVisible(){
+          items.forEach(function(el){
+            if(el.classList.contains('is-visible'))return;
+            var rect=el.getBoundingClientRect();
+            if(rect.top < window.innerHeight*.9 && rect.bottom > 0)el.classList.add('is-visible');
+          });
+        }
+        if('IntersectionObserver' in window){
+          var observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
+            });
+          },{threshold:.06,rootMargin:'0px 0px -4% 0px'});
+          items.forEach(function(el){observer.observe(el)});
+        }
+        requestAnimationFrame(revealVisible);
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initScrollReveal);else initScrollReveal();
     })();
   </script>
 

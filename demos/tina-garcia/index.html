@@ -24,6 +24,11 @@
     .featured-open-house h2{font-size:38px;line-height:1.05;letter-spacing:-.04em}.featured-open-house p{font-size:20px}.open-house-time{display:flex;flex-direction:column;justify-content:center;gap:18px}.grid .mini p{max-width:260px}.section.split p:empty{display:none}.footer{font-size:13px;line-height:1.45;color:#6d6557}
   </style>
   <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a5679f90ae6fc5167688516" data-source="WEB_USER"></script>
+  <style>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    .scroll-reveal-ready,.scroll-reveal-ready body{overflow-x:hidden}.scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+  </style>
+
 </head>
 <body>
   <div class="wrap">
@@ -187,5 +192,45 @@
 
     renderClient(CLIENT);
   </script>
+  <script>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    (function(){
+      var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sectionTargets='.quote-section, .demo-band, .final-cta, .cta-section, .contact-section, .lead-section, .assessment-wrap, .listings, .areas, .split, .feature-box, .cta:not(a):not(button)';
+      var cardTargets='.service-card, .review-card, .step-card, .demo-card, .feature-card, .testimonial-card, .process-card, .property-card, .benefit, .feature, .listing, .choice, .mini, .card';
+      function initScrollReveal(){
+        var sections=[].slice.call(document.querySelectorAll(sectionTargets)).filter(function(el){return !el.closest('.hero,.nav,footer')});
+        var cards=[].slice.call(document.querySelectorAll(cardTargets)).filter(function(el){return !el.closest('.hero,.nav,footer,.quote-section,.final-cta,.mobile-sticky-footer,.als-chat-prompt')});
+        var seen=[];
+        function unique(el){if(seen.indexOf(el)>=0)return false;seen.push(el);return true;}
+        sections=sections.filter(unique).slice(0,6);
+        cards=cards.filter(unique).slice(0,18);
+        var items=sections.concat(cards);
+        if(!items.length)return;
+        sections.forEach(function(el){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction','up')});
+        cards.forEach(function(el,i){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction',i%2?'right':'left')});
+        if(reduceMotion){items.forEach(function(el){el.classList.add('is-visible')});return;}
+        document.documentElement.classList.add('scroll-reveal-ready');
+        function revealVisible(){
+          items.forEach(function(el){
+            if(el.classList.contains('is-visible'))return;
+            var rect=el.getBoundingClientRect();
+            if(rect.top < window.innerHeight*.9 && rect.bottom > 0)el.classList.add('is-visible');
+          });
+        }
+        if('IntersectionObserver' in window){
+          var observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
+            });
+          },{threshold:.06,rootMargin:'0px 0px -4% 0px'});
+          items.forEach(function(el){observer.observe(el)});
+        }
+        requestAnimationFrame(revealVisible);
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initScrollReveal);else initScrollReveal();
+    })();
+  </script>
+
 </body>
 </html>

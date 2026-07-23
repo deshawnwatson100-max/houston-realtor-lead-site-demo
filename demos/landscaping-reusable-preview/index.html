@@ -123,13 +123,7 @@
     .brand-logo-img{width:100%;height:100%;object-fit:cover;display:block}.brand-mark.has-logo{padding:0;overflow:hidden;background:#fff!important;border:2px solid var(--yellow)!important;box-shadow:0 8px 22px rgba(0,0,0,.16)}.brand-mark.has-logo.logo-wide{width:96px;height:54px;border-radius:14px}.brand-mark.has-logo.logo-wide .brand-logo-img{object-fit:contain;padding:4px;background:#fff}
     @media(max-width:640px){.brand-mark.has-logo{width:42px!important;height:42px!important;min-width:42px!important}.brand-mark.has-logo.logo-wide{width:82px!important;height:46px!important;min-width:82px!important}.brand-mark.has-logo.logo-wide .brand-logo-img{padding:3px}}
   </style>
-
-  <style>
-    /* Landscaping preview only: reversible scroll reveal animation */
-    .scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
-  </style>
-
-  <style>
+<style>
     /* GHL widgets: embedded voice section + floating message widget */
     .ai-voice-section{padding-top:42px;padding-bottom:42px;background:linear-gradient(135deg,#f8fbff,#eef5ff)}
     .ai-voice-shell{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,440px);gap:36px;align-items:center}
@@ -143,6 +137,11 @@
     [class*="lc_text-widget" i]{z-index:999999999!important}
     .als-chat-prompt{position:fixed;right:28px;bottom:96px;z-index:999999998;width:286px;background:#fff;color:#111827;border-radius:12px;padding:14px 52px 14px 18px;box-shadow:0 8px 24px rgba(15,23,42,.18);font-size:18px;font-weight:600;line-height:1.3;cursor:pointer}.als-chat-prompt:after{content:"";position:absolute;right:13px;bottom:-9px;border:10px solid transparent;border-top-color:#fff;border-bottom:0}.als-chat-prompt button{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;background:transparent;color:#374151;font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}.als-chat-prompt.is-hidden{display:none!important}
     @media(max-width:760px){.ai-voice-shell{grid-template-columns:1fr;gap:24px}.ai-voice-section{padding:28px 16px}.ai-voice-widget-card{min-height:395px;padding:10px;border-radius:22px}.ai-voice-widget-card:not(.is-active){height:auto;min-height:0;max-height:none}.ai-voice-copy p{font-size:16px}.als-chat-prompt{right:20px;bottom:146px;width:280px;padding:12px 52px 12px 16px;font-size:16px}}
+  </style>
+
+  <style>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    .scroll-reveal-ready,.scroll-reveal-ready body{overflow-x:hidden}.scroll-reveal-ready,.scroll-reveal-ready body{overflow-x:hidden}.scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
   </style>
 
 </head>
@@ -490,16 +489,19 @@ const params=new URLSearchParams(window.location.search);
       new MutationObserver(placeGhlWidgets).observe(document.documentElement,{childList:true,subtree:true});
     })();
   </script>
-
   <script>
-    /* Landscaping preview only: reversible scroll reveal animation */
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
     (function(){
       var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var sectionTargets='main > .quote-section, .demo-band, .final-cta';
-      var cardTargets='#services .service-card, #reviews .review-card, #process .step-card';
+      var sectionTargets='.quote-section, .demo-band, .final-cta, .cta-section, .contact-section, .lead-section, .assessment-wrap, .listings, .areas, .split, .feature-box, .cta:not(a):not(button)';
+      var cardTargets='.service-card, .review-card, .step-card, .demo-card, .feature-card, .testimonial-card, .process-card, .property-card, .benefit, .feature, .listing, .choice, .mini, .card';
       function initScrollReveal(){
-        var sections=[].slice.call(document.querySelectorAll(sectionTargets));
-        var cards=[].slice.call(document.querySelectorAll(cardTargets));
+        var sections=[].slice.call(document.querySelectorAll(sectionTargets)).filter(function(el){return !el.closest('.hero,.nav,footer')});
+        var cards=[].slice.call(document.querySelectorAll(cardTargets)).filter(function(el){return !el.closest('.hero,.nav,footer,.quote-section,.final-cta,.mobile-sticky-footer,.als-chat-prompt')});
+        var seen=[];
+        function unique(el){if(seen.indexOf(el)>=0)return false;seen.push(el);return true;}
+        sections=sections.filter(unique).slice(0,6);
+        cards=cards.filter(unique).slice(0,18);
         var items=sections.concat(cards);
         if(!items.length)return;
         sections.forEach(function(el){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction','up')});

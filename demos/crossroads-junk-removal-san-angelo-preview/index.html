@@ -135,6 +135,11 @@
     @media(max-width:640px){.shifty-ai-chat-trigger{right:14px;bottom:84px;height:44px;min-width:112px;padding:0 14px;font-size:14px}.shifty-ai-chat-trigger svg{width:20px;height:20px}.shifty-ai-panel{left:12px;right:12px;top:58px;bottom:76px;width:auto;height:auto;max-height:none;border-radius:22px}.shifty-ai-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.34);backdrop-filter:blur(4px);z-index:999999997}.shifty-ai-open .shifty-ai-backdrop{display:block}.shifty-ai-keyboard .shifty-ai-panel{top:var(--shifty-ai-kb-top,58px);height:var(--shifty-ai-kb-height,420px);bottom:auto}.shifty-ai-open .mobile-sticky-footer{filter:blur(2px)}}
   </style>
 
+  <style>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    .scroll-reveal-ready,.scroll-reveal-ready body{overflow-x:hidden}.scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+  </style>
+
 </head>
 <body>
   <nav class="nav">
@@ -360,6 +365,46 @@ const params=new URLSearchParams(window.location.search);
       function sendMessage(text){addMsg('user',text);addMsg('assistant','Typing...');var log=qs('#shiftyAiLog');var typing=log&&log.lastElementChild;setTimeout(function(){if(typing)typing.textContent=replyFor(text)},420)}
       function wire(){var trigger=qs('.shifty-ai-chat-trigger');if(trigger&&!trigger.dataset.aiPanelWired){trigger.dataset.aiPanelWired='1';trigger.addEventListener('click',openPanel)}var close=qs('.shifty-ai-close');if(close&&!close.dataset.aiPanelWired){close.dataset.aiPanelWired='1';close.addEventListener('click',closePanel)}var backdrop=qs('.shifty-ai-backdrop');if(backdrop&&!backdrop.dataset.aiPanelWired){backdrop.dataset.aiPanelWired='1';backdrop.addEventListener('click',closePanel)}var inputEl=qs('#shiftyAiInput');if(inputEl&&!inputEl.dataset.aiPanelWired){inputEl.dataset.aiPanelWired='1';inputEl.addEventListener('focus',function(){document.body.classList.add('shifty-ai-keyboard');syncMobileKeyboardLayout();setTimeout(syncMobileKeyboardLayout,250)});inputEl.addEventListener('blur',function(){setTimeout(function(){document.body.classList.remove('shifty-ai-keyboard')},120)})}var form=qs('#shiftyAiForm');if(form&&!form.dataset.aiPanelWired){form.dataset.aiPanelWired='1';form.addEventListener('submit',function(e){e.preventDefault();var input=qs('#shiftyAiInput');var text=(input&&input.value||'').trim();if(!text)return;input.value='';sendMessage(text)})}}
       window.addEventListener('load',function(){wire();setTimeout(wire,600);if(window.visualViewport){visualViewport.addEventListener('resize',syncMobileKeyboardLayout);visualViewport.addEventListener('scroll',syncMobileKeyboardLayout)}});
+    })();
+  </script>
+
+  <script>
+    /* ALS preview scroll reveal animation: sections rise, cards slide in */
+    (function(){
+      var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sectionTargets='.quote-section, .demo-band, .final-cta, .cta-section, .contact-section, .lead-section, .assessment-wrap, .listings, .areas, .split, .feature-box, .cta:not(a):not(button)';
+      var cardTargets='.service-card, .review-card, .step-card, .demo-card, .feature-card, .testimonial-card, .process-card, .property-card, .benefit, .feature, .listing, .choice, .mini, .card';
+      function initScrollReveal(){
+        var sections=[].slice.call(document.querySelectorAll(sectionTargets)).filter(function(el){return !el.closest('.hero,.nav,footer')});
+        var cards=[].slice.call(document.querySelectorAll(cardTargets)).filter(function(el){return !el.closest('.hero,.nav,footer,.quote-section,.final-cta,.mobile-sticky-footer,.als-chat-prompt')});
+        var seen=[];
+        function unique(el){if(seen.indexOf(el)>=0)return false;seen.push(el);return true;}
+        sections=sections.filter(unique).slice(0,6);
+        cards=cards.filter(unique).slice(0,18);
+        var items=sections.concat(cards);
+        if(!items.length)return;
+        sections.forEach(function(el){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction','up')});
+        cards.forEach(function(el,i){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction',i%2?'right':'left')});
+        if(reduceMotion){items.forEach(function(el){el.classList.add('is-visible')});return;}
+        document.documentElement.classList.add('scroll-reveal-ready');
+        function revealVisible(){
+          items.forEach(function(el){
+            if(el.classList.contains('is-visible'))return;
+            var rect=el.getBoundingClientRect();
+            if(rect.top < window.innerHeight*.9 && rect.bottom > 0)el.classList.add('is-visible');
+          });
+        }
+        if('IntersectionObserver' in window){
+          var observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
+            });
+          },{threshold:.06,rootMargin:'0px 0px -4% 0px'});
+          items.forEach(function(el){observer.observe(el)});
+        }
+        requestAnimationFrame(revealVisible);
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initScrollReveal);else initScrollReveal();
     })();
   </script>
 
