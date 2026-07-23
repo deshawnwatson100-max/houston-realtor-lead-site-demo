@@ -126,7 +126,7 @@
 
   <style>
     /* Landscaping preview only: reversible scroll reveal animation */
-    .scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translateY(0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+    .scroll-reveal-ready [data-scroll-reveal]{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="left"]{transform:translateX(-24px)}.scroll-reveal-ready [data-scroll-reveal][data-scroll-direction="right"]{transform:translateX(24px)}.scroll-reveal-ready [data-scroll-reveal].is-visible{opacity:1;transform:translate(0,0)}@media(prefers-reduced-motion:reduce){.scroll-reveal-ready [data-scroll-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
   </style>
 
   <style>
@@ -495,11 +495,15 @@ const params=new URLSearchParams(window.location.search);
     /* Landscaping preview only: reversible scroll reveal animation */
     (function(){
       var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var targets='main > .quote-section, #services, .demo-band, #reviews, #process, .final-cta';
+      var sectionTargets='main > .quote-section, .demo-band, .final-cta';
+      var cardTargets='#services .service-card, #reviews .review-card, #process .step-card';
       function initScrollReveal(){
-        var items=[].slice.call(document.querySelectorAll(targets));
+        var sections=[].slice.call(document.querySelectorAll(sectionTargets));
+        var cards=[].slice.call(document.querySelectorAll(cardTargets));
+        var items=sections.concat(cards);
         if(!items.length)return;
-        items.forEach(function(el){el.setAttribute('data-scroll-reveal','')});
+        sections.forEach(function(el){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction','up')});
+        cards.forEach(function(el,i){el.setAttribute('data-scroll-reveal','');el.setAttribute('data-scroll-direction',i%2?'right':'left')});
         if(reduceMotion){items.forEach(function(el){el.classList.add('is-visible')});return;}
         document.documentElement.classList.add('scroll-reveal-ready');
         function revealVisible(){
