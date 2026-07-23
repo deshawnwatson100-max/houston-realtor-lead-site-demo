@@ -14,6 +14,7 @@ function splitName(full = '') {
 
 function industryLabel(payload = {}) {
   const industry = String(payload.industry || '').toLowerCase();
+  if (industry.includes('irrigation') || industry.includes('sprinkler')) return 'Irrigation & Sprinkler Repair';
   if (industry.includes('tree')) return 'Tree Service';
   if (industry.includes('landscap')) return 'Landscaping';
   return 'Junk Removal';
@@ -21,6 +22,7 @@ function industryLabel(payload = {}) {
 
 function industryTag(payload = {}) {
   const industry = String(payload.industry || '').toLowerCase();
+  if (industry.includes('irrigation') || industry.includes('sprinkler')) return 'irrigation-sprinkler-repair-lead';
   if (industry.includes('tree')) return 'tree-service-lead';
   if (industry.includes('landscap')) return 'landscaping-lead';
   return 'junk-removal-lead';
