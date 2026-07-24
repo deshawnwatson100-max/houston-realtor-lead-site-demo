@@ -23,32 +23,64 @@
   const video=document.getElementById('scrubVideo');
   const bar=document.getElementById('barFill');
   const hero=document.querySelector('.hero');
-  let duration=1, raf;
+  let duration=1, raf, blobReady=false, preparing=false;
 
-  function scrub(){
+  const source=video?.getAttribute('src');
+  const clamp=n=>Math.min(Math.max(n,0),1);
+  function progress(){
     const max=hero.offsetHeight-innerHeight;
-    const raw=Math.min(Math.max(scrollY/Math.max(max,1),0),1);
-    if(video && video.readyState>=2) video.currentTime=raw*Math.max(duration-.05,.1);
+    return clamp(scrollY/Math.max(max,1));
+  }
+  function scrub(){
+    const raw=progress();
+    if(video && video.readyState>=2){
+      try{ video.currentTime=raw*Math.max(duration-.05,.1); }catch(e){}
+    }
     if(bar) bar.style.width=(raw*100).toFixed(1)+'%';
+  }
+  function waitForMeta(){
+    return new Promise(resolve=>{
+      if(video.readyState>=1) return resolve();
+      video.addEventListener('loadedmetadata',resolve,{once:true});
+    });
+  }
+  async function prepareVideo(){
+    if(!video || blobReady || preparing) return;
+    preparing=true;
+    video.muted=true;
+    video.playsInline=true;
+    // Remote MP4s can appear as a still on mobile if range seeking is unreliable.
+    // Loading it as a Blob makes every scroll seek locally addressable.
+    if(location.protocol!=='file:' && source){
+      try{
+        const res=await fetch(source,{cache:'force-cache'});
+        const blob=await res.blob();
+        video.src=URL.createObjectURL(blob);
+        video.load();
+      }catch(e){}
+    }
+    await waitForMeta();
+    duration=video.duration||duration;
+    blobReady=true;
+    try{video.currentTime=.05;}catch(e){}
+    try{await video.play(); video.pause();}catch(e){}
+    scrub();
   }
 
   const enter=()=>{
     splash?.classList.add('hide');
-    if(video){
-      video.muted=true;
-      video.play?.().then(()=>setTimeout(()=>{video.pause();scrub()},950)).catch(()=>scrub());
-    }
+    prepareVideo();
     setTimeout(()=>splash?.remove(),900);
   };
-
   splash?.addEventListener('click',enter);
   splash?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();enter()}});
 
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
   document.querySelectorAll('.reveal,.card').forEach(el=>io.observe(el));
 
-  video?.addEventListener('loadedmetadata',()=>{duration=video.duration||1;video.pause();video.currentTime=.01});
+  video?.addEventListener('loadedmetadata',()=>{duration=video.duration||1;scrub()});
   addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(scrub)},{passive:true});
+  addEventListener('touchmove',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(scrub)},{passive:true});
   addEventListener('resize',scrub);
   video?.addEventListener('canplay',scrub,{once:true});
 })();
