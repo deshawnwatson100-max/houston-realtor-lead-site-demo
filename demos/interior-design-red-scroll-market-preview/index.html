@@ -112,13 +112,13 @@
         scale=.96+(.04*(1-incoming));
         opacity=1;
         z=1000+i;
-      }else if(delta<0 && delta>-.92){
+      }else if(delta<0 && delta>-1.12){
         // Previous card: move upward while falling backward in perspective.
         y=-stageH*.34*outgoing;
         depth=-300*outgoing;
         rotateX=48*outgoing;
         scale=1-(.13*outgoing);
-        opacity=outgoing<.78 ? 1 : 0;
+        opacity=outgoing<1.04 ? 1 : 0;
         z=950-i;
       }
 
