@@ -94,19 +94,39 @@
     sequenceCards.forEach((card,i)=>{
       const delta=i-raw;
       const dist=Math.abs(delta);
-      const entering=delta>0;
-      const leaving=delta<0;
-      const visible=clamp(1-dist);
-      const depth=leaving ? -360*clamp(-delta) : 120*clamp(delta);
-      const y=leaving ? -36*clamp(-delta) : 72*clamp(delta);
-      const rotateX=leaving ? 72*clamp(-delta) : -9*clamp(delta);
-      const scale=leaving ? 1-(.22*clamp(-delta)) : .94+(.06*visible);
-      const opacity=dist<.98 ? 1 : 0;
+      const stageH=card.parentElement?.offsetHeight || 420;
+      const incoming=clamp(delta);
+      const outgoing=clamp(-delta);
+      let y=stageH*1.08;
+      let depth=0;
+      let rotateX=-8;
+      let scale=.96;
+      let opacity=0;
+      let z=800-i;
+
+      if(delta>=0 && delta<1.08){
+        // Upcoming card: slide upward from below into the exact same place.
+        y=stageH*.72*incoming;
+        depth=52*incoming;
+        rotateX=-7*incoming;
+        scale=.96+(.04*(1-incoming));
+        opacity=1;
+        z=1000+i;
+      }else if(delta<0 && delta>-1.08){
+        // Previous card: move upward while falling backward in perspective.
+        y=-stageH*.34*outgoing;
+        depth=-300*outgoing;
+        rotateX=48*outgoing;
+        scale=1-(.13*outgoing);
+        opacity=1;
+        z=950-i;
+      }
+
       card.style.opacity=opacity.toFixed(3);
       card.style.transform=`translate3d(0,${y.toFixed(1)}px,${depth.toFixed(1)}px) scale(${scale.toFixed(3)}) rotateX(${rotateX.toFixed(2)}deg)`;
-      card.style.transformOrigin='50% 78%';
-      card.style.pointerEvents=visible>.55?'auto':'none';
-      card.style.zIndex=String(1000-Math.round(dist*100));
+      card.style.transformOrigin='50% 72%';
+      card.style.pointerEvents=dist<.5?'auto':'none';
+      card.style.zIndex=String(z);
     });
     if(roomFill) roomFill.style.width=(p*100).toFixed(1)+'%';
     if(roomStep) roomStep.textContent=sequenceCards[active].dataset.label || '';
