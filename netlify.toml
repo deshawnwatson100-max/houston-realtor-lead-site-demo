@@ -3,6 +3,18 @@
   node_bundler = "esbuild"
 
 [[redirects]]
+  from = "https://atelierdesigntheory.com/*"
+  to = "/atelier-design-theory/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://www.atelierdesigntheory.com/*"
+  to = "/atelier-design-theory/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/onboarding-submit"
   to = "/.netlify/functions/onboarding-submit"
   status = 200
